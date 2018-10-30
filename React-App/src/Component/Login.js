@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../Css/App.css';
-import '../Css/Login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -27,11 +26,7 @@ class Login extends Component {
     fetch('/Services/ConnectionConnection?userName=' + this.state.userName+'&password='+ this.state.password).then(result=> {
       
     }); */
-   
-    
-
   }
-
   render() {
     return (
       <div className="Login">
