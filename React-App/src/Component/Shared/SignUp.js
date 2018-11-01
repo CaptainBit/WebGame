@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../img/bullet.jpg';
+import logo from '../../img/bullet.jpg';
 
 class SignUp extends Component {
   constructor(props) {

@@ -17,9 +17,9 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import About from './Component/About.js';
-import Login from './Component/Login.js';
-import SignUp from './Component/SignUp.js';
+import About from './Component/Shared/About.js';
+import Login from './Component/Shared/Login.js';
+import SignUp from './Component/Shared/SignUp.js';
 
 class App extends Component {
   state = {
