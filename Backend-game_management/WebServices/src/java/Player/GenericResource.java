@@ -12,8 +12,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.json.JSONException;
 
+import SQLPlayer.ConnectPlayer;
 import org.json.JSONObject;
 /**
  * REST Web Service
@@ -41,14 +41,9 @@ public class GenericResource {
     @Path("Connect")
     @Produces(MediaType.APPLICATION_JSON)
     public String getJson(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
-        JSONObject json = new JSONObject();
-        try
-        {
-            json.append("userName", userName);
-            json.append("password", password);
-        }catch(JSONException e){
-            System.out.print(e.toString());
-        }
+        JSONObject json;
+        ConnectPlayer cp = new ConnectPlayer();
+        json = cp.GetConnection(userName, password);
         
         return json.toString();
     }
