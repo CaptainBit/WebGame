@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../img/bullet.jpg';
 
-class Login extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
 
@@ -29,8 +29,8 @@ class Login extends Component {
   }
   render() {
     return (
-      <div className="Login">
-        <label id>Login</label>
+      <div className="SignUp">
+        <label id>SignUp</label>
         <img src={logo} className="App-logo" alt="logo" />
         <form onSubmit={this.handleSubmit}>
           
@@ -50,7 +50,7 @@ class Login extends Component {
           
           
           <input type="submit"
-           value="Log in"
+           value="SignUp"
            disabled={!this.validateForm()}/>
 
         </form>
@@ -59,4 +59,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default SignUp;
