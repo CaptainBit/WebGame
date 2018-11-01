@@ -14,6 +14,8 @@ import {
 import About from './Component/About.js';
 import Login from './Component/Login.js';
 
+
+
 class App extends Component {
   render() {
     return (
@@ -24,16 +26,18 @@ class App extends Component {
               <li> <Link to="/about">About</Link> </li>
             </ul>
         </div>
+        
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-        </header>
-        <div className="App-intro">
+          <div className="App-intro">
           <Switch>
             <Route exact path="/"  component={Login} />
             <Route path="/about" component={About} />
             <Redirect to="/" />
           </Switch>
         </div>
+        </header>
+        
       </div>
 );
   }
