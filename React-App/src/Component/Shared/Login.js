@@ -1,24 +1,10 @@
 import React, { Component } from 'react';
-// import logo from '../../img/bullet.jpg';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { Typography, Button, withStyles, TextField, Card, CardActions, CardContent } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
+  card: {
+    maxWidth: 350,
   },
 });
 
@@ -54,42 +40,54 @@ class Login extends Component {
 
     return (
       <div className="Login">
-        {/* <label id>Login</label> */}
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <form onSubmit={this.handleSubmit} className={classes.container}>
-
-          <TextField
-            id="userName"
-            type="text"
-            label="Name"
-            value={this.state.userName}
-            onChange={this.handleChange}
-            className={classes.textField}
-            margin="normal"
-          />
-
-          <TextField
-            id="password"
-            type="password"
-            label="Name"
-            value={this.state.password}
-            onChange={this.handleChange}
-            className={classes.textField}
-            margin="normal"
-          />
-          
-          <Button 
-          type="submit"
-          variant="contained" 
-          color="primary" 
-          disabled={!this.validateForm()}
-          >
-            Log in
-          </Button>
-        </form>
+        <Card className={classes.card}>
+          <form onSubmit={this.handleSubmit}>
+          <CardContent>
+            <Typography variant="h6" color="inherit">
+              Connexion
+            </Typography>
+            <div>
+            <Typography>
+              <TextField
+                id="userName"
+                type="text"
+                label="Nom de l'utilisateur"
+                value={this.state.userName}
+                onChange={this.handleChange}
+                margin="normal"
+              />
+            </Typography>
+            <Typography>
+              <TextField
+                id="password"
+                type="password"
+                label="Mot de passe"
+                value={this.state.password}
+                onChange={this.handleChange}
+                margin="normal"
+              />
+            </Typography>
+            </div>
+          </CardContent>
+          <CardActions>
+              <Button 
+                  type="submit"
+                  variant="contained" 
+                  color="primary" 
+                  disabled={!this.validateForm()}
+                  >
+                    Connexion
+              </Button>
+            </CardActions>
+          </form>
+        </Card>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Login);

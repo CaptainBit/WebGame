@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-// import logo from '../../img/bullet.jpg';
+import { Typography, Button, withStyles, TextField, Card, CardActions, CardContent } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
+  card: {
+    maxWidth: 350,
+  },
+});
+
 
 class SignUp extends Component {
   constructor(props) {
@@ -28,35 +36,58 @@ class SignUp extends Component {
     }); */
   }
   render() {
+    const { classes } = this.props;
+
     return (
       <div className="SignUp">
-        <label id>SignUp</label>
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <form onSubmit={this.handleSubmit}>
-          
-          <label id>Nom d'utilisateur</label>
-          <input type="text"
-          Id="userName"
-          value={this.state.userName}
-          onChange={this.handleChange}/>
-        
-          
-          
-          <label>Mot de passe</label>
-          <input type="password"
-          Id="password"
-          value={this.state.password}
-          onChange={this.handleChange}/>
-          
-          
-          <input type="submit"
-           value="SignUp"
-           disabled={!this.validateForm()}/>
-
-        </form>
+        <Card className={classes.card}>
+          <form onSubmit={this.handleSubmit}>
+          <CardContent>
+            <Typography variant="h6" color="inherit">
+              Créer un compte
+            </Typography>
+            <div>
+            <Typography>
+              <TextField
+                id="userName"
+                type="text"
+                label="Nom de l'utilisateur"
+                value={this.state.userName}
+                onChange={this.handleChange}
+                margin="normal"
+              />
+            </Typography>
+            <Typography>
+              <TextField
+                id="password"
+                type="password"
+                label="Mot de passe"
+                value={this.state.password}
+                onChange={this.handleChange}
+                margin="normal"
+              />
+            </Typography>
+            </div>
+          </CardContent>
+          <CardActions>
+              <Button 
+                  type="submit"
+                  variant="contained" 
+                  color="primary" 
+                  disabled={!this.validateForm()}
+                  >
+                    Créer
+              </Button>
+            </CardActions>
+          </form>
+        </Card>
       </div>
     );
   }
 }
 
-export default SignUp;
+SignUp.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(SignUp);

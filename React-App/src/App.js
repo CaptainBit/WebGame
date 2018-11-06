@@ -133,9 +133,9 @@ class App extends Component {
             Clash Territoire
             </Typography>
             {/* TODO list dynamic */}
-            <Button component={Link} color="inherit" to="/About">About</Button>
-            <Button component={Link} color="inherit" to="/">Login</Button>
-            <Button component={Link} color="inherit" to="/SignUp">SignUp</Button>
+            <Button component={Link} color="inherit" to="/About">À propos du jeu</Button>
+            <Button component={Link} color="inherit" to="/">Connexion</Button>
+            <Button component={Link} color="inherit" to="/SignUp">Créer un compte</Button>
           </Toolbar>
         </AppBar>
         <Drawer
