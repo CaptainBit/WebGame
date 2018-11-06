@@ -33,3 +33,4 @@ chrome-user-data
 *.iml
 /Backend-game_management/WebServices/nbproject/private/
 /Backend-game_management/WebServices/dist/
+.vscode/settings.json
