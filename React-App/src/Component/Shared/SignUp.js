@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../../img/bullet.jpg';
+// import logo from '../../img/bullet.jpg';
 
 class SignUp extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class SignUp extends Component {
     return (
       <div className="SignUp">
         <label id>SignUp</label>
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <form onSubmit={this.handleSubmit}>
           
           <label id>Nom d'utilisateur</label>
