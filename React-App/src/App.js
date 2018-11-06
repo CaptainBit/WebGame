@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
+
 import {AppBar, Toolbar, Typography, Drawer, List, Divider, IconButton, Button, withStyles, CssBaseline, 
   ListItemText, ListItemIcon, ListItem} from '@material-ui/core';
+
 import {AccountCircle,RestaurantMenu, FlashOn, People, Security, Menu, ChevronRight,
   ChevronLeft} from '@material-ui/icons';
 
-
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-
 
 import {
   Route,
@@ -122,7 +122,7 @@ class App extends Component {
               <Menu />
             </IconButton>
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
-            Titre Super Cool
+            Clash Territoire
             </Typography>
             <Button component={Link} color="inherit" to="/About">About</Button>
             <Button component={Link} color="inherit" to="/">Login</Button>
