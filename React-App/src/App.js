@@ -148,6 +148,9 @@ class App extends Component {
           open={this.state.open}
         >
           <div className={classes.toolbar}>
+            <Typography variant="h6" color="inherit">
+              Choisir un onglet
+            </Typography>
             <IconButton onClick={this.handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
