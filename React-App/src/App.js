@@ -20,6 +20,14 @@ import About from './Component/Shared/About.js';
 import Login from './Component/Shared/Login.js';
 import SignUp from './Component/Shared/SignUp.js';
 
+import ListArme from  './Component/Joueur/ListArme';
+import ListArmure from  './Component/Joueur/ListArmure';
+import ListRessource from  './Component/Joueur/ListRessource';
+import ListSoldat from  './Component/Joueur/ListSoldat';
+import Profil from  './Component/Joueur/Profil';
+
+// TODO Style dans une autre page
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -124,6 +132,7 @@ class App extends Component {
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
             Clash Territoire
             </Typography>
+            {/* TODO list dynamic */}
             <Button component={Link} color="inherit" to="/About">About</Button>
             <Button component={Link} color="inherit" to="/">Login</Button>
             <Button component={Link} color="inherit" to="/SignUp">SignUp</Button>
@@ -147,31 +156,31 @@ class App extends Component {
           <Divider />
           {/* TODO list dynamic */}
           <List>
-            <ListItem button>
+            <ListItem button component={Link} to="/Profil">
               <ListItemIcon>
                 <AccountCircle />
               </ListItemIcon>
               <ListItemText primary="Profil" />
             </ListItem>
-            <ListItem button>
+            <ListItem button component={Link} to="/ListSoldat">
               <ListItemIcon>
                 <People />
               </ListItemIcon>
               <ListItemText primary="Armée" />
             </ListItem>
-            <ListItem button>
+            <ListItem button component={Link} to="/ListArme">
               <ListItemIcon>
                 <FlashOn />
               </ListItemIcon>
               <ListItemText primary="Armes" />
             </ListItem>
-            <ListItem button>
+            <ListItem button component={Link} to="/ListArmure">
               <ListItemIcon>
                 <Security />
               </ListItemIcon>
               <ListItemText primary="Armures" />
             </ListItem>
-              <ListItem button>
+            <ListItem button component={Link} to="/ListRessource">
               <ListItemIcon>
                 <RestaurantMenu />
               </ListItemIcon>
@@ -187,6 +196,11 @@ class App extends Component {
               <Route exact path="/"  component={Login} />
               <Route path="/About" component={About} />
               <Route path="/SignUp" component={SignUp} />
+              <Route path="/ListArme" component={ListArme} />
+              <Route path="/ListArmure" component={ListArmure} />
+              <Route path="/ListRessource" component={ListRessource} />
+              <Route path="/ListSoldat" component={ListSoldat} />
+              <Route path="/Profil" component={Profil} />
               <Redirect to="/" />
           </Switch>
         </main>
