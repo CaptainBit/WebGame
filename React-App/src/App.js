@@ -1,23 +1,8 @@
 import React, { Component } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MenuIcon from '@material-ui/icons/Menu';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import {Button, Divider, IconButton, List, withStyles, CssBaseline, Drawer, ListItemIcon, ListItemText, ListItem , Toolbar, AppBar, Typography } from '@material-ui/core';
+import {Menu, Inbox,ChevronRight,ChevronLeft } from '@material-ui/icons';
 
 import './Css/App.css';
 
@@ -131,10 +116,10 @@ class App extends Component {
                 [classes.hide]: this.state.open,
               })}
             >
-              <MenuIcon />
+              <Menu />
             </IconButton>
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
-            Titre Super Cool
+            Clash Territoire
             </Typography>
             <Button component={Link} color="inherit" to="/">Login</Button>
             <Button component={Link} color="inherit" to="/SignUp">SignUp</Button>
@@ -149,7 +134,7 @@ class App extends Component {
         >
           <div className={classes.toolbar}>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+              {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
             </IconButton>
           </div>
           <Divider />
@@ -157,37 +142,37 @@ class App extends Component {
           <List>
             <ListItem button component={Link} to="/About">
               <ListItemIcon>
-                <InboxIcon />
+                <Inbox />
               </ListItemIcon>
               <ListItemText primary="About" />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <Inbox />
               </ListItemIcon>
               <ListItemText primary="Profil" />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <Inbox />
               </ListItemIcon>
               <ListItemText primary="Armée" />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <Inbox />
               </ListItemIcon>
               <ListItemText primary="Armes" />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <Inbox />
               </ListItemIcon>
               <ListItemText primary="Armures" />
             </ListItem>
               <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <Inbox />
               </ListItemIcon>
               <ListItemText primary="Ressources" />
             </ListItem>
