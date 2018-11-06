@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import {AppBar, Toolbar, Typography, Drawer, List, Divider, IconButton, Button, withStyles, CssBaseline, 
+  ListItemText, ListItemIcon, ListItem} from '@material-ui/core';
+import {AccountCircle,RestaurantMenu, FlashOn, People, Security, Menu, ChevronRight,
+  ChevronLeft} from '@material-ui/icons';
+
+
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import {Button, Divider, IconButton, List, withStyles, CssBaseline, Drawer, ListItemIcon, ListItemText, ListItem , Toolbar, AppBar, Typography } from '@material-ui/core';
-import {Menu, Inbox,ChevronRight,ChevronLeft } from '@material-ui/icons';
 
-import './Css/App.css';
 
 import {
   Route,
@@ -119,8 +122,9 @@ class App extends Component {
               <Menu />
             </IconButton>
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
-            Clash Territoire
+            Titre Super Cool
             </Typography>
+            <Button component={Link} color="inherit" to="/About">About</Button>
             <Button component={Link} color="inherit" to="/">Login</Button>
             <Button component={Link} color="inherit" to="/SignUp">SignUp</Button>
           </Toolbar>
@@ -137,45 +141,39 @@ class App extends Component {
               Choisir un onglet
             </Typography>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
+              {theme.direction === 'rtl' ? <ChevronLeft /> : <ChevronLeft />}
             </IconButton>
           </div>
           <Divider />
           {/* TODO list dynamic */}
           <List>
-            <ListItem button component={Link} to="/About">
-              <ListItemIcon>
-                <Inbox />
-              </ListItemIcon>
-              <ListItemText primary="About" />
-            </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <Inbox />
+                <AccountCircle />
               </ListItemIcon>
               <ListItemText primary="Profil" />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <Inbox />
+                <People />
               </ListItemIcon>
               <ListItemText primary="Armée" />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <Inbox />
+                <FlashOn />
               </ListItemIcon>
               <ListItemText primary="Armes" />
             </ListItem>
             <ListItem button>
               <ListItemIcon>
-                <Inbox />
+                <Security />
               </ListItemIcon>
               <ListItemText primary="Armures" />
             </ListItem>
               <ListItem button>
               <ListItemIcon>
-                <Inbox />
+                <RestaurantMenu />
               </ListItemIcon>
               <ListItemText primary="Ressources" />
             </ListItem>
