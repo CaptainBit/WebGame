@@ -13,7 +13,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import PropTypes from 'prop-types';
@@ -137,8 +136,8 @@ class App extends Component {
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
             Titre Super Cool
             </Typography>
-            <Button color="inherit"><Link className={classes.appBarColor} to="/">Login</Link></Button>
-            <Button color="inherit"><Link className={classes.appBarColor} to="/SignUp">SignUp</Link></Button>
+            <Button component={Link} color="inherit" to="/">Login</Button>
+            <Button component={Link} color="inherit" to="/SignUp">SignUp</Button>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -156,7 +155,7 @@ class App extends Component {
           <Divider />
           {/* TODO list dynamic */}
           <List>
-            <ListItem button>
+            <ListItem button component={Link} to="/About">
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
@@ -203,7 +202,7 @@ class App extends Component {
               <Route path="/About" component={About} />
               <Route path="/SignUp" component={SignUp} />
               <Redirect to="/" />
-            </Switch>
+          </Switch>
         </main>
       </div>
     );
