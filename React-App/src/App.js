@@ -95,6 +95,8 @@ const styles = theme => ({
 class App extends Component {
   state = {
     open: false,
+    UserName: "",
+    Role: "",
   };
 
   handleDrawerOpen = () => {
@@ -105,8 +107,116 @@ class App extends Component {
     this.setState({ open: false });
   };
 
+  LogoutMethod(){
+    this.setState({ UserName: "" });
+    this.setState({ Role: "" });
+  }
+
+  LoginMethod(user, role){
+    this.setState({ UserName: user });
+    this.setState({ Role: role });
+  }
+
   render() {
     const { classes, theme } = this.props;
+
+    const LoginComponent = (props) => {
+      return (
+        <Login 
+        LoginMethod={this.LoginMethod.bind(this)}
+          {...props}
+        />
+      );
+    }
+
+    let DrawerList;
+    let MenuOptions;
+
+    if(this.state.UserName !== ""){
+      MenuOptions =
+        <div>
+          <Button component={Link} color="inherit" to="/About">À propos du jeu</Button>
+          <Button color="inherit" onClick={this.LogoutMethod.bind(this)}>Se déconnecter</Button>
+        </div>
+    } else{
+      MenuOptions =
+        <div>
+          <Button component={Link} color="inherit" to="/About">À propos du jeu</Button>
+          <Button component={Link} color="inherit" to="/">Connexion</Button>
+          <Button component={Link} color="inherit" to="/SignUp">Créer un compte</Button>
+        </div>
+    }
+
+    if(this.state.Role === "Joueur"){
+      DrawerList =
+        <List>
+          <ListItem button component={Link} to="/Profil">
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Profil" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListSoldat">
+            <ListItemIcon>
+              <People />
+            </ListItemIcon>
+            <ListItemText primary="Armée" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListArme">
+            <ListItemIcon>
+              <FlashOn />
+            </ListItemIcon>
+            <ListItemText primary="Armes" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListArmure">
+            <ListItemIcon>
+              <Security />
+            </ListItemIcon>
+            <ListItemText primary="Armures" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListRessource">
+            <ListItemIcon>
+              <RestaurantMenu />
+            </ListItemIcon>
+            <ListItemText primary="Ressources" />
+          </ListItem>
+        </List>
+    } else if(this.state.Role === "Admin"){
+      DrawerList =
+        <List>
+          <ListItem button component={Link} to="/Profil">
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText primary="Gérer les utilisateurs" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListSoldat">
+            <ListItemIcon>
+              <People />
+            </ListItemIcon>
+            <ListItemText primary="Gérer les types de soldats" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListArme">
+            <ListItemIcon>
+              <FlashOn />
+            </ListItemIcon>
+            <ListItemText primary="Gérer les types d'armes" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListArmure">
+            <ListItemIcon>
+              <Security />
+            </ListItemIcon>
+            <ListItemText primary="Armures" />
+          </ListItem>
+          <ListItem button component={Link} to="/ListRessource">
+            <ListItemIcon>
+              <RestaurantMenu />
+            </ListItemIcon>
+            <ListItemText primary="Gérer les territoires" />
+          </ListItem>
+        </List>
+    }
+
 
     return (
       <div className={classes.root}>
@@ -132,10 +242,8 @@ class App extends Component {
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
             Clash Territoire
             </Typography>
-            {/* TODO list dynamic */}
-            <Button component={Link} color="inherit" to="/About">À propos du jeu</Button>
-            <Button component={Link} color="inherit" to="/">Connexion</Button>
-            <Button component={Link} color="inherit" to="/SignUp">Créer un compte</Button>
+            {/* login ou logout selon le rôle */}
+            {MenuOptions}
           </Toolbar>
         </AppBar>
         <Drawer
@@ -154,46 +262,15 @@ class App extends Component {
             </IconButton>
           </div>
           <Divider />
-          {/* TODO list dynamic */}
-          <List>
-            <ListItem button component={Link} to="/Profil">
-              <ListItemIcon>
-                <AccountCircle />
-              </ListItemIcon>
-              <ListItemText primary="Profil" />
-            </ListItem>
-            <ListItem button component={Link} to="/ListSoldat">
-              <ListItemIcon>
-                <People />
-              </ListItemIcon>
-              <ListItemText primary="Armée" />
-            </ListItem>
-            <ListItem button component={Link} to="/ListArme">
-              <ListItemIcon>
-                <FlashOn />
-              </ListItemIcon>
-              <ListItemText primary="Armes" />
-            </ListItem>
-            <ListItem button component={Link} to="/ListArmure">
-              <ListItemIcon>
-                <Security />
-              </ListItemIcon>
-              <ListItemText primary="Armures" />
-            </ListItem>
-            <ListItem button component={Link} to="/ListRessource">
-              <ListItemIcon>
-                <RestaurantMenu />
-              </ListItemIcon>
-              <ListItemText primary="Ressources" />
-            </ListItem>
-          </List>
+          {/* Menu selon le rôle */}
+          {DrawerList}
         </Drawer>
         </div>
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-              <Route exact path="/"  component={Login} />
+              <Route exact path="/"  component={LoginComponent} />
               <Route path="/About" component={About} />
               <Route path="/SignUp" component={SignUp} />
               <Route path="/ListArme" component={ListArme} />
