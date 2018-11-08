@@ -131,6 +131,11 @@ class App extends Component {
 
     let DrawerList;
     let MenuOptions;
+    let Bienvenue
+
+    if(this.state.UserName !== ""){
+      Bienvenue= "Prêt à attaquer "+ this.state.UserName +" ?";
+    }
 
     if(this.state.UserName !== ""){
       MenuOptions =
@@ -194,19 +199,19 @@ class App extends Component {
             <ListItemIcon>
               <People />
             </ListItemIcon>
-            <ListItemText primary="Gérer les types de soldats" />
+            <ListItemText primary="Gérer les soldats" />
           </ListItem>
           <ListItem button component={Link} to="/ListArme">
             <ListItemIcon>
               <FlashOn />
             </ListItemIcon>
-            <ListItemText primary="Gérer les types d'armes" />
+            <ListItemText primary="Gérer les armes" />
           </ListItem>
           <ListItem button component={Link} to="/ListArmure">
             <ListItemIcon>
               <Security />
             </ListItemIcon>
-            <ListItemText primary="Armures" />
+            <ListItemText primary="Gérer les armures" />
           </ListItem>
           <ListItem button component={Link} to="/ListRessource">
             <ListItemIcon>
@@ -240,7 +245,10 @@ class App extends Component {
               <Menu />
             </IconButton>
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
-            Clash Territoire
+              Clash Territoire
+            </Typography>
+            <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
+              {Bienvenue}
             </Typography>
             {/* login ou logout selon le rôle */}
             {MenuOptions}

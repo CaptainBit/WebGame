@@ -36,7 +36,7 @@ class Login extends Component {
     }); */
     
     //Role Admin ou Joueur
-    this.props.LoginMethod("William Lafontaine", "Joueur");
+    this.props.LoginMethod( this.state.userName, this.state.userName);
   }
   render() {
     const { classes } = this.props;
