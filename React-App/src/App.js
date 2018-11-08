@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {AppBar, Toolbar, Typography, Drawer, List, Divider, IconButton, Button, withStyles, CssBaseline, 
   ListItemText, ListItemIcon, ListItem} from '@material-ui/core';
 
-import {AccountCircle,RestaurantMenu, FlashOn, People, Security, Menu, ChevronRight,
+import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, AccountCircle,RestaurantMenu, FlashOn, People, Security, Menu, ChevronRight,
   ChevronLeft} from '@material-ui/icons';
 
 import classNames from 'classnames';
@@ -97,6 +97,10 @@ class App extends Component {
     open: false,
     UserName: "",
     Role: "",
+    NourritureJoueur: 500,
+    EauJoueur: 500,
+    ArgentJoueur:500,
+    ScienceJoueur:500
   };
 
   handleDrawerOpen = () => {
@@ -131,10 +135,24 @@ class App extends Component {
 
     let DrawerList;
     let MenuOptions;
-    let Bienvenue
+    let RessourceJoueur
 
     if(this.state.UserName !== ""){
-      Bienvenue= "Prêt à attaquer "+ this.state.UserName +" ?";
+      RessourceJoueur = 
+      <Typography style={{ flex: 1, display: 'flex', flexWrap: 'wrap'}} variant="h6" color="inherit" noWrap>
+        <div style={{ marginLeft: 10}}>
+          <Restaurant /> {this.state.NourritureJoueur}    
+        </div>
+        <div style={{ marginLeft: 10}}>
+          <LocalDrink /> {this.state.EauJoueur}     
+        </div>
+        <div style={{ marginLeft: 10}}>
+          <AttachMoney /> {this.state.ArgentJoueur}     
+        </div>
+        <div style={{ marginLeft: 10}}>
+          <SettingsInputAntenna /> {this.state.ScienceJoueur}
+        </div>
+      </Typography>
     }
 
     if(this.state.UserName !== ""){
@@ -247,9 +265,7 @@ class App extends Component {
             <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
               Clash Territoire
             </Typography>
-            <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
-              {Bienvenue}
-            </Typography>
+            {RessourceJoueur}
             {/* login ou logout selon le rôle */}
             {MenuOptions}
           </Toolbar>
