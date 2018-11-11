@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {AppBar, Toolbar, Typography, Drawer, List, Divider, IconButton, Button, withStyles, CssBaseline, 
   ListItemText, ListItemIcon, ListItem} from '@material-ui/core';
 
-import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, AccountCircle,RestaurantMenu, FlashOn, People, Security, Menu, ChevronRight,
+import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, AccountCircle,RestaurantMenu, FlashOn, People, Security, Menu,
   ChevronLeft} from '@material-ui/icons';
 
 import classNames from 'classnames';
@@ -201,7 +201,7 @@ class App extends Component {
             <ListItemIcon>
               <RestaurantMenu />
             </ListItemIcon>
-            <ListItemText primary="Ressources" />
+            <ListItemText primary="Territoires" />
           </ListItem>
         </List>
     } else if(this.state.Role === "Admin"){
