@@ -6,68 +6,134 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { Button, Typography, CardContent, Card, CardActions } from '@material-ui/core';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
   table: {
     minWidth: 700,
   },
 });
 
 let id = 0;
-function createData(soldat, territoire, arme, armure, force, vie) {
+function createData(idTypeArme, vie) {
   id += 1;
-  return { id, soldat, territoire, arme, armure, force, vie };
+  return { id, idTypeArme, vie };
 }
 
-const rows = [
-  createData("Archer", "Maison","Arc","Cap",10,3),
-  createData("Guerrier", "Château","Épée","Botte",4,10),
-  createData("Guerrier", "Château","Épée","Botte",4,10),
-  createData("Guerrier", "Château","Épée","Botte",4,10),
-  createData("Archer", "Maison","Arc","Cap",10,3),
+const lstArmes = [
+  createData(1, 1),
+  createData(2, 2),
+  createData(1, 1),
+  createData(2, 2),
+  createData(1, 1),
 ];
 
+const TypeArmes = [
+  {id : 1, description :"Épée"},
+  {id : 2, description : "Arc"}
+]
+
 class ListArme extends Component {
+
+  state = {
+    rows : lstArmes,
+    typeArmes : TypeArmes
+  };
+
+  Add(idType){
+    var lstArmes = this.state.rows;
+    lstArmes.push(createData(idType, 1));
+    this.setState({rows: lstArmes})
+  }
+  
+  Delete(id) {
+    var lstArmes = this.state.rows;
+    lstArmes.forEach((soldat, index) => {
+      if(soldat.id === id){
+        lstArmes.splice(index,1);
+      }
+    })
+    this.setState({rows: lstArmes})
+  }
+
+  Edit = (event, id) => {
+    var lstArmes = this.state.rows;
+    lstArmes.forEach((soldat, index) => {
+      if(soldat.id === id){
+        soldat[event.target.name] = event.target.value;
+        lstArmes[index] = soldat;
+      }
+    })
+    this.setState({rows: lstArmes})
+  };
+
+  AfficheTypeArme(id) {
+    var type = "";
+    this.state.typeArmes.forEach((item, index) => {
+      if(item.id === id){
+        type = item.description;
+      }
+    })
+    return type;
+  }
+  
   render() {
     const { classes } = this.props;
 
     return (
-      <Paper classsoldat={classes.root}>
+      <Card className={classes.card}>
+        <CardContent>
+        <Typography variant="h6" color="inherit">
+            Gérer vos armes
+        </Typography>
         <Table classsoldat={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Soldat</TableCell>
-              <TableCell>Territoire</TableCell>
+              <TableCell>id</TableCell>
               <TableCell>Arme</TableCell>
-              <TableCell>Armure</TableCell>
-              <TableCell numeric>Force Totale</TableCell>
-              <TableCell numeric>Vie Totale</TableCell>
+              <TableCell numeric>Vie</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => {
+            {this.state.rows.map(row => {
               return (
                 <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.soldat}
-                  </TableCell>
-                  <TableCell>{row.territoire}</TableCell>
-                  <TableCell>{row.arme}</TableCell>
-                  <TableCell>{row.armure}</TableCell>
-                  <TableCell numeric>{row.force}</TableCell>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{this.AfficheTypeArme(row.idTypeArme)}</TableCell>
                   <TableCell numeric>{row.vie}</TableCell>
+                  <TableCell numeric>
+                  <Button
+                  variant="contained" 
+                  color="secondary"
+                  onClick={() => this.Delete(row.id)}
+                  >
+                    Vendre
+                  </Button>
+                  </TableCell>
                 </TableRow>
               );
             })}
           </TableBody>
         </Table>
-      </Paper>
+      </ CardContent>
+      <CardActions>
+        <Button
+        variant="contained" 
+        color="primary"
+        onClick={() => this.Add(1)}
+        >
+          Acheter une Épée
+        </Button>
+        <Button
+        variant="contained" 
+        color="primary"
+        onClick={() => this.Add(2)}
+        >
+          Acheter un Arc
+        </Button>
+      </CardActions>
+    </Card>
     );
   }
 }

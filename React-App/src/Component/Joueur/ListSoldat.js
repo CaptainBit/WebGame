@@ -37,16 +37,16 @@ class ListSoldat extends Component {
 
   state = {
     rows : lstSoldats,
-    types : TypeSoldats
+    typeSoldats : TypeSoldats
   };
 
-  AjouterSoldat(idType){
+  Add(idType){
     var lstSoldats = this.state.rows;
     lstSoldats.push(createData(idType,0,0,0,10,3));
     this.setState({rows: lstSoldats})
   }
   
-  VendreSoldat(id) {
+  Delete(id) {
     var lstSoldats = this.state.rows;
     lstSoldats.forEach((soldat, index) => {
       if(soldat.id === id){
@@ -56,7 +56,7 @@ class ListSoldat extends Component {
     this.setState({rows: lstSoldats})
   }
 
-  ChangerItem = (event, id) => {
+  Edit = (event, id) => {
     var lstSoldats = this.state.rows;
     lstSoldats.forEach((soldat, index) => {
       if(soldat.id === id){
@@ -69,7 +69,7 @@ class ListSoldat extends Component {
 
   AfficherTpyeSoldat(id) {
     var type = "";
-    TypeSoldats.forEach((item, index) => {
+    this.state.typeSoldats.forEach((item, index) => {
       if(item.id === id){
         type = item.description;
       }
@@ -109,7 +109,7 @@ class ListSoldat extends Component {
                   <FormControl>
                     <Select
                     value={row.territoire}
-                    onChange={(event) => this.ChangerItem(event, row.id)}
+                    onChange={(event) => this.Edit(event, row.id)}
                     inputProps={{
                       name: "territoire",
                       id: row.id
@@ -127,7 +127,7 @@ class ListSoldat extends Component {
                     <FormControl>
                       <Select
                         value={row.arme}
-                        onChange={(event) => this.ChangerItem(event, row.id)}
+                        onChange={(event) => this.Edit(event, row.id)}
                         inputProps={{
                           name: "arme",
                           id: row.id
@@ -145,7 +145,7 @@ class ListSoldat extends Component {
                     <FormControl>
                       <Select
                         value={row.armure}
-                        onChange={(event) => this.ChangerItem(event, row.id)}
+                        onChange={(event) => this.Edit(event, row.id)}
                         inputProps={{
                           name: "armure",
                           id: row.id
@@ -165,9 +165,9 @@ class ListSoldat extends Component {
                   <Button
                   variant="contained" 
                   color="secondary"
-                  onClick={() => this.VendreSoldat(row.id)}
+                  onClick={() => this.Delete(row.id)}
                   >
-                    Vendre le soldat
+                    Vendre
                   </Button>
                   </TableCell>
                 </TableRow>
@@ -180,14 +180,14 @@ class ListSoldat extends Component {
         <Button
         variant="contained" 
         color="primary"
-        onClick={() => this.AjouterSoldat(1)}
+        onClick={() => this.Add(1)}
         >
           Acheter un Archer
         </Button>
         <Button
         variant="contained" 
         color="primary"
-        onClick={() => this.AjouterSoldat(2)}
+        onClick={() => this.Add(2)}
         >
           Acheter un Guerrier
         </Button>
