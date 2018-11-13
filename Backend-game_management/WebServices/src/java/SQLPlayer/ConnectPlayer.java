@@ -43,21 +43,68 @@ public class ConnectPlayer
         }
         JSONObject jplayer = new JSONObject();
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM JOUEUR WHERE userName like ? and password like ? ;", 1005, 1008);     
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM JOUEUR WHERE userName like ? and passwordHash like ? ;", 1005, 1008);     
             statement.setString(1, userName);
             statement.setString(2, password);
-            statement.clearParameters();
+            
+            
             ResultSet rs = statement.executeQuery();
-            con.close();
+            statement.clearParameters();
+            
+            rs.next();
             //Create Json
             jplayer.put("userName",rs.getString("userName"));
-            jplayer.put("idRessource",rs.getString("idRessource"));
-            jplayer.put("passwordHash ",rs.getString("passwordHash"));
-            jplayer.put("types_description", rs.getString("types.description"));
-
+            jplayer.put("password ",rs.getString("passwordHash"));
+            
+            //Add ressources
+            statement = con.prepareStatement("SELECT * FROM RESSOURCE WHERE id = ? ;", 1005, 1008);     
+            statement.setInt(1, rs.getInt("id"));
+            rs = statement.executeQuery();
+            statement.clearParameters();
+            
+            rs.next();
+            
+            jplayer.put("nourriture", rs.getDouble("nourriture"));
+            jplayer.put("eau", rs.getDouble("eau"));
+            jplayer.put("argent", rs.getDouble("argent"));
+            jplayer.put("science", rs.getDouble("science"));
+            
+            con.close();
            }catch(SQLException | JSONException e){
             try {
-                jplayer.put("error","no player found");
+                jplayer.put("error","no player found :" + e.toString());
+            } catch (JSONException ex) {
+                System.out.print(ex);
+            }
+           }
+        return jplayer;
+   }
+    
+    
+    public JSONObject CreateAccount(String userName, String password)
+    {
+         Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306" + "/" + SCHEMA +"?&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; // a JDBC url
+            con = DriverManager.getConnection(url, USERNAME, PASSWORD);
+        } catch (SQLException | ClassNotFoundException e) 
+        {
+            System.out.print(e.toString());
+        }
+        JSONObject jplayer = new JSONObject();
+        try{
+            PreparedStatement statement = con.prepareStatement("INSERT INTO JOUEUR (userName, passwordHash)VALUES(?,?)", 1005, 1008);     
+            statement.setString(1, userName);
+            statement.setString(2, password);
+            
+            statement.executeUpdate();
+         
+            con.close();
+            
+           }catch(SQLException e){
+            try {
+                jplayer.put("error","Player not created :" + e.toString());
             } catch (JSONException ex) {
                 System.out.print(ex);
             }

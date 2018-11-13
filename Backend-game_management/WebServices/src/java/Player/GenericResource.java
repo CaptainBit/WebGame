@@ -40,10 +40,21 @@ public class GenericResource {
     @GET
     @Path("Connect")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
+    public String getConnection(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
         JSONObject json;
         ConnectPlayer cp = new ConnectPlayer();
         json = cp.GetConnection(userName, password);
+        
+        return json.toString();
+    }
+    
+    @GET
+    @Path("CreateAccount")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String setAccount(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
+        JSONObject json;
+        ConnectPlayer cp = new ConnectPlayer();
+        json = cp.CreateAccount(userName, password);
         
         return json.toString();
     }
