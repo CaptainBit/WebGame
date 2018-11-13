@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 
-import {AppBar, Toolbar, Typography, Drawer, List, Divider, IconButton, Button, withStyles, CssBaseline, 
-  ListItemText, ListItemIcon, ListItem} from '@material-ui/core';
+import {List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
 
-import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, AccountCircle,RestaurantMenu, FlashOn, People, Security, Menu,
-  ChevronLeft} from '@material-ui/icons';
+import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, Menu, ChevronLeft} from '@material-ui/icons';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -25,6 +23,9 @@ import ListArmure from  './Component/Joueur/ListArmure';
 import ListRessource from  './Component/Joueur/ListRessource';
 import ListSoldat from  './Component/Joueur/ListSoldat';
 import Profil from  './Component/Joueur/Profil';
+
+import DrawerListJoueur from './Component/Joueur/DrawerListJoueur';
+import DrawerListAdmin from './Component/Admin/DrawerListAdmin';
 
 // TODO Style dans une autre page
 
@@ -133,7 +134,6 @@ class App extends Component {
       );
     }
 
-    let DrawerList;
     let MenuOptions;
     let RessourceJoueur
 
@@ -169,77 +169,6 @@ class App extends Component {
           <Button component={Link} color="inherit" to="/SignUp">Créer un compte</Button>
         </div>
     }
-
-    if(this.state.Role === "Joueur"){
-      DrawerList =
-        <List>
-          <ListItem button component={Link} to="/Profil">
-            <ListItemIcon>
-              <AccountCircle />
-            </ListItemIcon>
-            <ListItemText primary="Profil" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListSoldat">
-            <ListItemIcon>
-              <People />
-            </ListItemIcon>
-            <ListItemText primary="Armée" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListArme">
-            <ListItemIcon>
-              <FlashOn />
-            </ListItemIcon>
-            <ListItemText primary="Armes" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListArmure">
-            <ListItemIcon>
-              <Security />
-            </ListItemIcon>
-            <ListItemText primary="Armures" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListRessource">
-            <ListItemIcon>
-              <RestaurantMenu />
-            </ListItemIcon>
-            <ListItemText primary="Territoires" />
-          </ListItem>
-        </List>
-    } else if(this.state.Role === "Admin"){
-      DrawerList =
-        <List>
-          <ListItem button component={Link} to="/Profil">
-            <ListItemIcon>
-              <AccountCircle />
-            </ListItemIcon>
-            <ListItemText primary="Gérer les utilisateurs" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListSoldat">
-            <ListItemIcon>
-              <People />
-            </ListItemIcon>
-            <ListItemText primary="Gérer les soldats" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListArme">
-            <ListItemIcon>
-              <FlashOn />
-            </ListItemIcon>
-            <ListItemText primary="Gérer les armes" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListArmure">
-            <ListItemIcon>
-              <Security />
-            </ListItemIcon>
-            <ListItemText primary="Gérer les armures" />
-          </ListItem>
-          <ListItem button component={Link} to="/ListRessource">
-            <ListItemIcon>
-              <RestaurantMenu />
-            </ListItemIcon>
-            <ListItemText primary="Gérer les territoires" />
-          </ListItem>
-        </List>
-    }
-
 
     return (
       <div className={classes.root}>
@@ -287,8 +216,15 @@ class App extends Component {
           </div>
           <Divider />
           {/* Menu selon le rôle */}
-          {DrawerList}
-        </Drawer>
+          {this.state.Role === "Joueur" ?
+            <DrawerListJoueur/>
+            :
+            this.state.Role === "Admin" ?
+            <DrawerListAdmin/>
+            :
+            <List/>
+          }
+          </Drawer>
         </div>
 
         <main className={classes.content}>
