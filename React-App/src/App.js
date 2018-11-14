@@ -24,6 +24,8 @@ import ListRessource from  './Component/Joueur/ListRessource';
 import ListSoldat from  './Component/Joueur/ListSoldat';
 import Profil from  './Component/Joueur/Profil';
 
+import ListAdminJoueur from  './Component/Admin/ListAdminJoueur';
+
 import DrawerListJoueur from './Component/Joueur/DrawerListJoueur';
 import DrawerListAdmin from './Component/Admin/DrawerListAdmin';
 
@@ -120,6 +122,13 @@ class App extends Component {
   LoginMethod(user, role){
     this.setState({ UserName: user });
     this.setState({ Role: role });
+  }
+
+  UpdateRessource(Nourriture, Eau, Argent, Science){
+    this.setState({ NourritureJoueur: Nourriture });
+    this.setState({ EauJoueur: Eau });
+    this.setState({ ArgentJoueur: Argent });
+    this.setState({ ScienceJoueur: Science });
   }
 
   render() {
@@ -238,6 +247,7 @@ class App extends Component {
               <Route path="/ListRessource" component={ListRessource} />
               <Route path="/ListSoldat" component={ListSoldat} />
               <Route path="/Profil" component={Profil} />
+              <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
               <Redirect to="/" />
           </Switch>
         </main>

@@ -12,7 +12,7 @@ class DrawerListAdmin extends Component {
   render() {
     return (
         <List>
-          <ListItem button component={Link} to="/Profil">
+          <ListItem button component={Link} to="/ListAdminJoueur">
             <ListItemIcon>
               <AccountCircle />
             </ListItemIcon>
