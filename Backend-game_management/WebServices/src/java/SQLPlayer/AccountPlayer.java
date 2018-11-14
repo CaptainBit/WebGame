@@ -53,6 +53,7 @@ public class AccountPlayer
             
             rs.next();
             //Create Json
+            
             jplayer.put("userName",rs.getString("userName"));
             jplayer.put("password ",rs.getString("passwordHash"));
             
@@ -69,10 +70,11 @@ public class AccountPlayer
             jplayer.put("argent", rs.getDouble("argent"));
             jplayer.put("science", rs.getDouble("science"));
             
+            jplayer.put("status", true);
             con.close();
            }catch(SQLException | JSONException e){
             try {
-                jplayer.put("error","no player found :" + e.toString());
+                jplayer.put("status",false);
             } catch (JSONException ex) {
                 System.out.print(ex);
             }
