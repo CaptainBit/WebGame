@@ -20,7 +20,7 @@ import org.json.JSONObject;
  *
  * @author admin
  */
-public class ConnectPlayer 
+public class AccountPlayer 
 {
     public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
     public final static String SERVERNAME= "jdbc:mysql://localhost:3306";
@@ -104,11 +104,17 @@ public class ConnectPlayer
             
            }catch(SQLException e){
             try {
-                jplayer.put("error","Player not created :" + e.toString());
+                jplayer.put("status","Player not created :" + e.toString());
             } catch (JSONException ex) {
                 System.out.print(ex);
             }
            }
+        
+        try {
+                jplayer.put("status","Player created :" );
+            } catch (JSONException ex) {
+                System.out.print(ex);
+            }
         return jplayer;
    }
 }

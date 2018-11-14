@@ -13,7 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import SQLPlayer.ConnectPlayer;
+import SQLPlayer.AccountPlayer;
 import org.json.JSONObject;
 /**
  * REST Web Service
@@ -42,7 +42,7 @@ public class GenericResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getConnection(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
         JSONObject json;
-        ConnectPlayer cp = new ConnectPlayer();
+        AccountPlayer cp = new AccountPlayer();
         json = cp.GetConnection(userName, password);
         
         return json.toString();
@@ -53,7 +53,7 @@ public class GenericResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String setAccount(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
         JSONObject json;
-        ConnectPlayer cp = new ConnectPlayer();
+        AccountPlayer cp = new AccountPlayer();
         json = cp.CreateAccount(userName, password);
         
         return json.toString();
