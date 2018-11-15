@@ -27,16 +27,11 @@ class Login extends Component {
 
   validateConnection(data){
     if(data.status === false){
-      //if username or password not exist => error
-      this.setState({
-        userName : "error",
-        password : ""
-      });
+     //Role Admin ou Joueur
+    alert("Aucun compte lier à ce mot de passe ");
     }else{
-      this.setState({
-        userName : data.userName,
-        password : data.password
-      });
+     //Role Admin ou Joueur
+    this.props.LoginMethod( this.state.userName, data.Role);
     }
   }
   validateForm() {
@@ -46,11 +41,10 @@ class Login extends Component {
   {
     event.preventDefault();
     fetch('http://localhost:8080/WebServices/webresources/Player/Connect?userName='+ this.state.userName+'&password='+ this.state.password)
-    .then(result=> result.json)
+    .then(result=> result.json())
     .then(data => this.validateConnection(data)); 
     
-    //Role Admin ou Joueur
-    //this.props.LoginMethod( this.state.userName, this.state.userName);
+    
   }
   render() {
     const { classes } = this.props;

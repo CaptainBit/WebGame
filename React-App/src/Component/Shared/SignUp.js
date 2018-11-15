@@ -30,10 +30,8 @@ class SignUp extends Component {
   }
   handleSubmit = event =>
   {
-    /*event.preventDefault();
-    fetch('/Services/ConnectionConnection?userName=' + this.state.userName+'&password='+ this.state.password).then(result=> {
-      
-    }); */
+      event.preventDefault();
+      fetch('http://localhost:8080/WebServices/webresources/Player/CreateAccount?userName='+ this.state.userName+'&password='+ this.state.password)
   }
   render() {
     const { classes } = this.props;

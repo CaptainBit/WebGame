@@ -1,27 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/WebServices"/>
-<filter>
-    <filter-name>springSecurityFilterChain</filter-name>
-    <filter-class>
-        org.springframework.web.filter.DelegatingFilterProxy
-    </filter-class>
-</filter>
-
-<filter>
-    <init-param>
-        <param-name>cors.allowOrigin</param-name>
-        <param-value>*</param-value>
-    </init-param>
-    <init-param>
-        <param-name>cors.supportsCredentials</param-name>
-        <param-value>false</param-value>
-    </init-param>
-    <init-param>
-        <param-name>cors.supportedHeaders</param-name>
-        <param-value>accept, authorization, origin</param-value>
-    </init-param>
-    <init-param>
-        <param-name>cors.supportedMethods</param-name>
-        <param-value>GET, POST, HEAD, OPTIONS</param-value>
-    </init-param>
-</filter>
