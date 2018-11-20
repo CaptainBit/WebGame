@@ -56,11 +56,22 @@ public class AccountPlayer
             
             jplayer.put("userName",rs.getString("userName"));
             jplayer.put("password ",rs.getString("passwordHash"));
-            jplayer.put("Role", rs.getBoolean("Role"));
+            int id = rs.getInt("id");
+            int idType =  rs.getInt("idTypeCompte");
+            
+            //Get type Account
+            statement = con.prepareStatement("SELECT type FROM p_typecompte WHERE id = ? ;", 1005, 1008);     
+            statement.setInt(1, idType);
+            rs = statement.executeQuery();
+            statement.clearParameters();
+            rs.next();
+            
+            jplayer.put("role",rs.getString("type"));
+            
             
             //Add ressources
-            statement = con.prepareStatement("SELECT * FROM RESSOURCE WHERE id = ? ;", 1005, 1008);     
-            statement.setInt(1, rs.getInt("id"));
+            statement = con.prepareStatement("SELECT * FROM RESSOURCE WHERE idJoueur = ? ;", 1005, 1008);     
+            statement.setInt(1, id);
             rs = statement.executeQuery();
             statement.clearParameters();
             
@@ -98,7 +109,7 @@ public class AccountPlayer
         }
         JSONObject jplayer = new JSONObject();
         try{
-            PreparedStatement statement = con.prepareStatement("INSERT INTO JOUEUR (userName, passwordHash, Role)VALUES(?,?,0)", 1005, 1008);     
+            PreparedStatement statement = con.prepareStatement("INSERT INTO JOUEUR (userName, passwordHash, idTypeCompte)VALUES(?,?,2)", 1005, 1008);     
             statement.setString(1, userName);
             statement.setString(2, password);
             

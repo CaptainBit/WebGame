@@ -27,11 +27,10 @@ class Login extends Component {
 
   validateConnection(data){
     if(data.status === false){
-     //Role Admin ou Joueur
     alert("Aucun compte lier à ce mot de passe ");
     }else{
-     //Role Admin ou Joueur
-    this.props.LoginMethod( this.state.userName, data.Role);
+     //Role Admin ou Joueur, nourriture, argent, science
+    this.props.LoginMethod( this.state.userName, data.role, data.nourriture, data.argent, data.science);
     }
   }
   validateForm() {

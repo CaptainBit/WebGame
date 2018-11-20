@@ -116,9 +116,12 @@ class App extends Component {
     this.setState({ Role: "" });
   }
 
-  LoginMethod(user, role){
+  LoginMethod(user, role, nourriture, argent, science){
     this.setState({ UserName: user });
     this.setState({ Role: role });
+    this.setState({NourritureJoueur: nourriture});
+    this.setState({ArgentJoueur: argent});
+    this.setState({ScienceJoueur: science});
   }
 
   render() {
