@@ -25,6 +25,10 @@ import ListSoldat from  './Component/Joueur/ListSoldat';
 import Profil from  './Component/Joueur/Profil';
 
 import ListAdminJoueur from  './Component/Admin/ListAdminJoueur';
+import ListAdminTerritoire from  './Component/Admin/ListAdminTerritoire';
+import ListAdminTypeArme from  './Component/Admin/ListAdminTypeArme';
+import ListAdminTypeArmure from  './Component/Admin/ListAdminTypeArme';
+import ListAdminTypeSoldat from  './Component/Admin/ListAdminTypeSoldat';
 
 import DrawerListJoueur from './Component/Joueur/DrawerListJoueur';
 import DrawerListAdmin from './Component/Admin/DrawerListAdmin';
@@ -147,6 +151,7 @@ class App extends Component {
     let RessourceJoueur
 
     if(this.state.UserName !== ""){
+
       RessourceJoueur = 
       <Typography style={{ flex: 1, display: 'flex', flexWrap: 'wrap'}} variant="h6" color="inherit" noWrap>
         <div style={{ marginLeft: 10}}>
@@ -162,14 +167,13 @@ class App extends Component {
           <SettingsInputAntenna /> {this.state.ScienceJoueur}
         </div>
       </Typography>
-    }
 
-    if(this.state.UserName !== ""){
       MenuOptions =
-        <div>
-          <Button component={Link} color="inherit" to="/About">À propos du jeu</Button>
-          <Button color="inherit" onClick={this.LogoutMethod.bind(this)}>Se déconnecter</Button>
-        </div>
+      <div>
+        <Button component={Link} color="inherit" to="/About">À propos du jeu</Button>
+        <Button color="inherit" onClick={this.LogoutMethod.bind(this)}>Se déconnecter</Button>
+      </div>
+      
     } else{
       MenuOptions =
         <div>
@@ -248,6 +252,10 @@ class App extends Component {
               <Route path="/ListSoldat" component={ListSoldat} />
               <Route path="/Profil" component={Profil} />
               <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
+              <Route path="/ListAdminTerritoire" component={ListAdminTerritoire} />
+              <Route path="/ListAdminTypeArme" component={ListAdminTypeArme} />
+              <Route path="/ListAdminTypeArmure" component={ListAdminTypeArmure} />
+              <Route path="/ListAdminTypeSoldat" component={ListAdminTypeSoldat} />
               <Redirect to="/" />
           </Switch>
         </main>
