@@ -4,8 +4,6 @@ import {List, ListItemText, ListItemIcon, ListItem} from '@material-ui/core';
 
 import { AccountCircle,RestaurantMenu, FlashOn, People, Security} from '@material-ui/icons';
 
-import PropTypes from 'prop-types';
-
 import { Link } from 'react-router-dom';
 
 class DrawerListJoueur extends Component {
