@@ -145,7 +145,14 @@ class App extends Component {
         />
       );
     }
-
+    const ProfilComponent = (props) =>{
+      return(
+      <Profil
+        Account = {this.state.UserName}
+        {...props}
+      />
+      )
+    }
     let MenuOptions;
     let RessourceJoueur
 
@@ -249,7 +256,7 @@ class App extends Component {
               <Route path="/ListArmure" component={ListArmure} />
               <Route path="/ListRessource" component={ListRessource} />
               <Route path="/ListSoldat" component={ListSoldat} />
-              <Route path="/Profil" component={Profil} />
+              <Route path="/Profil" component={ProfilComponent} />
               <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
               <Redirect to="/" />
           </Switch>

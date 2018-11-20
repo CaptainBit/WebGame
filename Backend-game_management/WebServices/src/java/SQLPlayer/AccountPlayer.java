@@ -119,10 +119,11 @@ public class AccountPlayer
             
            }catch(SQLException e){
             try {
-                jplayer.put("status","Player not created :" + e.toString());
+                jplayer.put("status","Player not created : userName already exist");
             } catch (JSONException ex) {
                 System.out.print(ex);
             }
+            return jplayer;
            }
         
         try {
