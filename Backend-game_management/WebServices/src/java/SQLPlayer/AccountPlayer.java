@@ -56,8 +56,10 @@ public class AccountPlayer
             
             jplayer.put("userName",rs.getString("userName"));
             jplayer.put("password ",rs.getString("passwordHash"));
+            
             int id = rs.getInt("id");
             int idType =  rs.getInt("idTypeCompte");
+            int idRessource = rs.getInt("idRessource");
             
             //Get type Account
             statement = con.prepareStatement("SELECT type FROM p_typecompte WHERE id = ? ;", 1005, 1008);     
@@ -70,8 +72,8 @@ public class AccountPlayer
             
             
             //Add ressources
-            statement = con.prepareStatement("SELECT * FROM RESSOURCE WHERE idJoueur = ? ;", 1005, 1008);     
-            statement.setInt(1, id);
+            statement = con.prepareStatement("SELECT * FROM RESSOURCE WHERE id = ? ;", 1005, 1008);     
+            statement.setInt(1, idRessource);
             rs = statement.executeQuery();
             statement.clearParameters();
             
