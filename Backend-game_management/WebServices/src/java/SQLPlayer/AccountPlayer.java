@@ -112,9 +112,21 @@ public class AccountPlayer
             PreparedStatement statement = con.prepareStatement("INSERT INTO JOUEUR (userName, passwordHash, idTypeCompte)VALUES(?,?,2)", 1005, 1008);     
             statement.setString(1, userName);
             statement.setString(2, password);
-            
             statement.executeUpdate();
-         
+            statement.clearParameters();
+            
+            
+            statement = con.prepareStatement("Select MAX(id) from ressource ", 1005, 1008);     
+            ResultSet rs = statement.executeQuery();
+            statement.clearParameters();
+            rs.next();
+            int id = rs.getInt(1);
+            
+            
+            
+            statement = con.prepareStatement("update joueur set idRessource = ? ORDER BY id DESC LIMIT 1", 1005, 1008);  
+            statement.setInt(1, id);
+            statement.executeUpdate();;
             con.close();
             
            }catch(SQLException e){
