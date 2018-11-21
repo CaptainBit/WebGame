@@ -29,8 +29,7 @@ const lstArmes = [
 ];
 
 const TypeArmes = [
-  {id : 1, description :"Épée"},
-  {id : 2, description : "Arc"}
+
 ]
 
 class ListArme extends Component {
@@ -39,6 +38,10 @@ class ListArme extends Component {
     rows : lstArmes,
     typeArmes : TypeArmes
   };
+
+  componentDidMount() {
+    this.getTypeArme();
+  }
 
   Add(idType){
     var lstArmes = this.state.rows;
@@ -76,10 +79,27 @@ class ListArme extends Component {
     })
     return type;
   }
-  
+
+  addTypeArme(result)
+  {
+
+    for(var i=0; i < result.length; i++) {
+      var obj = { "id": i, "description" : result[i].nom}
+      console.log(result[i].nom);
+      this.setState({
+       TypeArmes:[obj]
+      });
+    }
+  }
+
+  getTypeArme()
+  {
+    fetch('http://localhost:8080/WebServices/webresources/Guns/Type?')
+    .then(result=> result.json()).then((result) => this.addTypeArme(result));
+  }
+
   render() {
     const { classes } = this.props;
-
     return (
       <Card className={classes.card}>
         <CardContent>
