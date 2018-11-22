@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Player;
+package Services;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -29,7 +29,9 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(Player.GenericResource.class);
+        resources.add(Props.CrossOrigin.class);
+        resources.add(Services.GenericResource.class);
+        resources.add(Services.GunService.class);
     }
     
 }

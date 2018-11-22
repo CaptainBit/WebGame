@@ -25,18 +25,25 @@ class Login extends Component {
     });
   }
 
+  validateConnection(data){
+    if(data.status === false){
+    alert("Aucun compte lier à ce mot de passe ");
+    }else{
+     //Role Admin ou Joueur, nourriture, argent, science
+    this.props.LoginMethod( this.state.userName, data.role, data.nourriture, data.argent, data.science);
+    }
+  }
   validateForm() {
     return this.state.userName.length > 0 && this.state.password.length > 0;
   }
   handleSubmit = event =>
   {
     event.preventDefault();
-    /*fetch('/Services/ConnectionConnection?userName=' + this.state.userName+'&password='+ this.state.password).then(result=> {
-      
-    }); */
+    fetch('http://localhost:8080/WebServices/webresources/Player/Connect?userName='+ this.state.userName+'&password='+ this.state.password)
+    .then(result=> result.json())
+    .then(data => this.validateConnection(data)); 
     
-    //Role Admin ou Joueur
-    this.props.LoginMethod( this.state.userName, this.state.userName);
+    
   }
   render() {
     const { classes } = this.props;

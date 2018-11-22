@@ -123,9 +123,12 @@ class App extends Component {
     this.setState({ Role: "" });
   }
 
-  LoginMethod(user, role){
+  LoginMethod(user, role, nourriture, argent, science){
     this.setState({ UserName: user });
     this.setState({ Role: role });
+    this.setState({NourritureJoueur: nourriture});
+    this.setState({ArgentJoueur: argent});
+    this.setState({ScienceJoueur: science});
   }
 
   UpdateRessource(Nourriture, Eau, Argent, Science){
@@ -146,7 +149,14 @@ class App extends Component {
         />
       );
     }
-
+    const ProfilComponent = (props) =>{
+      return(
+      <Profil
+        Account = {this.state.UserName}
+        {...props}
+      />
+      )
+    }
     let MenuOptions;
     let RessourceJoueur
 
@@ -250,7 +260,7 @@ class App extends Component {
               <Route path="/ListArmure" component={ListArmure} />
               <Route path="/ListRessource" component={ListRessource} />
               <Route path="/ListSoldat" component={ListSoldat} />
-              <Route path="/Profil" component={Profil} />
+              <Route path="/Profil" component={ProfilComponent} />
               <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
               <Route path="/ListAdminTerritoire" component={ListAdminTerritoire} />
               <Route path="/ListAdminTypeArme" component={ListAdminTypeArme} />

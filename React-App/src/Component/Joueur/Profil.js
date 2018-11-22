@@ -14,7 +14,7 @@ class Profil extends Component {
     super(props);
 
     this.state = {
-      userName: "",
+      userName: props.Account,
       password: ""
     };
   }
@@ -46,7 +46,7 @@ class Profil extends Component {
             <div>
             <Typography>
               <TextField
-                id="userName"
+                id= {this.state.userName}
                 type="text"
                 label="Nom de l'utilisateur"
                 value={this.state.userName}
@@ -56,7 +56,7 @@ class Profil extends Component {
             </Typography>
             <Typography>
               <TextField
-                id="password"
+                id={this.state.password}
                 type="password"
                 label="Mot de passe"
                 value={this.state.password}
