@@ -72,6 +72,7 @@ public class Type
                 type.put("eau", rt.getDouble("eau"));
                 type.put("argent", rt.getDouble("argent"));
                 type.put("science", rt.getDouble("science"));
+                type.put("force", rs.getInt("force"));
                 type.put("nom", nom);
                 
                 

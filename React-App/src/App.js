@@ -131,11 +131,17 @@ class App extends Component {
     this.setState({ScienceJoueur: science});
   }
 
-  UpdateRessource(Nourriture, Eau, Argent, Science){
-    this.setState({ NourritureJoueur: Nourriture });
-    this.setState({ EauJoueur: Eau });
-    this.setState({ ArgentJoueur: Argent });
-    this.setState({ ScienceJoueur: Science });
+  SubsRessource(Nourriture, Eau, Argent, Science){
+    this.setState({ NourritureJoueur: this.state.NourritureJoueur - Nourriture });
+    this.setState({ EauJoueur: this.state.EauJoueur- Eau });
+    this.setState({ ArgentJoueur: this.state.ArgentJoueur - Argent });
+    this.setState({ ScienceJoueur: this.state.ScienceJoueur - Science });
+  }
+  AddRessource(Nourriture, Eau, Argent, Science){
+    this.setState({ NourritureJoueur: this.state.NourritureJoueur + Nourriture });
+    this.setState({ EauJoueur: this.state.EauJoueur + Eau });
+    this.setState({ ArgentJoueur: this.state.ArgentJoueur + Argent });
+    this.setState({ ScienceJoueur: this.state.ScienceJoueur + Science });
   }
 
   render() {
@@ -146,6 +152,15 @@ class App extends Component {
         <Login 
         LoginMethod={this.LoginMethod.bind(this)}
           {...props}
+        />
+      );
+    }
+
+    const ListArmeComponent = (props) => {
+      return (
+        <ListArme
+        SubsRessource={this.SubsRessource.bind(this)}
+        AddRessource={this.AddRessource.bind(this)}
         />
       );
     }
@@ -257,7 +272,7 @@ class App extends Component {
               {/*Page accessible selon le rôle */}
               {this.state.Role === "Joueur" ?
               <div>
-                <Route path="/ListArme" component={ListArme} />
+                <Route path="/ListArme" component={ListArmeComponent} />
                 <Route path="/ListArmure" component={ListArmure} />
                 <Route path="/ListRessource" component={ListRessource} />
                 <Route path="/ListSoldat" component={ListSoldat} />

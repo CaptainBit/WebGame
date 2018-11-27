@@ -15,16 +15,16 @@ const styles = theme => ({
 });
 
 let id = 0;
-function createData(idTypeArme, vie) {
+function createData(idTypeArme, force) {
   id += 1;
-  return { id, idTypeArme, vie };
+  return { id, idTypeArme, force };
 }
 
 const lstArmes = [
   createData(1, 1),
-  createData(2, 2),
+  createData(0, 2),
   createData(1, 1),
-  createData(2, 2),
+  createData(0, 2),
   createData(1, 1),
 ];
 
@@ -33,11 +33,16 @@ const TypeArmes = [
 ];
 
 class ListArme extends Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    rows : lstArmes,
-    typeArmes : TypeArmes
-  };
+    this.state = {
+      rows : lstArmes,
+      typeArmes : TypeArmes
+    };
+  }
+
+  
 
   componentDidMount() {
     this.getTypeArme();
@@ -46,17 +51,26 @@ class ListArme extends Component {
   Add(idType){
     var lstArmes = this.state.rows;
     lstArmes.push(createData(idType, 1));
-    this.setState({rows: lstArmes})
+    this.setState({rows: lstArmes});
+    this.props.SubsRessource(0,this.state.typeArmes[idType].eau, this.state.typeArmes[idType].argent, this.state.typeArmes[idType].science);
   }
   
   Delete(id) {
     var lstArmes = this.state.rows;
+
+    
+
     lstArmes.forEach((soldat, index) => {
       if(soldat.id === id){
         lstArmes.splice(index,1);
       }
     })
+    this.props.AddRessource(0,this.state.typeArmes[lstArmes[id].idTypeArme].eau * 0.5,
+      this.state.typeArmes[lstArmes[lstArmes.id].idTypeArme].argent * 0.5,
+       this.state.typeArmes[lstArmes[lstArmes.id].idTypeArme].science * 0.5);
+       
     this.setState({rows: lstArmes})
+    
   }
 
   Edit = (event, id) => {
@@ -86,7 +100,8 @@ class ListArme extends Component {
   {
 
     for(var i=0; i < result.length; i++) {
-      var obj = { "idTypeArme": i, "description" : result[i].nom}
+      var obj = { "idTypeArme": i, "description" : result[i].nom, "force" : result[i].force,
+                  "eau" : result[i].eau, "argent" : result[i].argent, "science" : result[i].science }
       console.log(result[i].nom);
       this.setState({
         typeArmes:[...this.state.typeArmes, obj]
@@ -113,7 +128,7 @@ class ListArme extends Component {
             <TableRow>
               <TableCell>id</TableCell>
               <TableCell>Arme</TableCell>
-              <TableCell numeric>Vie</TableCell>
+              <TableCell numeric>Force</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -123,7 +138,7 @@ class ListArme extends Component {
                 <TableRow key={row.id}>
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{this.AfficheTypeArme(row.idTypeArme)}</TableCell>
-                  <TableCell numeric>{row.vie}</TableCell>
+                  <TableCell numeric>{row.force}</TableCell>
                   <TableCell numeric>
                   <Button
                   variant="contained" 
