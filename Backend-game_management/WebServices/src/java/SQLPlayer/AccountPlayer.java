@@ -5,17 +5,14 @@
  */
 package SQLPlayer;
 
-
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import org.json.JSONException;
 import org.json.JSONObject;
+import Shared.ConnectDb;
 
 /**
  *
@@ -23,36 +20,12 @@ import org.json.JSONObject;
  */
 public class AccountPlayer 
 {
-    public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
-    public final static String SERVERNAME= "localhost";
-    public final static String PORT = "3306";
-    public final static String SCHEMA = "game_management";
-    public final static String PARAMETER = "?serverTimezone=UTC";
-    public final static String USERNAME = "root";
-    public final static String PASSWORD = "root123";
-    
     public JSONObject GetConnection(String userName, String password) throws InstantiationException, IllegalAccessException
     {
         Connection con = null;
-        String url = "jdbc:mysql://" + SERVERNAME + ":" + PORT + "/" + SCHEMA + PARAMETER;
         
-         //propreties for server
-        Properties properties = new Properties();
-        properties.setProperty("user", USERNAME);
-        properties.setProperty("password", PASSWORD);
-        properties.setProperty("useSSL", "false");
-        properties.setProperty("verifyServerCertificate", "true");
-        properties.setProperty("requireSSL", "false");
-        try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            //String url = "jdbc:mysqlql://localhost:3306" + "/" + SCHEMA +"?&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; // a JDBC url
-            //con = DriverManager.getConnection(url, USERNAME, PASSWORD);
-            Class.forName(DRIVER).newInstance();
-            con = DriverManager.getConnection(url, properties);
-        } catch (SQLException | ClassNotFoundException e) 
-        {
-            System.out.print(e.toString());
-        }
+        con = new ConnectDb().GetConnection();
+                
         JSONObject jplayer = new JSONObject();
         try{
             PreparedStatement statement = con.prepareStatement("SELECT * FROM JOUEUR WHERE userName like ? and passwordHash like ? ;", 1005, 1008);     
@@ -110,17 +83,12 @@ public class AccountPlayer
    }
     
     
-    public JSONObject CreateAccount(String userName, String password)
+    public JSONObject CreateAccount(String userName, String password) throws InstantiationException, IllegalAccessException
     {
          Connection con = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306" + "/" + SCHEMA +"?&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; // a JDBC url
-            con = DriverManager.getConnection(url, USERNAME, PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) 
-        {
-            System.out.print(e.toString());
-        }
+        
+        con = new ConnectDb().GetConnection();
+         
         JSONObject jplayer = new JSONObject();
         try{
             PreparedStatement statement = con.prepareStatement("INSERT INTO JOUEUR (userName, passwordHash, idTypeCompte)VALUES(?,?,2)", 1005, 1008);     

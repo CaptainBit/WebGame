@@ -5,6 +5,7 @@
  */
 package SQLGun;
 
+import Shared.ConnectDb;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,34 +19,14 @@ import org.json.JSONObject;
  * @author admin
  */
 public class Type 
-{
-    public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
-    public final static String SERVERNAME= "jdbc:mysql://localhost:3306";
-    public final static String PORT = "80";
-    public final static String SCHEMA = "game_management";
-    public final static String PARAMETER = "?serverTimezone=UTC";
-    public final static String USERNAME = "root";
-    public final static String PASSWORD = "";
-    
-    
-    
-    public JSONArray getAllTypes()
+{    
+    public JSONArray getAllTypes() throws IllegalAccessException, InstantiationException
     {
         JSONArray jtypes = new JSONArray();
         
-        
-        
          Connection con = null;
-        try 
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306" + "/" + SCHEMA +"?&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; // a JDBC url
-            con = DriverManager.getConnection(url, USERNAME, PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) 
-        {
-            System.out.print(e.toString());
-        }
         
+        con = new ConnectDb().GetConnection();        
         
         try{
             PreparedStatement statement = con.prepareStatement("SELECT * FROM p_typearme", 1005, 1008);   

@@ -5,10 +5,7 @@
  */
 package Asyn;
 
-import static SQLPlayer.AccountPlayer.PASSWORD;
-import static SQLPlayer.AccountPlayer.SCHEMA;
-import static SQLPlayer.AccountPlayer.USERNAME;
-
+import Shared.ConnectDb;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,17 +20,12 @@ import org.json.JSONObject;
  */
 public class Ressources 
 {
-    public void GetConnection(String userName, String password)
+    public void GetConnection(String userName, String password) throws InstantiationException, IllegalAccessException
     {
          Connection con = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306" + "/" + SCHEMA +"?&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; // a JDBC url
-            con = DriverManager.getConnection(url, USERNAME, PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) 
-        {
-            System.out.print(e.toString());
-        }
+        
+        con = new ConnectDb().GetConnection();
+         
         JSONObject jplayer = new JSONObject();
         try{
             PreparedStatement statement = con.prepareStatement("UPDATE ressource SET argent = argent + 10;", 1005, 1008);
