@@ -39,11 +39,10 @@ class Login extends Component {
   handleSubmit = event =>
   {
     event.preventDefault();
-    fetch('http://localhost:8080/WebServices/webresources/Player/Connect?userName='+ this.state.userName+'&password='+ this.state.password)
+    fetch('http://localhost:8080/WebServices/webresources/Player/Connect?userName='+
+     this.state.userName+'&password='+ this.state.password)
     .then(result=> result.json())
     .then(data => this.validateConnection(data)); 
-    
-    
   }
   render() {
     const { classes } = this.props;

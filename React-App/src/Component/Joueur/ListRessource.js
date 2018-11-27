@@ -15,50 +15,31 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(idTerritoire, Joueur) {
-  id += 1;
-  return { id, idTerritoire, Joueur };
-}
-
-const lstTerritoire = [
-  createData(1, "Moi"),
-  createData(2, "Ennemie"),
-];
-
-const Territoire = [
-  {id : 1, description :"Château"},
-  {id : 2, description : "Maison"}
-]
-
 class ListTerritoire extends Component {
 
   state = {
-    rows : lstTerritoire,
-    Territoire : Territoire,
+    rows : [],
     open: false,
-    selectedValue: "Test",
+    territoireSelected: 0,
   };
 
-  handleClickOpen = () => {
-    this.setState({
-      open: true,
-    });
+  handleClickOpen(id) {
+    this.setState({ territoireSelected: id, open: true });
   };
 
   handleClose = value => {
-    this.setState({ selectedValue: value, open: false });
+    this.setState({ territoireSelected: 0, open: false });
   };
 
+  componentDidMount() {
+    this.getAll();
+  }
 
-  AfficheTerritoire(id) {
-    var type = "";
-    this.state.Territoire.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
-      }
-    })
-    return type;
+  getAll()
+  {
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
+    .then(result=> result.json()).then((result) => this.setState({rows : result}));
+    
   }
   
   render() {
@@ -75,7 +56,11 @@ class ListTerritoire extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell>id</TableCell>
-                  <TableCell>Arme</TableCell>
+                  <TableCell>Territoire</TableCell>
+                  <TableCell>Nourriture</TableCell>
+                  <TableCell>Eau</TableCell>
+                  <TableCell>Argent</TableCell>
+                  <TableCell>Science</TableCell>
                   <TableCell numeric>Joueur</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -85,16 +70,25 @@ class ListTerritoire extends Component {
                   return (
                     <TableRow key={row.id}>
                       <TableCell>{row.id}</TableCell>
-                      <TableCell>{this.AfficheTerritoire(row.idTerritoire)}</TableCell>
-                      <TableCell numeric>{row.Joueur}</TableCell>
+                      <TableCell>{row.description}</TableCell>
+                      <TableCell>{row.nourriture}</TableCell>
+                      <TableCell>{row.eau}</TableCell>
+                      <TableCell>{row.argent}</TableCell>
+                      <TableCell>{row.science}</TableCell>
+                      <TableCell numeric>{row.joueur}</TableCell>
                       <TableCell numeric>
-                      <Button
-                      variant="contained" 
-                      color="primary"
-                      onClick={this.handleClickOpen}
-                      >
-                        Attaquer !!!
-                      </Button>
+                      {
+                        row.joueur !== this.props.UserName ? 
+                        <Button
+                        variant="contained" 
+                        color="primary"
+                        onClick={() => this.handleClickOpen(row.id)}
+                        >
+                          Attaquer !!!
+                        </Button>
+                        : 
+                        <div></div>
+                      }
                       </TableCell>
                     </TableRow>
                   );
@@ -104,7 +98,7 @@ class ListTerritoire extends Component {
           </ CardContent>
         </Card>
         <ListSoldatAttaque
-        selectedValue={this.state.selectedValue}
+        territoireSelected={this.state.territoireSelected}
         open={this.state.open}
         onClose={this.handleClose}
         >
