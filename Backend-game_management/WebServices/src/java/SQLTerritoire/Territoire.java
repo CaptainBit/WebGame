@@ -47,13 +47,26 @@ public class Territoire
                 
                 rt.next();
                 
+                int idJoueur = rs.getInt("idJoueur");
+                
+                statement = con.prepareStatement("SELECT * FROM joueur where id  = ?", 1005, 1008);  
+                statement.setInt(1, idJoueur);
+                
+                ResultSet lstJoueur = statement.executeQuery();
+                statement.clearParameters();
+                
+                lstJoueur.next();
+                
                 territoire.put("nourriture", rt.getDouble("nourriture"));
                 territoire.put("eau", rt.getDouble("eau"));
                 territoire.put("argent", rt.getDouble("argent"));
                 territoire.put("science", rt.getDouble("science"));
+                
                 territoire.put("description", rs.getString("description"));
-                territoire.put("idJoueur", rs.getString("idJoueur"));
+                territoire.put("idJoueur", idJoueur);
                 territoire.put("id", rs.getInt("id"));
+                
+                territoire.put("joueur", lstJoueur.getString("userName"));
                 
                 jtypes.put(territoire);
             }

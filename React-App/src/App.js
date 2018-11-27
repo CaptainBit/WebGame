@@ -141,6 +141,14 @@ class App extends Component {
   render() {
     const { classes, theme } = this.props;
 
+    const ListRessourceComponent = (props) => {
+      return (
+        <ListRessource 
+        UserName={this.state.UserName}
+          {...props}
+        />
+      );
+    }
     const LoginComponent = (props) => {
       return (
         <Login 
@@ -259,7 +267,7 @@ class App extends Component {
               <div>
                 <Route path="/ListArme" component={ListArme} />
                 <Route path="/ListArmure" component={ListArmure} />
-                <Route path="/ListRessource" component={ListRessource} />
+                <Route path="/ListRessource" component={ListRessourceComponent} />
                 <Route path="/ListSoldat" component={ListSoldat} />
                 <Route path="/Profil" component={ProfilComponent} /> 
               </div>               
