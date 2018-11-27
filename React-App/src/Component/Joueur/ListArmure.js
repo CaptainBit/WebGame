@@ -29,8 +29,6 @@ const lstArmures = [
 ];
 
 const TypeArmures = [
-  {id : 1, description :"Botte"},
-  {id : 2, description : "Cap"}
 ]
 
 class ListArmure extends Component {

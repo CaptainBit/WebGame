@@ -30,7 +30,7 @@ const lstArmes = [
 
 const TypeArmes = [
 
-]
+];
 
 class ListArme extends Component {
 
@@ -80,14 +80,16 @@ class ListArme extends Component {
     return type;
   }
 
+
+
   addTypeArme(result)
   {
 
     for(var i=0; i < result.length; i++) {
-      var obj = { "id": i, "description" : result[i].nom}
+      var obj = { "idTypeArme": i, "description" : result[i].nom}
       console.log(result[i].nom);
       this.setState({
-       TypeArmes:[obj]
+        typeArmes:[...this.state.typeArmes, obj]
       });
     }
   }
@@ -137,23 +139,20 @@ class ListArme extends Component {
           </TableBody>
         </Table>
       </ CardContent>
-      <CardActions>
-        <Button
-        variant="contained" 
-        color="primary"
-        onClick={() => this.Add(1)}
-        >
-          Acheter une Épée
+        <CardActions>
+        {this.state.typeArmes.map(typeArme => {
+         return(
+          <Button
+          variant="contained" 
+          color="primary"
+          onClick={() => this.Add(typeArme.idTypeArme)}
+          >
+          Acheter {typeArme.description}
         </Button>
-        <Button
-        variant="contained" 
-        color="primary"
-        onClick={() => this.Add(2)}
-        >
-          Acheter un Arc
-        </Button>
+         );
+        })}
       </CardActions>
-    </Card>
+  </Card>
     );
   }
 }
