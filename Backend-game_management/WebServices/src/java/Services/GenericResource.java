@@ -51,7 +51,7 @@ public class GenericResource {
     @GET
     @Path("CreateAccount")
     @Produces(MediaType.APPLICATION_JSON)
-    public String setAccount(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
+    public String setAccount(@QueryParam("userName") String userName,@QueryParam("password") String password ) throws InstantiationException, IllegalAccessException {
         JSONObject json;
         AccountPlayer cp = new AccountPlayer();
         json = cp.CreateAccount(userName, password);

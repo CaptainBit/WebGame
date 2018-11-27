@@ -37,17 +37,15 @@ class ListTerritoire extends Component {
     rows : lstTerritoire,
     Territoire : Territoire,
     open: false,
-    selectedValue: "Test",
+    territoireSelected: 0,
   };
 
-  handleClickOpen = () => {
-    this.setState({
-      open: true,
-    });
+  handleClickOpen(id) {
+    this.setState({ territoireSelected: id, open: true });
   };
 
   handleClose = value => {
-    this.setState({ selectedValue: value, open: false });
+    this.setState({ territoireSelected: 0, open: false });
   };
 
 
@@ -91,7 +89,7 @@ class ListTerritoire extends Component {
                       <Button
                       variant="contained" 
                       color="primary"
-                      onClick={this.handleClickOpen}
+                      onClick={() => this.handleClickOpen(row.id)}
                       >
                         Attaquer !!!
                       </Button>
@@ -104,7 +102,7 @@ class ListTerritoire extends Component {
           </ CardContent>
         </Card>
         <ListSoldatAttaque
-        selectedValue={this.state.selectedValue}
+        territoireSelected={this.state.territoireSelected}
         open={this.state.open}
         onClose={this.handleClose}
         >

@@ -58,7 +58,7 @@ class ListSoldatAttaque extends Component {
   };
 
   handleClose = () => {
-    this.props.onClose(this.props.selectedValue);
+    this.props.onClose(this.props.territoireSelected);
   };
 
   handleListItemClick = value => {
@@ -107,6 +107,7 @@ class ListSoldatAttaque extends Component {
 
   Confirmation(){
     alert(this.state.selected);
+    alert(this.props.territoireSelected);
     this.handleClose();
   }
 
@@ -134,7 +135,7 @@ class ListSoldatAttaque extends Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
   
   render() {
-    const { classes, onClose, selectedValue, ...other } = this.props;
+    const { classes, onClose, territoireSelected, ...other } = this.props;
 
     return (
     <Dialog 
@@ -155,7 +156,6 @@ class ListSoldatAttaque extends Component {
                             <TableCell></TableCell>
                             <TableCell>id</TableCell>
                             <TableCell>Soldat</TableCell>
-                            <TableCell>Territoire</TableCell>
                             <TableCell>Arme</TableCell>
                             <TableCell>Armure</TableCell>
                             <TableCell numeric>Force Totale</TableCell>
@@ -180,7 +180,6 @@ class ListSoldatAttaque extends Component {
                                 </TableCell>
                                 <TableCell>{row.id}</TableCell>
                                 <TableCell>{this.AfficherTypeSoldat(row.idTypeSoldat)}</TableCell>
-                                <TableCell>{this.AfficherTerritoires(row.territoire)}</TableCell>
                                 <TableCell>{this.AfficherTypeArmes(row.arme)}</TableCell>
                                 <TableCell>{this.AfficherTypeArmures(row.armure)}</TableCell>
                                 <TableCell numeric>{row.force}</TableCell>
@@ -217,7 +216,7 @@ class ListSoldatAttaque extends Component {
 ListSoldatAttaque.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
-    selectedValue: PropTypes.string,
+    territoireSelected: PropTypes.number,
   };
 
 export default withStyles(styles)(ListSoldatAttaque);

@@ -88,7 +88,7 @@ class ListArmure extends Component {
           <TableHead>
             <TableRow>
               <TableCell>id</TableCell>
-              <TableCell>Arme</TableCell>
+              <TableCell>Armure</TableCell>
               <TableCell numeric>Vie</TableCell>
               <TableCell></TableCell>
             </TableRow>
