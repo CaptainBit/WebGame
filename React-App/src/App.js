@@ -253,19 +253,31 @@ class App extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-              <Route exact path="/"  component={LoginComponent} />
               <Route path="/About" component={About} />
-              <Route path="/SignUp" component={SignUp} />
-              <Route path="/ListArme" component={ListArme} />
-              <Route path="/ListArmure" component={ListArmure} />
-              <Route path="/ListRessource" component={ListRessource} />
-              <Route path="/ListSoldat" component={ListSoldat} />
-              <Route path="/Profil" component={ProfilComponent} />
-              <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
-              <Route path="/ListAdminTerritoire" component={ListAdminTerritoire} />
-              <Route path="/ListAdminTypeArme" component={ListAdminTypeArme} />
-              <Route path="/ListAdminTypeArmure" component={ListAdminTypeArmure} />
-              <Route path="/ListAdminTypeSoldat" component={ListAdminTypeSoldat} />
+              {/*Page accessible selon le rôle */}
+              {this.state.Role === "Joueur" ?
+              <div>
+                <Route path="/ListArme" component={ListArme} />
+                <Route path="/ListArmure" component={ListArmure} />
+                <Route path="/ListRessource" component={ListRessource} />
+                <Route path="/ListSoldat" component={ListSoldat} />
+                <Route path="/Profil" component={ProfilComponent} /> 
+              </div>               
+              :
+              this.state.Role === "Admin" ?
+              <div>
+                <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
+                <Route path="/ListAdminTerritoire" component={ListAdminTerritoire} />
+                <Route path="/ListAdminTypeArme" component={ListAdminTypeArme} />
+                <Route path="/ListAdminTypeArmure" component={ListAdminTypeArmure} />
+                <Route path="/ListAdminTypeSoldat" component={ListAdminTypeSoldat} />
+              </div>
+              :
+              <div>
+                <Route exact path="/"  component={LoginComponent} />
+                <Route path="/SignUp" component={SignUp} />            
+              </div>  
+              }
               <Redirect to="/" />
           </Switch>
         </main>
