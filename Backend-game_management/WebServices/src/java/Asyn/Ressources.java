@@ -20,7 +20,7 @@ import org.json.JSONObject;
  */
 public class Ressources 
 {
-    public void GetConnection(String userName, String password) throws InstantiationException, IllegalAccessException
+    public void GetConnection(String userName, String password)
     {
          Connection con = null;
         

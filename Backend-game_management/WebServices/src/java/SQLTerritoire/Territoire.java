@@ -20,15 +20,16 @@ import org.json.JSONObject;
  */
 public class Territoire 
 {    
-    public JSONArray getAllTerritoire() throws IllegalAccessException, InstantiationException
+    public JSONArray getAllTerritoire()
     {
         JSONArray jtypes = new JSONArray();
         
          Connection con = null;
         
-        con = new ConnectDb().GetConnection();        
         
         try{
+            con = new ConnectDb().GetConnection();      
+            
             PreparedStatement statement = con.prepareStatement("SELECT * FROM territoire", 1005, 1008);   
             ResultSet rs = statement.executeQuery();
             statement.clearParameters();

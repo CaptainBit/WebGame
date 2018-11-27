@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,7 +26,7 @@ import java.util.Properties;
     public final static String USERNAME = "root";
     public final static String PASSWORD = "root123";
     
-    public Connection GetConnection() throws InstantiationException, IllegalAccessException
+    public Connection GetConnection()
     {
         Connection con = null;
         String url = "jdbc:mysql://" + SERVERNAME + ":" + PORT + "/" + SCHEMA + PARAMETER;
@@ -39,7 +41,7 @@ import java.util.Properties;
         try {
             Class.forName(DRIVER).newInstance();
             con = DriverManager.getConnection(url, properties);
-        } catch (SQLException | ClassNotFoundException e) 
+        } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) 
         {
             System.out.print(e.toString());
         }

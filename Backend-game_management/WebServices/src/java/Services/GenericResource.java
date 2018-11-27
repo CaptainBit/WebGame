@@ -40,7 +40,7 @@ public class GenericResource {
     @GET
     @Path("Connect")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getConnection(@QueryParam("userName") String userName,@QueryParam("password") String password ) throws InstantiationException, IllegalAccessException {
+    public String getConnection(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
         JSONObject json;
         AccountPlayer cp = new AccountPlayer();
         json = cp.GetConnection(userName, password);
@@ -51,7 +51,7 @@ public class GenericResource {
     @GET
     @Path("CreateAccount")
     @Produces(MediaType.APPLICATION_JSON)
-    public String setAccount(@QueryParam("userName") String userName,@QueryParam("password") String password ) throws InstantiationException, IllegalAccessException {
+    public String setAccount(@QueryParam("userName") String userName,@QueryParam("password") String password ) {
         JSONObject json;
         AccountPlayer cp = new AccountPlayer();
         json = cp.CreateAccount(userName, password);

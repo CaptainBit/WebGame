@@ -20,7 +20,7 @@ import org.json.JSONObject;
  */
 public class Type 
 {    
-    public JSONArray getAllTypes() throws IllegalAccessException, InstantiationException
+    public JSONArray getAllTypes() 
     {
         JSONArray jtypes = new JSONArray();
         

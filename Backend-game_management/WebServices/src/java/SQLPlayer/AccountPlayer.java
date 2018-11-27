@@ -20,7 +20,7 @@ import Shared.ConnectDb;
  */
 public class AccountPlayer 
 {
-    public JSONObject GetConnection(String userName, String password) throws InstantiationException, IllegalAccessException
+    public JSONObject GetConnection(String userName, String password)
     {
         Connection con = null;
         
@@ -83,7 +83,7 @@ public class AccountPlayer
    }
     
     
-    public JSONObject CreateAccount(String userName, String password) throws InstantiationException, IllegalAccessException
+    public JSONObject CreateAccount(String userName, String password)
     {
          Connection con = null;
         
