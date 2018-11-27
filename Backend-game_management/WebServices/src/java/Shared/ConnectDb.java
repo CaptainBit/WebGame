@@ -1,11 +1,11 @@
 package Shared;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,7 +24,9 @@ import java.util.logging.Logger;
     public final static String SCHEMA = "game_management";
     public final static String PARAMETER = "?serverTimezone=UTC";
     public final static String USERNAME = "root";
-    public final static String PASSWORD = "root123";
+    public final static String PASSWORD_WILLIAM = "root123";
+    public final static String PASSWORD_ISAAC = "";
+    public final static String PC_WILLIAM = "DESKTOP-59MK9GG";
     
     public Connection GetConnection()
     {
@@ -34,14 +36,24 @@ import java.util.logging.Logger;
          //propreties for server
         Properties properties = new Properties();
         properties.setProperty("user", USERNAME);
-        properties.setProperty("password", PASSWORD);
         properties.setProperty("useSSL", "false");
         properties.setProperty("verifyServerCertificate", "true");
         properties.setProperty("requireSSL", "false");
         try {
+            InetAddress addr;
+            addr = InetAddress.getLocalHost();
+            String hostname = addr.getHostName();
+            
+            if(hostname.equals(PC_WILLIAM)){
+                properties.setProperty("password", PASSWORD_WILLIAM);
+            }
+            else{
+                properties.setProperty("password", PASSWORD_ISAAC);
+            }
+            
             Class.forName(DRIVER).newInstance();
             con = DriverManager.getConnection(url, properties);
-        } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) 
+        } catch (UnknownHostException | IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) 
         {
             System.out.print(e.toString());
         }
