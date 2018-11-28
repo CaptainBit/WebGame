@@ -25,7 +25,8 @@ class ListSoldatAttaque extends Component {
 
   getAll()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayerSansTerritoire?idJoueur=34')
+    var userName = this.props.UserName;
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayerSansTerritoire?userName=' + userName)
     .then(result=> result.json()).then((result) => this.setState({rows : result}));
   }
 
@@ -149,6 +150,7 @@ ListSoldatAttaque.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
     territoireSelected: PropTypes.number,
+    UserName: PropTypes.string
   };
 
 export default withStyles(styles)(ListSoldatAttaque);

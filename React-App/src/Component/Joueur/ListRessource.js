@@ -97,6 +97,7 @@ class ListTerritoire extends Component {
           </ CardContent>
         </Card>
         <ListSoldatAttaque
+        UserName={this.props.UserName}
         territoireSelected={this.state.territoireSelected}
         open={this.state.open}
         onClose={this.handleClose}

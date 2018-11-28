@@ -33,11 +33,11 @@ public class SoldatService {
     @GET
     @Path("getSoldatPlayerSansTerritoire")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getSoldatPlayerSansTerritoire(@QueryParam("idJoueur") int idJoueur) {
+    public String getSoldatPlayerSansTerritoire(@QueryParam("userName") String userName) {
     
         Soldat soldat = new Soldat();
         
-        JSONArray json = soldat.getSoldatPlayerSansTerritoire(idJoueur);
+        JSONArray json = soldat.getSoldatPlayerSansTerritoire(userName);
         
         return json.toString();
     }
