@@ -12,50 +12,22 @@ const styles = theme => ({
 
 });
 
-let id = 0;
-function createData(idTypeSoldat, territoire, arme, armure, force, vie) {
-  id += 1;
-  return { id, idTypeSoldat, territoire, arme, armure, force, vie };
-}
-
-const lstSoldats = [
-  createData(1, 1, 1,2,1,10,3),
-  createData(2, 2, 2,1,2,4,10),
-  createData(2, 2, 2,1,2,4,10),
-  createData(2, 2, 2,1,2,4,10),
-  createData(1, 1, 1,2,1,10,3),
-];
-
-const TypeSoldats = [
-  {id : 1, description :"Archer"},
-  {id : 2, description : "Guerrier"}
-]
-
-const Territoires = [
-    {id : 1, description :"Château"},
-    {id : 2, description : "Maison"}
-]
-
-const TypeArmes = [
-    {id : 1, description :"Épée"},
-    {id : 2, description : "Arc"}
-]
-
-const TypeArmures = [
-    {id : 1, description :"Botte"},
-    {id : 2, description : "Cap"}
-]
-
 class ListSoldatAttaque extends Component {
 
   state = {
-    rows : lstSoldats,
-    typeSoldats : TypeSoldats,
-    territoires : Territoires,
-    typeArmes : TypeArmes,
-    typeArmures : TypeArmures,
+    rows : [],
     selected: [],
   };
+
+  componentDidMount() {
+    this.getAll();
+  }
+
+  getAll()
+  {
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayerSansTerritoire?idJoueur=34')
+    .then(result=> result.json()).then((result) => this.setState({rows : result}));
+  }
 
   handleClose = () => {
     this.props.onClose(this.props.territoireSelected);
@@ -64,46 +36,6 @@ class ListSoldatAttaque extends Component {
   handleListItemClick = value => {
     this.props.onClose(value);
   };
-
-  AfficherTypeSoldat(id) {
-    var type = "";
-    this.state.typeSoldats.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
-      }
-    })
-    return type;
-  }
-
-  AfficherTerritoires(id) {
-    var type = "";
-    this.state.territoires.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
-      }
-    })
-    return type;
-  }
-
-  AfficherTypeArmes(id) {
-    var type = "";
-    this.state.typeArmes.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
-      }
-    })
-    return type;
-  }
-
-  AfficherTypeArmures(id) {
-    var type = "";
-    this.state.typeArmures.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
-      }
-    })
-    return type;
-  }
 
   Confirmation(){
     alert(this.state.selected);
@@ -179,11 +111,11 @@ class ListSoldatAttaque extends Component {
                                     <Checkbox checked={isSelected} />
                                 </TableCell>
                                 <TableCell>{row.id}</TableCell>
-                                <TableCell>{this.AfficherTypeSoldat(row.idTypeSoldat)}</TableCell>
-                                <TableCell>{this.AfficherTypeArmes(row.arme)}</TableCell>
-                                <TableCell>{this.AfficherTypeArmures(row.armure)}</TableCell>
-                                <TableCell numeric>{row.force}</TableCell>
-                                <TableCell numeric>{row.vie}</TableCell>                  
+                                <TableCell>{row.soldat}</TableCell>
+                                <TableCell>{row.arme}</TableCell>
+                                <TableCell>{row.armure}</TableCell>
+                                <TableCell numeric>{row.forceTotal}</TableCell>
+                                <TableCell numeric>{row.vieTotal}</TableCell>                  
                             </TableRow>
                         );
                         })}

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQLTerritoire;
+package SQLSoldat;
 
+import SQLSoldat.*;
 import Shared.ConnectDb;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,57 +19,48 @@ import org.json.JSONObject;
  *
  * @author admin
  */
-public class Territoire 
+public class Soldat 
 {    
-    public JSONArray getAllTerritoire()
+    public JSONArray getSoldatPlayerSansTerritoire(int idJoueur)
     {
         JSONArray jtypes = new JSONArray();
         
          Connection con = null;
         
-        
         try{
             con = new ConnectDb().GetConnection();      
             
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM territoire", 1005, 1008);   
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT soldat.id, p_typesoldat.description as soldat, " +
+                    "p_typearme.nomArme as arme, p_typearmure.description as armure, \n" +
+                    "(p_typesoldat.vie + COALESCE(p_typearmure.vie,0)) as vieTotal, " +
+                    "(p_typesoldat.force + COALESCE(p_typearme.force,0)) as forceTotal FROM game_management.soldat as soldat \n" +
+                    "join p_typesoldat on soldat.idTypeSoldat = p_typesoldat.id\n" +
+                    "left join arme on soldat.idArme = arme.id \n" +
+                    "left join p_typearme on arme.idTypeArme = p_typearme.id\n" +
+                    "left join armure on soldat.idArmure = armure.id\n" +
+                    "left join p_typearmure on armure.idTypeArmure = p_typearmure.id\n" +
+                    "where soldat.idTerritoire is null AND soldat.idJoueur = ?;"
+                    , 1005, 1008);   
+            statement.setInt(1, idJoueur);
+            
             ResultSet rs = statement.executeQuery();
+            
             statement.clearParameters();
+            
             while(rs.next())
             {
-                JSONObject territoire = new JSONObject();
+                JSONObject soldat = new JSONObject();
                 
-                int idRessource = rs.getInt("idRessource");
+                soldat.put("id", rs.getInt("id"));
+                soldat.put("soldat", rs.getString("soldat"));
+                soldat.put("arme", rs.getString("arme"));
+                soldat.put("armure", rs.getString("armure"));
                 
-                statement = con.prepareStatement("SELECT * FROM ressource where id  = ?", 1005, 1008);  
-                statement.setInt(1, idRessource);
-                
-                ResultSet rt = statement.executeQuery();
-                statement.clearParameters();
-                
-                rt.next();
-                
-                int idJoueur = rs.getInt("idJoueur");
-                
-                statement = con.prepareStatement("SELECT * FROM joueur where id  = ?", 1005, 1008);  
-                statement.setInt(1, idJoueur);
-                
-                ResultSet lstJoueur = statement.executeQuery();
-                statement.clearParameters();
-                
-                lstJoueur.next();
-                
-                territoire.put("nourriture", rt.getDouble("nourriture"));
-                territoire.put("eau", rt.getDouble("eau"));
-                territoire.put("argent", rt.getDouble("argent"));
-                territoire.put("science", rt.getDouble("science"));
-                
-                territoire.put("description", rs.getString("description"));
-                territoire.put("idJoueur", idJoueur);
-                territoire.put("id", rs.getInt("id"));
-                
-                territoire.put("joueur", lstJoueur.getString("userName"));
-                
-                jtypes.put(territoire);
+                soldat.put("vieTotal", rs.getInt("vieTotal"));
+                soldat.put("forceTotal", rs.getInt("forceTotal"));
+                               
+                jtypes.put(soldat);
             }
             
             con.close();

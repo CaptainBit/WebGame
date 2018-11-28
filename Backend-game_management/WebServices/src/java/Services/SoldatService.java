@@ -7,7 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import SQLTerritoire.Territoire;
+import SQLSoldat.Soldat;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
@@ -17,8 +17,8 @@ import org.json.JSONObject;
  *
  * @author admin
  */
-@Path("Territoire")
-public class TerritoireService {
+@Path("Soldat")
+public class SoldatService {
 
     @Context
     private UriInfo context;
@@ -26,18 +26,18 @@ public class TerritoireService {
     /**
      * Creates a new instance of GenericResource
      */
-    public TerritoireService() {
+    public SoldatService() {
     }
 
     
     @GET
-    @Path("All")
+    @Path("getSoldatPlayerSansTerritoire")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAll() {
+    public String getSoldatPlayerSansTerritoire(@QueryParam("idJoueur") int idJoueur) {
     
-        Territoire territoire = new Territoire();
+        Soldat soldat = new Soldat();
         
-        JSONArray json = territoire.getAllTerritoire();
+        JSONArray json = soldat.getSoldatPlayerSansTerritoire(idJoueur);
         
         return json.toString();
     }

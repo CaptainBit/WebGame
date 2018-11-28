@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(Props.CrossOrigin.class);
         resources.add(Services.GenericResource.class);
         resources.add(Services.GunService.class);
+        resources.add(Services.SoldatService.class);
         resources.add(Services.TerritoireService.class);
     }
     

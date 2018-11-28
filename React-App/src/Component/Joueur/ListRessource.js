@@ -39,7 +39,6 @@ class ListTerritoire extends Component {
   {
     fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
     .then(result=> result.json()).then((result) => this.setState({rows : result}));
-    
   }
   
   render() {
