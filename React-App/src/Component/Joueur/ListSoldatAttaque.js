@@ -39,8 +39,13 @@ class ListSoldatAttaque extends Component {
   };
 
   Confirmation(){
-    alert(this.state.selected);
-    alert(this.props.territoireSelected);
+    var userName = this.props.UserName;
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/Attaque?' +
+    'idSoldats=' + this.state.selected + 
+    '&idTerritoire=' + this.props.territoireSelected +
+    '&userName=' + userName)
+    .then(result=> result.json()).then((result) => alert(result));
+    this.getAll();
     this.handleClose();
   }
 

@@ -44,6 +44,7 @@ public class Soldat
                     "left join p_typearmure on armure.idTypeArmure = p_typearmure.id\n" +
                     "where soldat.idTerritoire is null AND joueur.userName = ?;"
                     , 1005, 1008);   
+            
             statement.setString(1, userName);
             
             ResultSet rs = statement.executeQuery();
