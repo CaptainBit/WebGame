@@ -8,6 +8,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import SQLTerritoire.Territoire;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
@@ -40,6 +42,27 @@ public class TerritoireService {
         JSONArray json = territoire.getAllTerritoire();
         
         return json.toString();
+    }
+    
+    @GET
+    @Path("Attaque")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String Attaque(
+            @QueryParam("idSoldats") String idSoldats, 
+            @QueryParam("idTerritoire") int idTerritoire, 
+            @QueryParam("userName") String userName) 
+    {
+    
+        Territoire territoire = new Territoire();
+
+        List<Integer> lstId =  new ArrayList<Integer>();
+        for(String id : idSoldats.split(",")){
+            lstId.add(Integer.valueOf(id));
+        };
+        
+        boolean win = territoire.Attack(lstId, idTerritoire, userName);
+        
+        return String.valueOf(win);
     }
 
 }

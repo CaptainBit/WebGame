@@ -29,6 +29,7 @@ class ListTerritoire extends Component {
 
   handleClose = value => {
     this.setState({ territoireSelected: 0, open: false });
+    this.getAll();
   };
 
   componentDidMount() {
