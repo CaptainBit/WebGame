@@ -2,6 +2,7 @@ package Services;
 
 
 
+import SQLGun.Guns;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -38,6 +39,18 @@ public class GunService {
         Type gun = new Type();
         
         JSONArray json = gun.getAllTypes();
+        
+        return json.toString();
+    }
+    
+    @GET
+    @Path("GunPlayer")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPlayerGun(@QueryParam("userName") String userName) {
+    
+        Guns gun = new Guns();
+        
+        JSONObject json = gun.getAllGuns(userName);
         
         return json.toString();
     }
