@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /*
@@ -22,19 +24,21 @@ import org.json.JSONObject;
  */
 public class Guns 
 {
-     public JSONObject getAllGuns(String userName) 
+     public JSONArray getAllGuns(String userName) 
     {
         
-        Map<String, String> map = new HashMap<String, String>();
+        JSONArray  jAllGuns= null;
+        
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
        
         
         Connection con = null;
         
         con = new ConnectDb().GetConnection();        
-        JSONObject jguns = null;
+        
         
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT idArme FROM soldat join joueur on soldat.idJoueur = joueur.id where joueur.userName  = ?", 1005, 1008);   
+            PreparedStatement statement = con.prepareStatement("SELECT idTypeArme FROM arme join joueur on arme.idJoueur = joueur.id where joueur.userName  = ?", 1005, 1008);   
             statement.setString(1, userName);
             ResultSet rs = statement.executeQuery();
             statement.clearParameters();
@@ -43,28 +47,36 @@ public class Guns
             while(rs.next())
             {
                 
-                int idGun = rs.getInt("idArme");
-                String strId = String.valueOf(idGun);
-                
-                if(map.containsKey(strId))
+                int idGun = rs.getInt("idTypeArme");
+                if(map.containsKey(idGun))
                 {
-                    int i = Integer.valueOf(map.get(strId));
+                    int i = Integer.valueOf(map.get(idGun));
                     i++;
-                    map.put(strId, String.valueOf(i));
+                    map.put(idGun, i);
                     
                 }else{
-                    map.put(strId, "1");
+                    map.put(idGun, 1);
                 }
                 
             }
-             jguns = new JSONObject(map);
+            
+            jAllGuns = new JSONArray();
+            
+           
+            for (Map.Entry<Integer, Integer> entry : map.entrySet())
+            {
+                JSONObject jguns = new JSONObject();
+                jguns.put("type",entry.getKey());
+                jguns.put("nombre", entry.getValue());
+                jAllGuns.put(jguns);
+            }
              
             con.close();
-           }catch(SQLException e){
+           }catch(SQLException  | JSONException e){
            
              System.out.print(e.toString());
            }
        
-        return jguns;
+        return jAllGuns;
     }
 }
