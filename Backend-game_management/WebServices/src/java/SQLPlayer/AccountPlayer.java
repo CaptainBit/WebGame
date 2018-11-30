@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import Shared.ConnectDb;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import SQLRessource.*;
 
 /**
  *
@@ -55,21 +58,6 @@ public class AccountPlayer
             
             jplayer.put("role",rs.getString("type"));
             
-            
-            //Add ressources
-            statement = con.prepareStatement("SELECT * FROM RESSOURCE WHERE id = ? ;", 1005, 1008);     
-            statement.setInt(1, idRessource);
-            rs = statement.executeQuery();
-            statement.clearParameters();
-            
-            rs.next();
-            
-            jplayer.put("nourriture", rs.getDouble("nourriture"));
-            jplayer.put("eau", rs.getDouble("eau"));
-            jplayer.put("argent", rs.getDouble("argent"));
-            jplayer.put("science", rs.getDouble("science"));
-            
-            
             jplayer.put("status", true);
             con.close();
            }catch(SQLException | JSONException e){
@@ -85,7 +73,7 @@ public class AccountPlayer
     
     public JSONObject CreateAccount(String userName, String password)
     {
-         Connection con = null;
+        Connection con = null;
         
         con = new ConnectDb().GetConnection();
          
@@ -127,4 +115,31 @@ public class AccountPlayer
             }
         return jplayer;
    }
+    
+    public JSONObject getRessourcePlayer(String userName){
+        Connection con = null;
+        
+        JSONObject ressourcePlayer = new JSONObject();
+        
+        con = new ConnectDb().GetConnection();
+                
+        try{
+            PreparedStatement statement = con.prepareStatement("SELECT idRessource FROM JOUEUR WHERE userName = ? ;", 1005, 1008);     
+            statement.setString(1, userName);            
+            
+            ResultSet rs = statement.executeQuery();
+            statement.clearParameters();
+            
+            rs.next();
+            
+            Ressource ressource = new Ressource();
+            
+            ressourcePlayer = ressource.getRessourceById(rs.getInt("idRessource"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return ressourcePlayer;
+    }
 }

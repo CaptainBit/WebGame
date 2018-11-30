@@ -134,13 +134,20 @@ class App extends Component {
     this.setState({ Role: "" });
   }
 
-  LoginMethod(user, role, nourriture, eau, argent, science){
+  LoginMethod(user, role){
     this.setState({ UserName: user });
     this.setState({ Role: role });
-    this.setState({NourritureJoueur: nourriture});
-    this.setState({EauJoueur: eau});
-    this.setState({ArgentJoueur: argent});
-    this.setState({ScienceJoueur: science});
+    this.UpdateRessource();
+  }
+
+  UpdateRessource(){
+    fetch('http://localhost:8080/WebServices/webresources/Player/GetRessource?userName=' + this.state.UserName)
+    .then(result=> result.json()).then((result) => this.setState({
+      NourritureJoueur:result.nourriture,
+      EauJoueur:result.eau,
+      ArgentJoueur:result.argent,
+      Science:result.science
+    }));
   }
 
   SubsRessource(Nourriture, Eau, Argent, Science){
@@ -149,10 +156,10 @@ class App extends Component {
       this.state.ArgentJoueur -  Argent > 0 &&
       this.state.ScienceJoueur -  Science > 0)
       {
-        this.setState({ NourritureJoueur: this.state.NourritureJoueur - Nourriture });
-        this.setState({ EauJoueur: this.state.EauJoueur- Eau });
-        this.setState({ ArgentJoueur: this.state.ArgentJoueur - Argent });
-        this.setState({ ScienceJoueur: this.state.ScienceJoueur - Science });
+        // this.setState({ NourritureJoueur: this.state.NourritureJoueur - Nourriture });
+        // this.setState({ EauJoueur: this.state.EauJoueur- Eau });
+        // this.setState({ ArgentJoueur: this.state.ArgentJoueur - Argent });
+        // this.setState({ ScienceJoueur: this.state.ScienceJoueur - Science });
         return true;
       }else{
         return false;
@@ -214,6 +221,7 @@ class App extends Component {
         SubsRessource={this.SubsRessource.bind(this)}
         AddRessource={this.AddRessource.bind(this)}
         OpenAlert={this.handleClickOpenAlert.bind(this)}
+        UpdateRessource={this.UpdateRessource.bind(this)}
         />
       );
     }

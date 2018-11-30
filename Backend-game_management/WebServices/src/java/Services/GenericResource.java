@@ -58,5 +58,16 @@ public class GenericResource {
         
         return json.toString();
     }
+    
+    @GET
+    @Path("GetRessource")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getRessource(@QueryParam("userName") String userName ) {
+        JSONObject json;
+        AccountPlayer cp = new AccountPlayer();
+        json = cp.getRessourcePlayer(userName);
+        
+        return json.toString();
+    }
 
 }

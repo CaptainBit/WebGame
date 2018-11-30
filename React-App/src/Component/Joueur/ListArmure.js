@@ -51,16 +51,18 @@ class ListArmure extends Component {
     return i;
   }
 
-  Add(type){
+  Add(item){
     var check = false;
-    check = this.props.SubsRessource(0,type.eau, type.argent, type.science);
+    check = this.props.SubsRessource(0,item.eau, item.argent, item.science);
     
      if(check === true)
      {
-      fetch('http://localhost:8080/WebServices/webresources/Armure/AddArmure?userName='+
-      this.props.UserName)
+      fetch('http://localhost:8080/WebServices/webresources/Armure/AddArmure' + 
+      '?userName='+ this.props.UserName + 
+      '&idType=' + item.id)
       .then(result=> result.json()
       .then((result) => this.getPlayerArmure()));
+      this.props.UpdateRessource();
      }else{
        this.props.OpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette armure !");
      }
@@ -96,14 +98,14 @@ class ListArmure extends Component {
   };
 
   AfficheType(row) {
-    var type = {};
-    type.id = row.id;
+    var armureViewModel = {};
+    armureViewModel.id = row.id;
     this.state.types.forEach((item, index) => {
       if(row.idType === item.id){
-        type = item;
+        armureViewModel = item;
       }
     })
-    return type;
+    return armureViewModel;
   }
   
   render() {
@@ -126,17 +128,17 @@ class ListArmure extends Component {
           </TableHead>
           <TableBody>
             {this.state.rows.map((row) => {
-              var type = this.AfficheType(row);
+              var item = this.AfficheType(row);
               return (
-                <TableRow key={type.id}>
-                  <TableCell>{type.id}</TableCell>
-                  <TableCell>{type.nom}</TableCell>
-                  <TableCell numeric>{type.vie}</TableCell>
+                <TableRow key={item.id}>
+                  <TableCell>{item.id}</TableCell>
+                  <TableCell>{item.nom}</TableCell>
+                  <TableCell numeric>{item.vie}</TableCell>
                   <TableCell numeric>
                   <Button
                   variant="contained" 
                   color="secondary"
-                  onClick={() => this.Delete(type.id)}
+                  onClick={() => this.Delete(item.id)}
                   >
                     Vendre
                   </Button>

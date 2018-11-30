@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQLSoldat;
+package SQLRessource;
 
-import SQLSoldat.*;
 import Shared.ConnectDb;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,62 +20,77 @@ import org.json.JSONObject;
  *
  * @author admin
  */
-public class Soldat 
+public class Ressource 
 {    
-    public JSONArray getSoldatPlayerSansTerritoire(String userName)
-    {
-        JSONArray jtypes = new JSONArray();
-        
-         Connection con = null;
+public JSONObject getRessourceById(int id){
+        Connection con = null;
+        JSONObject ressource = new JSONObject();
         
         try{
             con = new ConnectDb().GetConnection();      
             
             PreparedStatement statement = con.prepareStatement(
-                    "SELECT soldat.id, p_typesoldat.description as soldat, " +
-                    "p_typearme.nomArme as arme, p_typearmure.description as armure, \n" +
-                    "(p_typesoldat.vie + COALESCE(p_typearmure.vie,0)) as vieTotal, " +
-                    "(p_typesoldat.force + COALESCE(p_typearme.force,0)) as forceTotal " +
-                    "FROM game_management.soldat as soldat \n" +
-                    "join joueur on soldat.idJoueur = joueur.id \n" + 
-                    "join p_typesoldat on soldat.idTypeSoldat = p_typesoldat.id\n" +
-                    "left join arme on soldat.idArme = arme.id \n" +
-                    "left join p_typearme on arme.idTypeArme = p_typearme.id\n" +
-                    "left join armure on soldat.idArmure = armure.id\n" +
-                    "left join p_typearmure on armure.idTypeArmure = p_typearmure.id\n" +
-                    "where soldat.idTerritoire is null AND joueur.userName = ?;"
+                    "select\n" +
+                    "nourriture,\n" +
+                    "eau,\n" +
+                    "argent,\n" +
+                    "science\n" +
+                    "from ressource " + 
+                    "where id = ?"
                     , 1005, 1008);   
             
-            statement.setString(1, userName);
-            
-            ResultSet rs = statement.executeQuery();
-            
+            statement.setInt(1, id); 
+
+            ResultSet rs =  statement.executeQuery();
             statement.clearParameters();
             
-            while(rs.next())
-            {
-                JSONObject soldat = new JSONObject();
-                
-                soldat.put("id", rs.getInt("id"));
-                soldat.put("soldat", rs.getString("soldat"));
-                soldat.put("arme", rs.getString("arme"));
-                soldat.put("armure", rs.getString("armure"));
-                
-                soldat.put("vieTotal", rs.getInt("vieTotal"));
-                soldat.put("forceTotal", rs.getInt("forceTotal"));
-                               
-                jtypes.put(soldat);
-            }
+            rs.next();
+            
+            ressource.put("nourriture", rs.getInt("nourriture"));
+            ressource.put("eau", rs.getInt("eau"));
+            ressource.put("argent", rs.getInt("argent"));
+            ressource.put("science", rs.getInt("science"));
             
             con.close();
-           }catch(SQLException | JSONException e){
-             System.out.print(e.toString());
-           }
-       
-        return jtypes;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Ressource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(Ressource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return ressource;
     }
     
-    
-    
-    
+    public void EditRessourceById(int id, int nourriture, int eau, int argent, int science)
+    {
+        Connection con = null;
+        
+        try{
+            con = new ConnectDb().GetConnection();      
+            
+            PreparedStatement statement = con.prepareStatement(
+                    "update ressource \n" +
+                    "set nourriture = nourriture + ?,\n" +
+                    "eau = eau + ?,\n" +
+                    "argent = argent + ?,\n" +
+                    "science = science + ?\n" +
+                    "where id = ?"
+                    , 1005, 1008);   
+            
+            statement.setInt(1, nourriture);
+            statement.setInt(2, eau);
+            statement.setInt(3, argent);
+            statement.setInt(4, science);
+            statement.setInt(5, id);
+
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+            con.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Ressource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

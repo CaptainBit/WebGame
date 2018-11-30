@@ -48,11 +48,23 @@ public class ArmureService {
     @Produces(MediaType.APPLICATION_JSON)
     public String getArmurePlayer(@QueryParam("userName") String userName) {
     
-        Armure gun = new Armure();
+        Armure armure = new Armure();
         
-        JSONArray json = gun.getArmurePlayer(userName);
+        JSONArray json = armure.getArmurePlayer(userName);
         
         return json.toString();
+    }
+    
+    @GET
+    @Path("AddArmure")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddArmure(@QueryParam("userName") String userName, @QueryParam("idType") int idType) {
+    
+        Armure armure = new Armure();
+        
+        boolean result = armure.AddArmure(userName, idType);
+        
+        return String.valueOf(result);
     }
 
 }
