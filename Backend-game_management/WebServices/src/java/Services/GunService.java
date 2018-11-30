@@ -50,7 +50,7 @@ public class GunService {
     
         Guns gun = new Guns();
         
-        JSONObject json = gun.getAllGuns(userName);
+        JSONArray json = gun.getAllGuns(userName);
         
         return json.toString();
     }

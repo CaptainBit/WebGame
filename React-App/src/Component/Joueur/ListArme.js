@@ -15,31 +15,28 @@ const styles = theme => ({
 });
 
 let id = 0;
+
 function createData(idTypeArme, force) {
   id += 1;
-  return { id, idTypeArme, force };
+  return { id, idTypeArme, force};
 }
 
-const lstArmes = [
-  createData(1, 1),
-  createData(2, 2),
-  createData(1, 1),
-  createData(2, 2),
-  createData(1, 1),
-];
+
+
 
 class ListArme extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      rows : lstArmes,
+      rows : [],
       typeArmes : []
     };
   }
   
   componentDidMount() {
     this.getTypeArme();
+    this.getPlayerGuns();
   }
 
   GetIndexTypeArme(idType)
@@ -92,7 +89,7 @@ class ListArme extends Component {
         lstArmes[index] = arme;
       }
     })
-    this.setState({rows: lstArmes})
+    this.setState({rows: lstArmes});
   };
 
   AfficheTypeArme(id) {
@@ -104,16 +101,26 @@ class ListArme extends Component {
     })
     return type;
   }
-  getPlayerGuns()
-  {
+
+  FillGunsPlayer(result){
+    var myList = [];
+    for(var i = 0; i < result.length; i++){
+      for(var j = 0; j < result[i].nombre; j++ )
+      {
+        myList.push(createData(result[i].type, this.state.typeArmes[result[i].type].force));
+      }
+    }
+    this.setState({row : myList})  
+  }
+
+  getPlayerGuns(){
     fetch('http://localhost:8080/WebServices/webresources/Guns/GunPlayer?userName='+
     this.props.UserName)
-    .then(result=> result.json());
+    .then(result=> result.json()).then(result=> this.FillGunsPlayer(result));
   }
 
   getTypeArme()
   {
-    this.getPlayerGuns();
     fetch('http://localhost:8080/WebServices/webresources/Guns/Type?')
     .then(result=> result.json()).then((result) => this.setState({typeArmes:result}));
   }
