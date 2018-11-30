@@ -144,10 +144,23 @@ class App extends Component {
   }
 
   SubsRessource(Nourriture, Eau, Argent, Science){
-    this.setState({ NourritureJoueur: this.state.NourritureJoueur - Nourriture });
-    this.setState({ EauJoueur: this.state.EauJoueur- Eau });
-    this.setState({ ArgentJoueur: this.state.ArgentJoueur - Argent });
-    this.setState({ ScienceJoueur: this.state.ScienceJoueur - Science });
+    if(this.state.NourritureJoueur - Nourriture > 0 &&
+      this.state.EauJoueur - Eau > 0 &&
+      this.state.ArgentJoueur -  Argent > 0 &&
+      this.state.ScienceJoueur -  Science > 0)
+      {
+        this.setState({ NourritureJoueur: this.state.NourritureJoueur - Nourriture });
+        this.setState({ EauJoueur: this.state.EauJoueur- Eau });
+        this.setState({ ArgentJoueur: this.state.ArgentJoueur - Argent });
+        this.setState({ ScienceJoueur: this.state.ScienceJoueur - Science });
+        return true;
+      }else{
+        return false;
+      }
+
+    
+
+    
   }
   AddRessource(Nourriture, Eau, Argent, Science){
     this.setState({ NourritureJoueur: this.state.NourritureJoueur + Nourriture });
@@ -190,6 +203,7 @@ class App extends Component {
     const ListArmeComponent = (props) => {
       return (
         <ListArme
+        UserName ={this.state.UserName}
         SubsRessource={this.SubsRessource.bind(this)}
         AddRessource={this.AddRessource.bind(this)}
         />
