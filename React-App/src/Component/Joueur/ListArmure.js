@@ -14,62 +14,93 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(idTypeArmure, vie) {
-  id += 1;
-  return { id, idTypeArmure, vie };
-}
-
-const lstArmures = [
-  createData(1, 1),
-  createData(2, 2),
-  createData(1, 1),
-  createData(2, 2),
-  createData(1, 1),
-];
-
-const TypeArmures = [
-]
-
 class ListArmure extends Component {
 
   state = {
-    rows : lstArmures,
-    typeArmures : TypeArmures
+    rows : [],
+    types : []
   };
 
-  Add(idType){
-    var lstArmures = this.state.rows;
-    lstArmures.push(createData(idType, 1));
-    this.setState({rows: lstArmures})
+  componentDidMount() {
+    this.getType();
+    this.getPlayerArmure();
   }
+
+  getType()
+  {
+    fetch('http://localhost:8080/WebServices/webresources/Armure/Type')
+    .then(result=> result.json()).then((result) => this.setState({types:result}));
+  }
+
+  getPlayerArmure()
+  {
+    fetch('http://localhost:8080/WebServices/webresources/Armure/ArmurePlayer?userName='+
+    this.props.UserName)
+    .then(result=> result.json()
+    .then((result) => this.setState({rows : result})));
+  }
+
+  GetIndexTypeArmure(idType)
+  {
+    var i = 0;
+    this.state.types.forEach((type, index) => {
+      if(type.id === idType){
+        i = index;
+      }
+    });
+    return i;
+  }
+
+  Add(type){
+    var check = false;
+    check = this.props.SubsRessource(0,type.eau, type.argent, type.science);
+    
+     if(check === true)
+     {
+      fetch('http://localhost:8080/WebServices/webresources/Armure/AddArmure?userName='+
+      this.props.UserName)
+      .then(result=> result.json()
+      .then((result) => this.getPlayerArmure()));
+     }else{
+       this.props.OpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette armure !");
+     }
+   }
   
-  Delete(id) {
-    var lstArmures = this.state.rows;
-    lstArmures.forEach((soldat, index) => {
-      if(soldat.id === id){
-        lstArmures.splice(index,1);
+   Delete(id) {
+    this.state.rows.forEach((armure, index) => {
+      if(armure.id === id){
+        var i = this.GetIndexTypeArme(armure.idTypeArmure);
+        var mytypeArmures = this.state.types[i];
+        this.props.AddRessource(0,mytypeArmures.eau * 0.5,
+          mytypeArmures.argent * 0.5,
+          mytypeArmures.science * 0.5);
+          fetch('http://localhost:8080/WebServices/webresources/Armure/DeleteArmure?idArmure='+
+          id)
+          .then(result=> result.json()
+          .then((result) => this.getPlayerArmure()));
       }
     })
-    this.setState({rows: lstArmures})
+    ;
+    
   }
 
   Edit = (event, id) => {
-    var lstArmures = this.state.rows;
-    lstArmures.forEach((soldat, index) => {
-      if(soldat.id === id){
-        soldat[event.target.name] = event.target.value;
-        lstArmures[index] = soldat;
+    var lstArmure = this.state.rows;
+    lstArmure.forEach((arme, index) => {
+      if(arme.id === id){
+        arme[event.target.name] = event.target.value;
+        lstArmure[index] = arme;
       }
     })
-    this.setState({rows: lstArmures})
+    this.setState({rows: lstArmure})
   };
 
-  AfficheTypeArmure(id) {
-    var type = "";
-    this.state.typeArmures.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
+  AfficheType(row) {
+    var type = {};
+    type.id = row.id;
+    this.state.types.forEach((item, index) => {
+      if(row.idType === item.id){
+        type = item;
       }
     })
     return type;
@@ -94,17 +125,18 @@ class ListArmure extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.state.rows.map(row => {
+            {this.state.rows.map((row) => {
+              var type = this.AfficheType(row);
               return (
-                <TableRow key={row.id}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{this.AfficheTypeArmure(row.idTypeArmure)}</TableCell>
-                  <TableCell numeric>{row.vie}</TableCell>
+                <TableRow key={type.id}>
+                  <TableCell>{type.id}</TableCell>
+                  <TableCell>{type.nom}</TableCell>
+                  <TableCell numeric>{type.vie}</TableCell>
                   <TableCell numeric>
                   <Button
                   variant="contained" 
                   color="secondary"
-                  onClick={() => this.Delete(row.id)}
+                  onClick={() => this.Delete(type.id)}
                   >
                     Vendre
                   </Button>
@@ -116,20 +148,19 @@ class ListArmure extends Component {
         </Table>
       </ CardContent>
       <CardActions>
-        <Button
-        variant="contained" 
-        color="primary"
-        onClick={() => this.Add(1)}
-        >
-          Acheter des bottes
-        </Button>
-        <Button
-        variant="contained" 
-        color="primary"
-        onClick={() => this.Add(2)}
-        >
-          Acheter une cap
-        </Button>
+        {
+          this.state.types.map(type => {
+          return(
+            <Button
+            variant="contained" 
+            color="primary"
+            onClick={() => this.Add(type)}
+            >
+            Acheter {type.nom}
+          </Button>
+          );
+          })
+        }
       </CardActions>
     </Card>
     );

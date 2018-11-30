@@ -157,10 +157,6 @@ class App extends Component {
       }else{
         return false;
       }
-
-    
-
-    
   }
   AddRessource(Nourriture, Eau, Argent, Science){
     this.setState({ NourritureJoueur: this.state.NourritureJoueur + Nourriture });
@@ -206,6 +202,18 @@ class App extends Component {
         UserName ={this.state.UserName}
         SubsRessource={this.SubsRessource.bind(this)}
         AddRessource={this.AddRessource.bind(this)}
+        OpenAlert={this.handleClickOpenAlert.bind(this)}
+        />
+      );
+    }
+
+    const ListArmureComponent = (props) => {
+      return (
+        <ListArmure
+        UserName ={this.state.UserName}
+        SubsRessource={this.SubsRessource.bind(this)}
+        AddRessource={this.AddRessource.bind(this)}
+        OpenAlert={this.handleClickOpenAlert.bind(this)}
         />
       );
     }
@@ -318,7 +326,7 @@ class App extends Component {
               {this.state.Role === "Joueur" ?
               <div>
                 <Route path="/ListArme" component={ListArmeComponent} />
-                <Route path="/ListArmure" component={ListArmure} />
+                <Route path="/ListArmure" component={ListArmureComponent} />
                 <Route path="/ListRessource" component={ListRessourceComponent} />
                 <Route path="/ListSoldat" component={ListSoldat} />
                 <Route path="/Profil" component={ProfilComponent} /> 

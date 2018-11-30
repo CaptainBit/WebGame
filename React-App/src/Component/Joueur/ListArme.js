@@ -64,7 +64,7 @@ class ListArme extends Component {
     {
       this.state.rows.push(createData(idType, myTypeArme.force));
     }else{
-      alert("Vous n'avez pas les fonds disponible pour obtenir cette arme !");
+      this.props.OpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette arme !");
     }
   }
   

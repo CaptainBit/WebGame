@@ -1,6 +1,7 @@
-package SQLGun;
+package SQLArmure;
 
 
+import SQLArmure.*;
 import Shared.ConnectDb;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /*
@@ -20,21 +25,23 @@ import org.json.JSONObject;
  *
  * @author admin
  */
-public class Guns 
+public class Armure 
 {
-     public JSONObject getAllGuns(String userName) 
+     public JSONArray getArmurePlayer(String userName) 
     {
-        
+        JSONArray jArmure = new JSONArray();
         Map<String, String> map = new HashMap<String, String>();
-       
         
         Connection con = null;
         
         con = new ConnectDb().GetConnection();        
-        JSONObject jguns = null;
         
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT idArme FROM soldat join joueur on soldat.idJoueur = joueur.id where joueur.userName  = ?", 1005, 1008);   
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT armure.id, idTypeArmure FROM game_management.armure\n" +
+                    "join joueur on armure.idJoueur = joueur.id\n" +
+                    "where joueur.userName = ?;"
+                    , 1005, 1008);   
             statement.setString(1, userName);
             ResultSet rs = statement.executeQuery();
             statement.clearParameters();
@@ -42,29 +49,20 @@ public class Guns
             
             while(rs.next())
             {
-                
-                int idGun = rs.getInt("idArme");
-                String strId = String.valueOf(idGun);
-                
-                if(map.containsKey(strId))
-                {
-                    int i = Integer.valueOf(map.get(strId));
-                    i++;
-                    map.put(strId, String.valueOf(i));
-                    
-                }else{
-                    map.put(strId, "1");
-                }
-                
+                JSONObject armure = new JSONObject();
+                armure.put("id", rs.getInt("id"));
+                armure.put("idType", rs.getInt("idTypeArmure"));
+                jArmure.put(armure);
             }
-             jguns = new JSONObject(map);
              
             con.close();
            }catch(SQLException e){
            
              System.out.print(e.toString());
-           }
+           } catch (JSONException ex) {
+             Logger.getLogger(Armure.class.getName()).log(Level.SEVERE, null, ex);
+         }
        
-        return jguns;
+        return jArmure;
     }
 }

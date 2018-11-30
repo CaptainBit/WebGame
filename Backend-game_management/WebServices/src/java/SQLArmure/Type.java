@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQLGun;
+package SQLArmure;
 
+import SQLGun.*;
 import Shared.ConnectDb;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,7 +30,7 @@ public class Type
         con = new ConnectDb().GetConnection();        
         
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM p_typearme", 1005, 1008);   
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM p_typearmure", 1005, 1008);   
             ResultSet rs = statement.executeQuery();
             statement.clearParameters();
             
@@ -39,7 +40,7 @@ public class Type
                 JSONObject type = new JSONObject();
                 
                 int idRessource = rs.getInt("idRessource");
-                String nom = rs.getString("nomArme");
+                String nom = rs.getString("description");
                 
                 statement = con.prepareStatement("SELECT * FROM ressource where id  = ?", 1005, 1008);  
                 statement.setInt(1, idRessource);
@@ -53,7 +54,7 @@ public class Type
                 type.put("eau", rt.getDouble("eau"));
                 type.put("argent", rt.getDouble("argent"));
                 type.put("science", rt.getDouble("science"));
-                type.put("force", rs.getInt("force"));
+                type.put("vie", rs.getInt("vie"));
                 type.put("nom", nom);
                 type.put("id", rs.getInt("id"));
                 

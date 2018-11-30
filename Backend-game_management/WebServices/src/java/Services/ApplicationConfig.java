@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(Props.CrossOrigin.class);
+        resources.add(Services.ArmureService.class);
         resources.add(Services.GenericResource.class);
         resources.add(Services.GunService.class);
         resources.add(Services.SoldatService.class);

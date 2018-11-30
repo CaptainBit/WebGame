@@ -2,13 +2,13 @@ package Services;
 
 
 
-import SQLGun.Guns;
+import SQLArmure.*;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import SQLGun.Type;
+import SQLArmure.Type;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
@@ -18,8 +18,8 @@ import org.json.JSONObject;
  *
  * @author admin
  */
-@Path("Guns")
-public class GunService {
+@Path("Armure")
+public class ArmureService {
 
     @Context
     private UriInfo context;
@@ -27,7 +27,7 @@ public class GunService {
     /**
      * Creates a new instance of GenericResource
      */
-    public GunService() {
+    public ArmureService() {
     }
 
     
@@ -36,21 +36,21 @@ public class GunService {
     @Produces(MediaType.APPLICATION_JSON)
     public String getType() {
     
-        Type gun = new Type();
+        Type armure = new Type();
         
-        JSONArray json = gun.getAllTypes();
+        JSONArray json = armure.getAllTypes();
         
         return json.toString();
     }
     
     @GET
-    @Path("GunPlayer")
+    @Path("ArmurePlayer")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPlayerGun(@QueryParam("userName") String userName) {
+    public String getArmurePlayer(@QueryParam("userName") String userName) {
     
-        Guns gun = new Guns();
+        Armure gun = new Armure();
         
-        JSONObject json = gun.getAllGuns(userName);
+        JSONArray json = gun.getArmurePlayer(userName);
         
         return json.toString();
     }
