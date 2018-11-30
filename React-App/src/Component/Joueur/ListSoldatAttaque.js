@@ -31,6 +31,7 @@ class ListSoldatAttaque extends Component {
   }
 
   handleClose = () => {
+    this.getAll();
     this.props.onClose(this.props.territoireSelected);
   };
 
@@ -39,13 +40,29 @@ class ListSoldatAttaque extends Component {
   };
 
   Confirmation(){
-    var userName = this.props.UserName;
-    fetch('http://localhost:8080/WebServices/webresources/Territoire/Attaque?' +
-    'idSoldats=' + this.state.selected + 
-    '&idTerritoire=' + this.props.territoireSelected +
-    '&userName=' + userName)
-    .then(result=> result.json()).then((result) => alert(result));
-    this.getAll();
+    if(this.state.selected.length  > 0){
+      var userName = this.props.UserName;
+      fetch('http://localhost:8080/WebServices/webresources/Territoire/Attaque?' +
+      'idSoldats=' + this.state.selected + 
+      '&idTerritoire=' + this.props.territoireSelected +
+      '&userName=' + userName)
+      .then(result=> result.json())
+      .then((result) =>
+        {
+          var victoire = "Défaite"
+          var description = "Vous avec perdu la bataille et tous vos soldats sont morts..."
+          if(result){
+            victoire = "Victoire"
+            description = "Aucun soldat a été tué et vous avez gagné le territoire. Félicitation !"
+          } 
+          this.props.OpenAlert(victoire, description)
+        }
+      );
+      this.getAll();
+    }
+    else{
+      this.props.OpenAlert("Alerte", "Choisir un soldat pour l'attaque");
+    }
     this.handleClose();
   }
 

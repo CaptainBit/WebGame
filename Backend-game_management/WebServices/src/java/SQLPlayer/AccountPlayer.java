@@ -113,7 +113,7 @@ public class AccountPlayer
             
            }catch(SQLException e){
             try {
-                jplayer.put("status","Player not created : userName already exist");
+                jplayer.put("status","Le joueur n'a pas pu être créé, car le le nom d'utilisateur existe déjà");
             } catch (JSONException ex) {
                 System.out.print(ex);
             }
@@ -121,7 +121,7 @@ public class AccountPlayer
            }
         
         try {
-                jplayer.put("status","Player created :" );
+                jplayer.put("status","Le joueur a été créé avec succès" );
             } catch (JSONException ex) {
                 System.out.print(ex);
             }

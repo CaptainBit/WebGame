@@ -27,7 +27,7 @@ class Login extends Component {
 
   validateConnection(data){
     if(data.status === false){
-    alert("Aucun compte lier à ce mot de passe ");
+      this.props.OpenAlert("Alerte", "Aucun compte lié à ce mot de passe ")
     }else{
      //Role Admin ou Joueur, nourriture, argent, science
     this.props.LoginMethod( this.state.userName, data.role, data.nourriture, data.eau, data.argent, data.science);

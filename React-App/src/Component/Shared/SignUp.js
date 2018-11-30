@@ -32,7 +32,7 @@ class SignUp extends Component {
   {
       event.preventDefault();
       fetch('http://localhost:8080/WebServices/webresources/Player/CreateAccount?userName='+ this.state.userName+'&password='+ this.state.password).then(result=> result.json())
-      .then(data =>  alert(data.status)); 
+      .then(data => this.props.OpenAlert("Alerte", data.status)); 
   }
   render() {
     const { classes } = this.props;

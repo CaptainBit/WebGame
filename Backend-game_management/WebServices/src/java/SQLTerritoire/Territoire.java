@@ -105,19 +105,19 @@ public class Territoire
             else{
                 ptsBatailleDefense++;
             }
-            if(vieTotalDefense > forceTotalAttaque){
+            if(vieTotalDefense >= forceTotalAttaque){
                 ptsBatailleDefense++;
             }
             else{
                 ptsBatailleAttaque++;
             }
-            if(forceTotalDefense > forceTotalAttaque){
+            if(forceTotalDefense >= forceTotalAttaque){
                 ptsBatailleDefense++;
             }
             else{
                 ptsBatailleAttaque++;
             }
-            if(vieTotalDefense > vieTotalAttaque){
+            if(vieTotalDefense >= vieTotalAttaque){
                 ptsBatailleDefense++;
             }
             else{
@@ -125,7 +125,7 @@ public class Territoire
             }
             //Victoire d'un camp
             if(ptsBatailleAttaque > ptsBatailleDefense){
-                UpdateTerritoireIdJoueur(con, idTerritoire, userName);
+                UpdateTerritoireIdJoueur(con, idTerritoire, userName, idSoldats);
                 for (int i=0; i < lstDefense.length(); i++) {
                     JSONObject item =  lstDefense.getJSONObject(i);
                     RemoveSoldat(con, item.getInt("id"));
@@ -263,7 +263,7 @@ public class Territoire
         return Count;
     }
     
-    private void UpdateTerritoireIdJoueur(Connection con, int idTerritoire,String userName){
+    private void UpdateTerritoireIdJoueur(Connection con, int idTerritoire,String userName, List<Integer> idSoldats){
         try {
             PreparedStatement statement = con.prepareStatement(
                     "select id from game_management.joueur WHERE joueur.userName = ?;"
@@ -292,6 +292,21 @@ public class Territoire
                         
             statement.executeUpdate();
             statement.clearParameters();
+            
+            for(int idSoldat : idSoldats){
+                statement = con.prepareStatement(
+                    "update game_management.soldat as soldat\n" +
+                    "SET\n" +
+                    "soldat.idTerritoire = ? \n" +
+                    "WHERE soldat.id = ?;"
+                    , 1005, 1008);   
+            
+                statement.setInt(1, idTerritoire);
+                statement.setInt(2, idSoldat);
+
+                statement.executeUpdate();
+                statement.clearParameters();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Territoire.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
+import {Dialog , DialogActions , DialogContent , DialogContentText , DialogTitle , List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
 
 import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, Menu, ChevronLeft} from '@material-ui/icons';
 
@@ -101,6 +101,9 @@ const styles = theme => ({
 
 class App extends Component {
   state = {
+    openAlert: false,
+    titreAlert: "Erreur",
+    descriptionAlert: "Erreur",
     open: false,
     UserName: "",
     Role: "",
@@ -116,6 +119,14 @@ class App extends Component {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
+  };
+
+  handleClickOpenAlert = (titre, description) => {
+    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false });
   };
 
   LogoutMethod(){
@@ -152,6 +163,7 @@ class App extends Component {
       return (
         <ListRessource 
         UserName={this.state.UserName}
+        OpenAlert={this.handleClickOpenAlert.bind(this)}
           {...props}
         />
       );
@@ -160,6 +172,16 @@ class App extends Component {
       return (
         <Login 
         LoginMethod={this.LoginMethod.bind(this)}
+        OpenAlert={this.handleClickOpenAlert.bind(this)}
+          {...props}
+        />
+      );
+    }
+
+    const SignUpComponent = (props) => {
+      return (
+        <SignUp 
+        OpenAlert={this.handleClickOpenAlert.bind(this)}
           {...props}
         />
       );
@@ -299,12 +321,30 @@ class App extends Component {
               :
               <div>
                 <Route exact path="/"  component={LoginComponent} />
-                <Route path="/SignUp" component={SignUp} />            
+                <Route path="/SignUp" component={SignUpComponent} />            
               </div>  
               }
               <Redirect to="/" />
           </Switch>
         </main>
+        <Dialog
+          open={this.state.openAlert}
+          onClose={this.handleCloseAlert}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{this.state.titreAlert}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {this.state.descriptionAlert}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseAlert} color="primary" autoFocus>
+              D'accord
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
