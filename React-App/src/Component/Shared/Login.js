@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Typography, Button, withStyles, TextField, Card, CardActions, CardContent } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import AlertDialog from '../Shared/AlertDialog';
+
 
 const styles = theme => ({
   card: {
@@ -15,9 +17,21 @@ class Login extends Component {
 
     this.state = {
       userName: "",
-      password: ""
+      password: "",
+      openAlert: false,
+      titreAlert: "Erreur",
+      descriptionAlert: "Erreur",
+      itemAlert: {}
     };
   }
+
+  handleClickOpenAlert = (titre, description, item) => {
+    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false });
+  };
 
   handleChange = event => {
     this.setState({
@@ -27,7 +41,7 @@ class Login extends Component {
 
   validateConnection(data){
     if(data.status === false){
-      this.props.OpenAlert("Alerte", "Aucun compte lié à ce mot de passe ")
+      this.handleClickOpenAlert("Alerte", "Aucun compte lié à ce mot de passe ")
     }else{
      //Role Admin ou Joueur, nourriture, argent, science
     this.props.LoginMethod( this.state.userName, data.role);
@@ -90,6 +104,13 @@ class Login extends Component {
             </CardActions>
           </form>
         </Card>
+        <AlertDialog
+          openAlert={this.state.openAlert}
+          titreAlert={this.state.titreAlert}
+          descriptionAlert={this.state.descriptionAlert}
+          handleCloseAlert={this.handleCloseAlert.bind(this)}
+        >
+        </AlertDialog>
       </div>
     );
   }

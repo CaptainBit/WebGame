@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Typography, Button, withStyles, TextField, Card, CardActions, CardContent } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import AlertDialog from '../Shared/AlertDialog';
 
 const styles = theme => ({
   card: {
@@ -15,9 +16,21 @@ class SignUp extends Component {
 
     this.state = {
       userName: "",
-      password: ""
+      password: "",
+      openAlert: false,
+      titreAlert: "Erreur",
+      descriptionAlert: "Erreur",
+      itemAlert: {}
     };
   }
+
+  handleClickOpenAlert = (titre, description, item) => {
+    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false });
+  };
 
   handleChange = event => {
     this.setState({
@@ -32,7 +45,7 @@ class SignUp extends Component {
   {
       event.preventDefault();
       fetch('http://localhost:8080/WebServices/webresources/Player/CreateAccount?userName='+ this.state.userName+'&password='+ this.state.password).then(result=> result.json())
-      .then(data => this.props.OpenAlert("Alerte", data.status)); 
+      .then(data => this.handleClickOpenAlert("Alerte", data.status)); 
   }
   render() {
     const { classes } = this.props;
@@ -80,6 +93,13 @@ class SignUp extends Component {
             </CardActions>
           </form>
         </Card>
+        <AlertDialog
+          openAlert={this.state.openAlert}
+          titreAlert={this.state.titreAlert}
+          descriptionAlert={this.state.descriptionAlert}
+          handleCloseAlert={this.handleCloseAlert.bind(this)}
+        >
+        </AlertDialog>
       </div>
     );
   }

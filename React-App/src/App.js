@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {Dialog , DialogActions , DialogContent , DialogContentText , DialogTitle , List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
+import {List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
 
 import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, Menu, ChevronLeft} from '@material-ui/icons';
 
@@ -101,9 +101,6 @@ const styles = theme => ({
 
 class App extends Component {
   state = {
-    openAlert: false,
-    titreAlert: "Erreur",
-    descriptionAlert: "Erreur",
     open: false,
     UserName: "",
     Role: "",
@@ -119,14 +116,6 @@ class App extends Component {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
-  };
-
-  handleClickOpenAlert = (titre, description) => {
-    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description });
-  };
-
-  handleCloseAlert = () => {
-    this.setState({ openAlert: false });
   };
 
   LogoutMethod(){
@@ -155,26 +144,16 @@ class App extends Component {
   }
 
   CheckCanBuy(Nourriture, Eau, Argent, Science){
-    if(this.state.NourritureJoueur - Nourriture > 0 &&
-      this.state.EauJoueur - Eau > 0 &&
-      this.state.ArgentJoueur -  Argent > 0 &&
-      this.state.ScienceJoueur -  Science > 0)
+    if(this.state.NourritureJoueur - Nourriture >= 0 &&
+      this.state.EauJoueur - Eau >= 0 &&
+      this.state.ArgentJoueur -  Argent >= 0 &&
+      this.state.ScienceJoueur -  Science >= 0)
       {
-        // this.setState({ NourritureJoueur: this.state.NourritureJoueur - Nourriture });
-        // this.setState({ EauJoueur: this.state.EauJoueur- Eau });
-        // this.setState({ ArgentJoueur: this.state.ArgentJoueur - Argent });
-        // this.setState({ ScienceJoueur: this.state.ScienceJoueur - Science });
         return true;
       }else{
         return false;
       }
   }
-  // AddRessource(Nourriture, Eau, Argent, Science){
-  //   this.setState({ NourritureJoueur: this.state.NourritureJoueur + Nourriture });
-  //   this.setState({ EauJoueur: this.state.EauJoueur + Eau });
-  //   this.setState({ ArgentJoueur: this.state.ArgentJoueur + Argent });
-  //   this.setState({ ScienceJoueur: this.state.ScienceJoueur + Science });
-  // }
 
   render() {
     const { classes, theme } = this.props;
@@ -183,7 +162,6 @@ class App extends Component {
       return (
         <ListRessource 
         UserName={this.state.UserName}
-        OpenAlert={this.handleClickOpenAlert.bind(this)}
           {...props}
         />
       );
@@ -192,7 +170,6 @@ class App extends Component {
       return (
         <Login 
         LoginMethod={this.LoginMethod.bind(this)}
-        OpenAlert={this.handleClickOpenAlert.bind(this)}
           {...props}
         />
       );
@@ -201,7 +178,6 @@ class App extends Component {
     const SignUpComponent = (props) => {
       return (
         <SignUp 
-        OpenAlert={this.handleClickOpenAlert.bind(this)}
           {...props}
         />
       );
@@ -213,7 +189,6 @@ class App extends Component {
         UserName ={this.state.UserName}
         SubsRessource={this.SubsRessource.bind(this)}
         AddRessource={this.AddRessource.bind(this)}
-        OpenAlert={this.handleClickOpenAlert.bind(this)}
         />
       );
     }
@@ -223,7 +198,6 @@ class App extends Component {
         <ListArmure
         UserName ={this.state.UserName}
         CheckCanBuy={this.CheckCanBuy.bind(this)}
-        OpenAlert={this.handleClickOpenAlert.bind(this)}
         UpdateRessource={this.UpdateRessource.bind(this)}
         />
       );
@@ -360,24 +334,6 @@ class App extends Component {
               <Redirect to="/" />
           </Switch>
         </main>
-        <Dialog
-          open={this.state.openAlert}
-          onClose={this.handleCloseAlert}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{this.state.titreAlert}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {this.state.descriptionAlert}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleCloseAlert} color="primary" autoFocus>
-              D'accord
-            </Button>
-          </DialogActions>
-        </Dialog>
       </div>
     );
   }

@@ -6,8 +6,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Dialog , DialogActions , DialogContent , DialogContentText , DialogTitle, Button, Typography, CardContent, Card, CardActions } from '@material-ui/core';
-import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant} from '@material-ui/icons';
+import AlertDialog from '../Shared/AlertDialog';
+import { Button, Typography, CardContent, Card, CardActions } from '@material-ui/core';
 
 const styles = theme => ({
   table: {
@@ -71,7 +71,7 @@ class ListArmure extends Component {
         this.props.UpdateRessource();
       });
      }else{
-       this.props.OpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette armure !");
+       this.handleClickOpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette armure !");
      }
    }
   
@@ -98,48 +98,6 @@ class ListArmure extends Component {
     armureViewModel.idType = row.idType;
 
     return armureViewModel;
-  }
-
-  AffichageAlert(item){
-
-    if(Object.keys(item).length > 0){
-      var itemViewModel = {};
-      Object.assign(itemViewModel, item);
-      var texte = "";
-      if(this.state.descriptionAlert === "Acheter"){
-        texte = "Le coût de " + itemViewModel.nom + " sera de ";
-      } else{
-        texte = "La valeur de vente de " + itemViewModel.nom + " sera de ";
-        itemViewModel.nourriture = itemViewModel.nourriture / 2;
-        itemViewModel.argent = itemViewModel.argent / 2;
-        itemViewModel.eau = itemViewModel.eau / 2;
-        itemViewModel.science = itemViewModel.science / 2;
-      }
-
-      var Retour = 
-        <div>
-          {texte}
-          <Typography style={{ flex: 1, display: 'flex', flexWrap: 'wrap'}} variant="h6" color="inherit" noWrap>
-            <div style={{ marginLeft: 10}}>
-              <Restaurant /> {itemViewModel.nourriture}    
-            </div>
-            <div style={{ marginLeft: 10}}>
-              <LocalDrink /> {itemViewModel.eau}     
-            </div>
-            <div style={{ marginLeft: 10}}>
-              <AttachMoney /> {itemViewModel.argent}     
-            </div>
-            <div style={{ marginLeft: 10}}>
-              <SettingsInputAntenna /> {itemViewModel.science}
-            </div>
-          </Typography>
-
-        </div>;
-
-        return Retour;
-    }
-
-    return "";
   }
   
   render() {
@@ -200,36 +158,17 @@ class ListArmure extends Component {
           }
         </CardActions>
       </Card>
-      <Dialog
-      open={this.state.openAlert}
-      onClose={this.handleCloseAlert}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">{this.state.titreAlert}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {this.AffichageAlert(this.state.itemAlert)}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={this.handleCloseAlert} color="primary">
-          Annuler
-        </Button>
-        {
-          this.state.descriptionAlert === "Acheter" ? 
-            <Button onClick={() => this.Add(this.state.itemAlert)} color="primary">
-              Acheter
-            </Button>
-          :
-            <Button onClick={() => this.Delete(this.state.itemAlert)} color="primary">
-              Vendre
-            </Button>
-        }
-        
-      </DialogActions>
-    </Dialog>
-    </div>
+      <AlertDialog
+        openAlert={this.state.openAlert}
+        titreAlert={this.state.titreAlert}
+        descriptionAlert={this.state.descriptionAlert}
+        itemAlert={this.state.itemAlert}
+        handleCloseAlert={this.handleCloseAlert.bind(this)}
+        Add={this.Add.bind(this)}
+        Delete={this.Delete.bind(this)}
+      >
+      </AlertDialog>
+      </div>
     );
   }
 }

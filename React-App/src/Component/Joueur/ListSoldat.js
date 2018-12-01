@@ -14,67 +14,28 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(idTypeSoldat, territoire, arme, armure, force, vie) {
-  id += 1;
-  return { id, idTypeSoldat, territoire, arme, armure, force, vie };
-}
-
-const lstSoldats = [
-  createData(1, 1, 1,2,1,10,3),
-  createData(2, 2, 2,1,2,4,10),
-  createData(2, 2, 2,1,2,4,10),
-  createData(2, 2, 2,1,2,4,10),
-  createData(1, 1, 1,2,1,10,3),
-];
-
-const TypeSoldats = [
-  {id : 1, description :"Archer"},
-  {id : 2, description : "Guerrier"}
-]
-
 class ListSoldat extends Component {
 
   state = {
-    rows : lstSoldats,
-    typeSoldats : TypeSoldats
+    rows : [],
+    typeSoldat : [],
+    typeArme : [],
+    typeArmure : [],
+    lstTerritoire: []
   };
 
   Add(idType){
-    var lstSoldats = this.state.rows;
-    lstSoldats.push(createData(idType,0,0,0,10,3));
-    this.setState({rows: lstSoldats})
+    
   }
   
   Delete(id) {
-    var lstSoldats = this.state.rows;
-    lstSoldats.forEach((soldat, index) => {
-      if(soldat.id === id){
-        lstSoldats.splice(index,1);
-      }
-    })
-    this.setState({rows: lstSoldats})
   }
 
   Edit = (event, id) => {
-    var lstSoldats = this.state.rows;
-    lstSoldats.forEach((soldat, index) => {
-      if(soldat.id === id){
-        soldat[event.target.name] = event.target.value;
-        lstSoldats[index] = soldat;
-      }
-    })
-    this.setState({rows: lstSoldats})
   };
 
-  AfficherTpyeSoldat(id) {
-    var type = "";
-    this.state.typeSoldats.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
-      }
-    })
-    return type;
+  AfficheRow(){
+    
   }
   
   render() {

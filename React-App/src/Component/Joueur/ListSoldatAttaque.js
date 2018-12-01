@@ -6,6 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import AlertDialog from '../Shared/AlertDialog';
 import { Checkbox, Dialog, DialogTitle, Button, Typography, CardContent, Card, CardActions } from '@material-ui/core';
 
 const styles = theme => ({
@@ -17,11 +18,22 @@ class ListSoldatAttaque extends Component {
   state = {
     rows : [],
     selected: [],
+    openAlert: false,
+    titreAlert: "Erreur",
+    descriptionAlert: "Erreur",
   };
 
   componentDidMount() {
     this.getAll();
   }
+
+  handleClickOpenAlert = (titre, description) => {
+    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false, selected : [] });
+  };
 
   getAll()
   {
@@ -55,15 +67,15 @@ class ListSoldatAttaque extends Component {
             victoire = "Victoire"
             description = "Aucun soldat a été tué et vous avez gagné le territoire. Félicitation !"
           } 
-          this.props.OpenAlert(victoire, description)
+          this.handleClickOpenAlert(victoire, description)
+          this.getAll();
+          this.handleClose();
         }
       );
-      this.getAll();
     }
     else{
-      this.props.OpenAlert("Alerte", "Choisir un soldat pour l'attaque");
+      this.handleClickOpenAlert("Alerte", "Choisir un soldat pour l'attaque");
     }
-    this.handleClose();
   }
 
   handleClick = (event, id) => {
@@ -93,77 +105,86 @@ class ListSoldatAttaque extends Component {
     const { classes, onClose, territoireSelected, ...other } = this.props;
 
     return (
-    <Dialog 
-    onClose={this.handleClose} 
-    aria-labelledby="simple-dialog-title" {...other}
-    fullScreen
-    >
-        <DialogTitle id="simple-dialog-title">Attaque un territoire</DialogTitle>
-            <div>
-                <Card>
-                    <CardContent>
-                    <Typography variant="h6" color="inherit">
-                        Choisir les soldats à envoyer
-                    </Typography>
-                    <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell></TableCell>
-                            <TableCell>id</TableCell>
-                            <TableCell>Soldat</TableCell>
-                            <TableCell>Arme</TableCell>
-                            <TableCell>Armure</TableCell>
-                            <TableCell numeric>Force Totale</TableCell>
-                            <TableCell numeric>Vie Totale</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.state.rows.map(row => {
-                        const isSelected = this.isSelected(row.id);
-                        return (
-                            <TableRow 
-                            hover
-                            onClick={event => this.handleClick(event, row.id)}
-                            role="checkbox"
-                            aria-checked={isSelected}
-                            tabIndex={-1}
-                            key={row.id}
-                            selected={isSelected}
-                            >
-                                <TableCell padding="checkbox">
-                                    <Checkbox checked={isSelected} />
-                                </TableCell>
-                                <TableCell>{row.id}</TableCell>
-                                <TableCell>{row.soldat}</TableCell>
-                                <TableCell>{row.arme}</TableCell>
-                                <TableCell>{row.armure}</TableCell>
-                                <TableCell numeric>{row.forceTotal}</TableCell>
-                                <TableCell numeric>{row.vieTotal}</TableCell>                  
-                            </TableRow>
-                        );
-                        })}
-                    </TableBody>
-                    </Table>
-                </ CardContent>
-                <CardActions>
-                    <Button
-                    variant="contained" 
-                    color="primary"
-                    onClick={() => this.Confirmation()}
-                    >
-                        Confirmation de l'attaque
-                    </Button>
-                    <Button
-                    variant="contained" 
-                    color="secondary"
-                    onClick={() => this.handleClose()}
-                    >
-                        Annuler
-                    </Button>
-                </CardActions>
-            </Card>
-        </div>
-      </Dialog>
+      <div>
+      <Dialog 
+      onClose={this.handleClose} 
+      aria-labelledby="simple-dialog-title" {...other}
+      fullScreen
+      >
+          <DialogTitle id="simple-dialog-title">Attaque un territoire</DialogTitle>
+              <div>
+                  <Card>
+                      <CardContent>
+                      <Typography variant="h6" color="inherit">
+                          Choisir les soldats à envoyer
+                      </Typography>
+                      <Table>
+                      <TableHead>
+                          <TableRow>
+                              <TableCell></TableCell>
+                              <TableCell>id</TableCell>
+                              <TableCell>Soldat</TableCell>
+                              <TableCell>Arme</TableCell>
+                              <TableCell>Armure</TableCell>
+                              <TableCell numeric>Force Totale</TableCell>
+                              <TableCell numeric>Vie Totale</TableCell>
+                          </TableRow>
+                      </TableHead>
+                      <TableBody>
+                          {this.state.rows.map(row => {
+                          const isSelected = this.isSelected(row.id);
+                          return (
+                              <TableRow 
+                              hover
+                              onClick={event => this.handleClick(event, row.id)}
+                              role="checkbox"
+                              aria-checked={isSelected}
+                              tabIndex={-1}
+                              key={row.id}
+                              selected={isSelected}
+                              >
+                                  <TableCell padding="checkbox">
+                                      <Checkbox checked={isSelected} />
+                                  </TableCell>
+                                  <TableCell>{row.id}</TableCell>
+                                  <TableCell>{row.soldat}</TableCell>
+                                  <TableCell>{row.arme}</TableCell>
+                                  <TableCell>{row.armure}</TableCell>
+                                  <TableCell numeric>{row.forceTotal}</TableCell>
+                                  <TableCell numeric>{row.vieTotal}</TableCell>                  
+                              </TableRow>
+                          );
+                          })}
+                      </TableBody>
+                      </Table>
+                  </ CardContent>
+                  <CardActions>
+                      <Button
+                      variant="contained" 
+                      color="primary"
+                      onClick={() => this.Confirmation()}
+                      >
+                          Confirmation de l'attaque
+                      </Button>
+                      <Button
+                      variant="contained" 
+                      color="secondary"
+                      onClick={() => this.handleClose()}
+                      >
+                          Annuler
+                      </Button>
+                  </CardActions>
+              </Card>
+          </div>
+        </Dialog>
+        <AlertDialog
+          openAlert={this.state.openAlert}
+          titreAlert={this.state.titreAlert}
+          descriptionAlert={this.state.descriptionAlert}
+          handleCloseAlert={this.handleCloseAlert.bind(this)}
+        >
+        </AlertDialog>
+      </div>
     );
   }
 }

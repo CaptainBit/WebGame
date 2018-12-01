@@ -102,7 +102,6 @@ class ListTerritoire extends Component {
         territoireSelected={this.state.territoireSelected}
         open={this.state.open}
         onClose={this.handleClose}
-        OpenAlert={this.props.OpenAlert}
         >
         </ListSoldatAttaque>
       </div>

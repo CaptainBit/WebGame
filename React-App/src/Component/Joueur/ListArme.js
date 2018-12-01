@@ -6,6 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import AlertDialog from '../Shared/AlertDialog';
 import { Button, Typography, CardContent, Card, CardActions } from '@material-ui/core';
 
 const styles = theme => ({
@@ -21,18 +22,27 @@ function createData(idTypeArme, force) {
   return { id, idTypeArme, force};
 }
 
-
-
-
 class ListArme extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       rows : [],
-      typeArmes : []
+      typeArmes : [],
+      openAlert: false,
+      titreAlert: "Erreur",
+      descriptionAlert: "Erreur",
+      itemAlert: {}
     };
   }
+
+  handleClickOpenAlert = (titre, description, item) => {
+    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false });
+  };
   
   componentDidMount() {
     this.getTypeArme();
@@ -61,7 +71,7 @@ class ListArme extends Component {
     {
       this.state.rows.push(createData(idType, myTypeArme.force));
     }else{
-      this.props.OpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette arme !");
+      this.handleClickOpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette arme !");
     }
   }
   
@@ -128,56 +138,68 @@ class ListArme extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Card className={classes.card}>
-        <CardContent>
-        <Typography variant="h6" color="inherit">
-            Gérer vos armes
-        </Typography>
-        <Table classarme={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>id</TableCell>
-              <TableCell>Arme</TableCell>
-              <TableCell numeric>Force</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.rows.map(row => {
-              return (
-                <TableRow key={row.id}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{this.AfficheTypeArme(row.idTypeArme)}</TableCell>
-                  <TableCell numeric>{row.force}</TableCell>
-                  <TableCell numeric>
-                  <Button
-                  variant="contained" 
-                  color="secondary"
-                  onClick={() => this.Delete(row.id)}
-                  >
-                    Vendre
-                  </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </ CardContent>
-        <CardActions>
-        {this.state.typeArmes.map(typeArme => {
-         return(
-          <Button
-          variant="contained" 
-          color="primary"
-          onClick={() => this.Add(typeArme.id)}
-          >
-          Acheter {typeArme.nom}
-        </Button>
-         );
-        })}
-      </CardActions>
-  </Card>
+      <div>
+        <Card className={classes.card}>
+          <CardContent>
+          <Typography variant="h6" color="inherit">
+              Gérer vos armes
+          </Typography>
+          <Table classarme={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>id</TableCell>
+                <TableCell>Arme</TableCell>
+                <TableCell numeric>Force</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.rows.map(row => {
+                return (
+                  <TableRow key={row.id}>
+                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{this.AfficheTypeArme(row.idTypeArme)}</TableCell>
+                    <TableCell numeric>{row.force}</TableCell>
+                    <TableCell numeric>
+                    <Button
+                    variant="contained" 
+                    color="secondary"
+                    onClick={() => this.Delete(row.id)}
+                    >
+                      Vendre
+                    </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </ CardContent>
+          <CardActions>
+          {this.state.typeArmes.map(typeArme => {
+          return(
+            <Button
+            variant="contained" 
+            color="primary"
+            onClick={() => this.Add(typeArme.id)}
+            >
+            Acheter {typeArme.nom}
+          </Button>
+          );
+          })}
+        </CardActions>
+    </Card>
+    <AlertDialog
+      openAlert={this.state.openAlert}
+      titreAlert={this.state.titreAlert}
+      descriptionAlert={this.state.descriptionAlert}
+      itemAlert={this.state.itemAlert}
+      handleCloseAlert={this.handleCloseAlert.bind(this)}
+      Add={this.Add.bind(this)}
+      Delete={this.Delete.bind(this)}
+    >
+    </AlertDialog>
+  </div>
     );
   }
 }
