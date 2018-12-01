@@ -142,15 +142,21 @@ class App extends Component {
 
   UpdateRessource(){
     fetch('http://localhost:8080/WebServices/webresources/Player/GetRessource?userName=' + this.state.UserName)
-    .then(result=> result.json()).then((result) => this.setState({
-      NourritureJoueur:result.nourriture,
-      EauJoueur:result.eau,
-      ArgentJoueur:result.argent,
-      Science:result.science
-    }));
+    .then(result=> result.json()).then((result) => 
+      {
+        console.log("ressource");
+        console.log(result);
+        this.setState(
+          {
+            NourritureJoueur : result.nourriture,
+            EauJoueur : result.eau,
+            ArgentJoueur : result.argent,
+            ScienceJoueur : result.science
+          });
+      })
   }
 
-  SubsRessource(Nourriture, Eau, Argent, Science){
+  CheckCanBuy(Nourriture, Eau, Argent, Science){
     if(this.state.NourritureJoueur - Nourriture > 0 &&
       this.state.EauJoueur - Eau > 0 &&
       this.state.ArgentJoueur -  Argent > 0 &&
@@ -165,12 +171,12 @@ class App extends Component {
         return false;
       }
   }
-  AddRessource(Nourriture, Eau, Argent, Science){
-    this.setState({ NourritureJoueur: this.state.NourritureJoueur + Nourriture });
-    this.setState({ EauJoueur: this.state.EauJoueur + Eau });
-    this.setState({ ArgentJoueur: this.state.ArgentJoueur + Argent });
-    this.setState({ ScienceJoueur: this.state.ScienceJoueur + Science });
-  }
+  // AddRessource(Nourriture, Eau, Argent, Science){
+  //   this.setState({ NourritureJoueur: this.state.NourritureJoueur + Nourriture });
+  //   this.setState({ EauJoueur: this.state.EauJoueur + Eau });
+  //   this.setState({ ArgentJoueur: this.state.ArgentJoueur + Argent });
+  //   this.setState({ ScienceJoueur: this.state.ScienceJoueur + Science });
+  // }
 
   render() {
     const { classes, theme } = this.props;
@@ -218,8 +224,7 @@ class App extends Component {
       return (
         <ListArmure
         UserName ={this.state.UserName}
-        SubsRessource={this.SubsRessource.bind(this)}
-        AddRessource={this.AddRessource.bind(this)}
+        CheckCanBuy={this.CheckCanBuy.bind(this)}
         OpenAlert={this.handleClickOpenAlert.bind(this)}
         UpdateRessource={this.UpdateRessource.bind(this)}
         />

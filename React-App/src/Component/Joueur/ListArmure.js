@@ -29,7 +29,7 @@ class ListArmure extends Component {
   getType()
   {
     fetch('http://localhost:8080/WebServices/webresources/Armure/Type')
-    .then(result=> result.json()).then((result) => this.setState({types:result}));
+    .then(result=> result.json()).then((result) => this.setState({types : result}));
   }
 
   getPlayerArmure()
@@ -40,20 +40,9 @@ class ListArmure extends Component {
     .then((result) => this.setState({rows : result})));
   }
 
-  GetIndexTypeArmure(idType)
-  {
-    var i = 0;
-    this.state.types.forEach((type, index) => {
-      if(type.id === idType){
-        i = index;
-      }
-    });
-    return i;
-  }
-
   Add(item){
     var check = false;
-    check = this.props.SubsRessource(0,item.eau, item.argent, item.science);
+    check = this.props.CheckCanBuy(item.nourriture,item.eau, item.argent, item.science);
     
      if(check === true)
      {
@@ -69,33 +58,10 @@ class ListArmure extends Component {
    }
   
    Delete(id) {
-    this.state.rows.forEach((armure, index) => {
-      if(armure.id === id){
-        var i = this.GetIndexTypeArme(armure.idTypeArmure);
-        var mytypeArmures = this.state.types[i];
-        this.props.AddRessource(0,mytypeArmures.eau * 0.5,
-          mytypeArmures.argent * 0.5,
-          mytypeArmures.science * 0.5);
-          fetch('http://localhost:8080/WebServices/webresources/Armure/DeleteArmure?idArmure='+
-          id)
-          .then(result=> result.json()
-          .then((result) => this.getPlayerArmure()));
-      }
-    })
-    ;
-    
+    fetch('http://localhost:8080/WebServices/webresources/Armure/DeleteArmure?idArmure='+ id)
+    .then(result=> result.json()
+    .then((result) => this.getPlayerArmure()));
   }
-
-  Edit = (event, id) => {
-    var lstArmure = this.state.rows;
-    lstArmure.forEach((arme, index) => {
-      if(arme.id === id){
-        arme[event.target.name] = event.target.value;
-        lstArmure[index] = arme;
-      }
-    })
-    this.setState({rows: lstArmure})
-  };
 
   AfficheType(row) {
     var armureViewModel = {};
@@ -128,17 +94,17 @@ class ListArmure extends Component {
           </TableHead>
           <TableBody>
             {this.state.rows.map((row) => {
-              var item = this.AfficheType(row);
+              var itemViewModel = this.AfficheType(row);
               return (
-                <TableRow key={item.id}>
-                  <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.nom}</TableCell>
-                  <TableCell numeric>{item.vie}</TableCell>
+                <TableRow key={itemViewModel.id}>
+                  <TableCell>{itemViewModel.id}</TableCell>
+                  <TableCell>{itemViewModel.nom}</TableCell>
+                  <TableCell numeric>{itemViewModel.vie}</TableCell>
                   <TableCell numeric>
                   <Button
                   variant="contained" 
                   color="secondary"
-                  onClick={() => this.Delete(item.id)}
+                  onClick={() => this.Delete(itemViewModel.id)}
                   >
                     Vendre
                   </Button>
