@@ -6,7 +6,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Typography, CardContent, Card, CardActions } from '@material-ui/core';
+import { Dialog , DialogActions , DialogContent , DialogContentText , DialogTitle, Button, Typography, CardContent, Card, CardActions } from '@material-ui/core';
+import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant} from '@material-ui/icons';
 
 const styles = theme => ({
   table: {
@@ -18,12 +19,28 @@ class ListArmure extends Component {
 
   state = {
     rows : [],
-    types : []
+    types : [],
+    openAlert: false,
+    titreAlert: "Erreur",
+    descriptionAlert: "Erreur",
+    itemAlert: {}
   };
 
-  componentDidMount() {
+  handleClickOpenAlert = (titre, description, item) => {
+    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false });
+  };
+
+  Refresh(){
     this.getType();
     this.getPlayerArmure();
+  }
+
+  componentDidMount() {
+    this.Refresh();
   }
 
   getType()
@@ -49,88 +66,170 @@ class ListArmure extends Component {
       fetch('http://localhost:8080/WebServices/webresources/Armure/AddArmure' + 
       '?userName='+ this.props.UserName + 
       '&idType=' + item.id)
-      .then(result=> result.json()
-      .then((result) => this.getPlayerArmure()));
-      this.props.UpdateRessource();
+      .then(() => {
+        this.Refresh();
+        this.props.UpdateRessource();
+      });
      }else{
        this.props.OpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette armure !");
      }
    }
   
-   Delete(id) {
-    fetch('http://localhost:8080/WebServices/webresources/Armure/DeleteArmure?idArmure='+ id)
-    .then(result=> result.json()
-    .then((result) => this.getPlayerArmure()));
+   Delete(itemViewModel) {
+    fetch('http://localhost:8080/WebServices/webresources/Armure/DeleteArmure?' +
+    'idArmure='+ itemViewModel.id +
+    '&idType=' + itemViewModel.idType +
+    '&userName=' + this.props.UserName)
+    .then(() => {
+      this.Refresh();
+      this.props.UpdateRessource();
+    });
   }
 
   AfficheType(row) {
     var armureViewModel = {};
-    armureViewModel.id = row.id;
     this.state.types.forEach((item, index) => {
       if(row.idType === item.id){
-        armureViewModel = item;
+         Object.assign(armureViewModel, item);
       }
     })
+
+    armureViewModel.id = row.id;
+    armureViewModel.idType = row.idType;
+
     return armureViewModel;
+  }
+
+  AffichageAlert(item){
+
+    if(Object.keys(item).length > 0){
+      var itemViewModel = {};
+      Object.assign(itemViewModel, item);
+      var texte = "";
+      if(this.state.descriptionAlert === "Acheter"){
+        texte = "Le coût de " + itemViewModel.nom + " sera de ";
+      } else{
+        texte = "La valeur de vente de " + itemViewModel.nom + " sera de ";
+        itemViewModel.nourriture = itemViewModel.nourriture / 2;
+        itemViewModel.argent = itemViewModel.argent / 2;
+        itemViewModel.eau = itemViewModel.eau / 2;
+        itemViewModel.science = itemViewModel.science / 2;
+      }
+
+      var Retour = 
+        <div>
+          {texte}
+          <Typography style={{ flex: 1, display: 'flex', flexWrap: 'wrap'}} variant="h6" color="inherit" noWrap>
+            <div style={{ marginLeft: 10}}>
+              <Restaurant /> {itemViewModel.nourriture}    
+            </div>
+            <div style={{ marginLeft: 10}}>
+              <LocalDrink /> {itemViewModel.eau}     
+            </div>
+            <div style={{ marginLeft: 10}}>
+              <AttachMoney /> {itemViewModel.argent}     
+            </div>
+            <div style={{ marginLeft: 10}}>
+              <SettingsInputAntenna /> {itemViewModel.science}
+            </div>
+          </Typography>
+
+        </div>;
+
+        return Retour;
+    }
+
+    return "";
   }
   
   render() {
     const { classes } = this.props;
 
     return (
-      <Card className={classes.card}>
-        <CardContent>
-        <Typography variant="h6" color="inherit">
-            Gérer vos armures
-        </Typography>
-        <Table classsoldat={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>id</TableCell>
-              <TableCell>Armure</TableCell>
-              <TableCell numeric>Vie</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.rows.map((row) => {
-              var itemViewModel = this.AfficheType(row);
-              return (
-                <TableRow key={itemViewModel.id}>
-                  <TableCell>{itemViewModel.id}</TableCell>
-                  <TableCell>{itemViewModel.nom}</TableCell>
-                  <TableCell numeric>{itemViewModel.vie}</TableCell>
-                  <TableCell numeric>
-                  <Button
-                  variant="contained" 
-                  color="secondary"
-                  onClick={() => this.Delete(itemViewModel.id)}
-                  >
-                    Vendre
-                  </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </ CardContent>
-      <CardActions>
+      <div>
+        <Card className={classes.card}>
+          <CardContent>
+          <Typography variant="h6" color="inherit">
+              Gérer vos armures
+          </Typography>
+          <Table classsoldat={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>id</TableCell>
+                <TableCell>Armure</TableCell>
+                <TableCell numeric>Vie</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.rows.map((row) => {
+                var itemViewModel = this.AfficheType(row);
+                return (
+                  <TableRow key={itemViewModel.id}>
+                    <TableCell>{itemViewModel.id}</TableCell>
+                    <TableCell>{itemViewModel.nom}</TableCell>
+                    <TableCell numeric>{itemViewModel.vie}</TableCell>
+                    <TableCell numeric>
+                    <Button
+                    variant="contained" 
+                    color="secondary"
+                    onClick={() => this.handleClickOpenAlert("Vendre une armure", "Vendre", itemViewModel)}
+                    >
+                      Vendre
+                    </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </ CardContent>
+        <CardActions>
+          {
+            this.state.types.map(type => {
+            return(
+              <Button
+              variant="contained" 
+              color="primary"
+              onClick={() => this.handleClickOpenAlert("Acheter une armure", "Acheter", type)}
+              >
+              Acheter {type.nom}
+            </Button>
+            );
+            })
+          }
+        </CardActions>
+      </Card>
+      <Dialog
+      open={this.state.openAlert}
+      onClose={this.handleCloseAlert}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{this.state.titreAlert}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {this.AffichageAlert(this.state.itemAlert)}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={this.handleCloseAlert} color="primary">
+          Annuler
+        </Button>
         {
-          this.state.types.map(type => {
-          return(
-            <Button
-            variant="contained" 
-            color="primary"
-            onClick={() => this.Add(type)}
-            >
-            Acheter {type.nom}
-          </Button>
-          );
-          })
+          this.state.descriptionAlert === "Acheter" ? 
+            <Button onClick={() => this.Add(this.state.itemAlert)} color="primary">
+              Acheter
+            </Button>
+          :
+            <Button onClick={() => this.Delete(this.state.itemAlert)} color="primary">
+              Vendre
+            </Button>
         }
-      </CardActions>
-    </Card>
+        
+      </DialogActions>
+    </Dialog>
+    </div>
     );
   }
 }

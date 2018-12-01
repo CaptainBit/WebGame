@@ -121,6 +121,55 @@ public class Armure
          return true;
      }
      
+     public boolean DeleteArmure(int idArmure, int idType, String userName){
+         
+         Connection con = null;
+         
+         try {
+            con = new ConnectDb().GetConnection();     
+             
+            PreparedStatement statement = con.prepareStatement(
+                    "Delete from armure where id = ?;"
+                    , 1005, 1008);
+
+            statement.setInt(1, idArmure);
+            statement.executeUpdate();
+            statement.clearParameters();  
+
+            statement = con.prepareStatement(
+                       "SELECT idRessource FROM joueur where userName = ?;"
+                    , 1005, 1008);
+
+            statement.setString(1, userName);
+            ResultSet rs = statement.executeQuery();
+            statement.clearParameters();
+
+            rs.next();
+             
+            int idRessource = rs.getInt("idRessource");
+             
+            JSONObject ressourceType = getRessource(con, idType);
+            
+            con.close();
+            
+            Ressource ressource = new Ressource();
+            int nourriture = ressourceType.getInt("nourriture");
+            int eau = ressourceType.getInt("eau");
+            int argent = ressourceType.getInt("argent");
+            int science = ressourceType.getInt("science");
+
+            ressource.EditRessourceById(idRessource,nourriture / 2, eau / 2, argent / 2, science / 2);
+             
+             return true;
+         }
+        catch (SQLException ex) {
+             Logger.getLogger(Armure.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (JSONException ex) {
+             Logger.getLogger(Armure.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        return false;
+     }
+          
      private JSONObject getRessource(Connection con, int idType){
          JSONObject ressource = new JSONObject();
 

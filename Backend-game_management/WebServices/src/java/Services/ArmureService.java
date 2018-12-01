@@ -56,6 +56,18 @@ public class ArmureService {
     }
     
     @GET
+    @Path("DeleteArmure")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddArmure(@QueryParam("idArmure") int idArmure, @QueryParam("idType") int idType, @QueryParam("userName") String userName) {
+    
+        Armure armure = new Armure();
+        
+        boolean result = armure.DeleteArmure(idArmure, idType,userName);
+        
+        return String.valueOf(result);
+    }
+    
+    @GET
     @Path("AddArmure")
     @Produces(MediaType.APPLICATION_JSON)
     public String AddArmure(@QueryParam("userName") String userName, @QueryParam("idType") int idType) {

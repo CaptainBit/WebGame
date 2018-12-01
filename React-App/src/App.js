@@ -144,8 +144,6 @@ class App extends Component {
     fetch('http://localhost:8080/WebServices/webresources/Player/GetRessource?userName=' + this.state.UserName)
     .then(result=> result.json()).then((result) => 
       {
-        console.log("ressource");
-        console.log(result);
         this.setState(
           {
             NourritureJoueur : result.nourriture,
