@@ -26,12 +26,12 @@ public class ApplicationConfig extends Application {
         return resources;
     }
 
-    /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
-     */
+    
+    private void AddRessourceAllPlayer(){
+        RessourceGiver thread = new RessourceGiver();
+        thread.start();
+    }
+
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(Props.CrossOrigin.class);
         resources.add(Services.ArmureService.class);
@@ -39,11 +39,6 @@ public class ApplicationConfig extends Application {
         resources.add(Services.GunService.class);
         resources.add(Services.SoldatService.class);
         resources.add(Services.TerritoireService.class);
-    }
-    
-    private void AddRessourceAllPlayer(){
-        RessourceGiver thread = new RessourceGiver();
-        thread.start();
     }
     
 }

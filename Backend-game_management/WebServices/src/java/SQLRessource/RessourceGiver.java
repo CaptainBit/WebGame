@@ -47,10 +47,10 @@ public class RessourceGiver extends Thread {
                 idPlayer = rs.getInt("id");
                 idRessource = rs.getInt("idRessource");
                 
-                nourriture = 0;
-                eau = 0;
-                argent = 0;
-                science = 0;
+                nourriture = 10;
+                eau = 10;
+                argent = 10;
+                science = 10;
                 
                 statement = con.prepareStatement("SELECT idRessource FROM territoire where idJoueur = ?;", 1005, 1008);      
             

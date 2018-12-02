@@ -84,7 +84,7 @@ public class ArmureService {
     @Produces(MediaType.APPLICATION_JSON)
     public String EditArmureSoldat(@QueryParam("idArmure") int idArmure, @QueryParam("idSoldat") int idSoldat) {
     
-        Armure armure = new Armure();
+            Armure armure = new Armure();
         
         boolean result = armure.EditArmureSoldat(idArmure, idSoldat);
         

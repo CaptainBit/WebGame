@@ -36,6 +36,16 @@ public class Guns
         try{
             PreparedStatement statement;
             
+            statement = con.prepareStatement(
+                    "update arme set idSoldat = NULL where idSoldat = ?;"
+                    , 1005, 1008);   
+            
+            statement.setInt(1, idSoldat);
+            
+                
+            statement.executeUpdate();
+            statement.clearParameters();
+                
             if(idArme > 0){
                 
                 statement = con.prepareStatement(
@@ -44,13 +54,6 @@ public class Guns
             
                 statement.setInt(1, idSoldat);
                 statement.setInt(2, idArme);
-            }
-            else{
-                statement = con.prepareStatement(
-                    "update arme set idSoldat = NULL where idSoldat = ?;"
-                    , 1005, 1008);   
-            
-                statement.setInt(1, idSoldat);
             }
 
             statement.executeUpdate();
