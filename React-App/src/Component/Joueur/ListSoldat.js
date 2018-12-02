@@ -124,16 +124,17 @@ class ListSoldat extends Component {
      }
    }
 
-   Edit(itemViewModel){
+   Edit(event, itemViewModel){
      console.log(itemViewModel);
-    fetch('http://localhost:8080/WebServices/webresources/Soldat/EditSoldat?' +
-    'idArmure='+ itemViewModel.id +
-    '&idType=' + itemViewModel.idType +
-    '&userName=' + this.props.UserName)
-    .then(() => {
-      this.Refresh();
-      this.props.UpdateRessource();
-    });
+     console.log(event.target.value);
+    // fetch('http://localhost:8080/WebServices/webresources/Soldat/EditSoldat?' +
+    // 'idArmure='+ itemViewModel.id +
+    // '&idType=' + itemViewModel.idType +
+    // '&userName=' + this.props.UserName)
+    // .then(() => {
+    //   this.Refresh();
+    //   this.props.UpdateRessource();
+    // });
    }
   
    Delete(itemViewModel) {
@@ -158,8 +159,8 @@ class ListSoldat extends Component {
     this.state.lstTypeSoldat.forEach((typeSoldat, index) => {
       if(row.idTypeSoldat === typeSoldat.id){
         itemViewModel.nom = typeSoldat.nom;
-        itemViewModel.vie += typeSoldat.force;
-        itemViewModel.force += typeSoldat.vie;
+        itemViewModel.force += typeSoldat.force;
+        itemViewModel.vie += typeSoldat.vie;
 
         itemViewModel.nourriture = typeSoldat.nourriture;
         itemViewModel.argent = typeSoldat.argent;
@@ -172,8 +173,8 @@ class ListSoldat extends Component {
     this.state.lstArmePlayer.forEach((armeSoldat, index) => {
       if(row.idArme === armeSoldat.id){
         this.state.lstTypeArme.forEach((typeArme, index) => {
-          if(armeSoldat.type === typeArme.id){
-            itemViewModel.force += typeArme.vie;
+          if(armeSoldat.idType === typeArme.id){
+            itemViewModel.force += typeArme.force;
           }
         })
       }
@@ -190,6 +191,26 @@ class ListSoldat extends Component {
     })
 
     return itemViewModel;
+  }
+
+  AfficheNomTypeArme(idType){
+    var Retour = "Introuvable";
+    this.state.lstTypeArme.forEach((typeArme, index) => {
+      if(typeArme.id === idType){
+        Retour = typeArme.nom;
+      }
+    })
+    return Retour;
+  }
+
+  AfficheNomTypeArmure(idType){
+    var Retour = "Introuvable";
+    this.state.lstTypeArmure.forEach((typeArmure, index) => {
+      if(typeArmure.id === idType){
+        Retour = typeArmure.nom;
+      }
+    })
+    return Retour;
   }
   
   render() {
@@ -256,11 +277,12 @@ class ListSoldat extends Component {
                           <MenuItem value={0}>
                             <em>Aucun</em>
                           </MenuItem>
-                          {this.state.lstTypeArme.map(typeArme => {
-                            return (
-                            <MenuItem value={typeArme.id}>{typeArme.nom}</MenuItem>
-                            )})
-                          }
+                          {this.state.lstArmePlayer.map(armePlayer => {
+                              return (
+                                <MenuItem value={armePlayer.id}>{this.AfficheNomTypeArme(armePlayer.idType)}</MenuItem>
+                                )
+                              }
+                          )}
                         </Select>
                       </FormControl>
                     </TableCell>
@@ -277,11 +299,12 @@ class ListSoldat extends Component {
                           <MenuItem value={0}>
                             <em>Aucun</em>
                           </MenuItem>
-                          {this.state.lstTypeArmure.map(typeArmure => {
-                            return (
-                            <MenuItem value={typeArmure.id}>{typeArmure.nom}</MenuItem>
-                            )})
-                          }
+                          {this.state.lstArmurePlayer.map(armurePlayer => {
+                              return (
+                                <MenuItem value={armurePlayer.id}>{this.AfficheNomTypeArmure(armurePlayer.idType)}</MenuItem>
+                                )
+                              }
+                          )}
                         </Select>
                       </FormControl>
                     </TableCell>
