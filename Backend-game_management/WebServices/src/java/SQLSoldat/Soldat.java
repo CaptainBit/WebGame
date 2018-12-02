@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import SQLRessource.*;
+
 /**
  *
  * @author admin
@@ -74,8 +76,8 @@ public class Soldat
             con = new ConnectDb().GetConnection();      
             
             PreparedStatement statement = con.prepareStatement(
-                    "SELECT soldat.id, p_typesoldat.description as soldat, " +
-                    "p_typearme.nomArme as arme, p_typearmure.description as armure, \n" +
+                    "SELECT soldat.id, p_typesoldat.nom as soldat, " +
+                    "p_typearme.nom as arme, p_typearmure.nom as armure, \n" +
                     "(p_typesoldat.vie + COALESCE(p_typearmure.vie,0)) as vieTotal, " +
                     "(p_typesoldat.force + COALESCE(p_typearme.force,0)) as forceTotal " +
                     "FROM game_management.soldat as soldat \n" +
@@ -138,12 +140,27 @@ public class Soldat
             {
                 JSONObject soldat = new JSONObject();
                 
+                int idRessource = rs.getInt("idRessource");
+                
                 soldat.put("id", rs.getInt("id"));
                 soldat.put("idRessource", rs.getInt("idRessource"));
                 soldat.put("force", rs.getInt("force"));
                 soldat.put("vie", rs.getInt("vie"));                
-                soldat.put("description", rs.getString("description"));
-                               
+                soldat.put("nom", rs.getString("nom"));
+                
+                Ressource ressource = new Ressource();
+                JSONObject ressourceType = ressource.getRessourceById(idRessource);
+                           
+                int nourriture =  ressourceType.getInt("nourriture");
+                int argent =  ressourceType.getInt("argent");
+                int eau =  ressourceType.getInt("eau");
+                int science =  ressourceType.getInt("science");
+
+                soldat.put("nourriture", nourriture);
+                soldat.put("argent", argent);
+                soldat.put("eau", eau);
+                soldat.put("science", science);
+                
                 jtypes.put(soldat);
             }
             

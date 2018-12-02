@@ -35,6 +35,7 @@ class ListSoldat extends Component {
   };
 
   handleClickOpenAlert = (titre, description, item) => {
+    console.log(item);
     this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
   };
 
@@ -156,9 +157,15 @@ class ListSoldat extends Component {
 
     this.state.lstTypeSoldat.forEach((typeSoldat, index) => {
       if(row.idTypeSoldat === typeSoldat.id){
-        itemViewModel.description = typeSoldat.description;
+        itemViewModel.nom = typeSoldat.nom;
         itemViewModel.vie += typeSoldat.force;
         itemViewModel.force += typeSoldat.vie;
+
+        itemViewModel.nourriture = typeSoldat.nourriture;
+        itemViewModel.argent = typeSoldat.argent;
+        itemViewModel.eau = typeSoldat.eau;
+        itemViewModel.science = typeSoldat.science;
+
       }
     })
     
@@ -214,7 +221,7 @@ class ListSoldat extends Component {
                 return (
                   <TableRow key={itemViewModel.id}>
                     <TableCell>{itemViewModel.id}</TableCell>
-                    <TableCell>{itemViewModel.description}</TableCell>
+                    <TableCell>{itemViewModel.nom}</TableCell>
                     <TableCell>
                     <FormControl>
                       <Select
@@ -230,7 +237,7 @@ class ListSoldat extends Component {
                         </MenuItem>
                         {this.state.lstTerritoire.map(territoire => {
                           return (
-                          <MenuItem value={territoire.id}>{territoire.description}</MenuItem>
+                          <MenuItem value={territoire.id}>{territoire.nom}</MenuItem>
                           )})
                         }
                       </Select>
@@ -284,7 +291,7 @@ class ListSoldat extends Component {
                     <Button
                     variant="contained" 
                     color="secondary"
-                    onClick={() => this.Delete(itemViewModel)}
+                    onClick={() => this.handleClickOpenAlert("Vendre un soldat", "Vendre", itemViewModel)}
                     >
                       Vendre
                     </Button>
@@ -304,7 +311,7 @@ class ListSoldat extends Component {
               color="primary"
               onClick={() => this.handleClickOpenAlert("Acheter un soldat", "Acheter", typeSoldat)}
               >
-              Acheter {typeSoldat.description}
+              Acheter {typeSoldat.nom}
             </Button>
             );
             })

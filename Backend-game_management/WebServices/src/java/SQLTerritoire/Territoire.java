@@ -34,7 +34,7 @@ public class Territoire
             con = new ConnectDb().GetConnection();      
             
             PreparedStatement statement = con.prepareStatement(
-                    "SELECT territoire.id, territoire.description\n" +
+                    "SELECT territoire.id, territoire.nom\n" +
                     "FROM game_management.territoire\n" +
                     "join joueur on joueur.id = territoire.idJoueur\n" +
                     "where joueur.userName = ?;", 
@@ -50,7 +50,7 @@ public class Territoire
                 JSONObject territoire = new JSONObject();
                 
                 territoire.put("id", rs.getInt("id"));
-                territoire.put("description", rs.getString("description"));
+                territoire.put("nom", rs.getString("nom"));
                 
                 jTerritoire.put(territoire);
             }
@@ -106,7 +106,7 @@ public class Territoire
                 territoire.put("argent", rt.getDouble("argent"));
                 territoire.put("science", rt.getDouble("science"));
                 
-                territoire.put("description", rs.getString("description"));
+                territoire.put("nom", rs.getString("nom"));
                 territoire.put("idJoueur", idJoueur);
                 territoire.put("id", rs.getInt("id"));
                 

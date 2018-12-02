@@ -70,7 +70,7 @@ class ListTerritoire extends Component {
                   return (
                     <TableRow key={row.id}>
                       <TableCell>{row.id}</TableCell>
-                      <TableCell>{row.description}</TableCell>
+                      <TableCell>{row.nom}</TableCell>
                       <TableCell>{row.nourriture}</TableCell>
                       <TableCell>{row.eau}</TableCell>
                       <TableCell>{row.argent}</TableCell>

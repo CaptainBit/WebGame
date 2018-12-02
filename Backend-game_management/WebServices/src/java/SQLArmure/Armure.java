@@ -148,6 +148,14 @@ public class Armure
              
             int idRessource = rs.getInt("idRessource");
              
+            statement = con.prepareStatement(
+                       "update soldat set idArmure = NULL where idArmure = ?;"
+                    , 1005, 1008);
+
+            statement.setInt(1, idArmure);
+            statement.executeUpdate();
+            statement.clearParameters();
+            
             JSONObject ressourceType = getRessource(con, idType);
             
             con.close();

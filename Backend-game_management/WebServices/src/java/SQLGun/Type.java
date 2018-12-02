@@ -39,7 +39,7 @@ public class Type
                 JSONObject type = new JSONObject();
                 
                 int idRessource = rs.getInt("idRessource");
-                String nom = rs.getString("nomArme");
+                String nom = rs.getString("nom");
                 
                 statement = con.prepareStatement("SELECT * FROM ressource where id  = ?", 1005, 1008);  
                 statement.setInt(1, idRessource);
