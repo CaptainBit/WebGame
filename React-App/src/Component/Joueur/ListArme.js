@@ -79,7 +79,6 @@ class ListArme extends Component {
     this.state.rows.forEach((arme, index) => {
       if(arme.id === id){
         var i = this.GetIndexTypeArme(arme.idTypeArme);
-        console.log(i);
         var myTypeArme = this.state.typeArmes[i];
         this.props.AddRessource(0,myTypeArme.eau * 0.5,
           myTypeArme.argent * 0.5,

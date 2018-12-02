@@ -201,17 +201,17 @@ public class Territoire
             
             PreparedStatement statement = con.prepareStatement(
                     "SELECT \n" +
-                            "soldat.id, \n" +
-                            "(p_typesoldat.vie + COALESCE(p_typearmure.vie,0)) as vieTotal, \n" +
-                            "(p_typesoldat.force + COALESCE(p_typearme.force,0)) as forceTotal \n" +
-                            "FROM game_management.soldat as soldat \n" +
-                            "join joueur on soldat.idJoueur = joueur.id\n" +
-                            "join p_typesoldat on soldat.idTypeSoldat = p_typesoldat.id\n" +
-                            "left join arme on soldat.idArme = arme.id \n" +
-                            "left join p_typearme on arme.idTypeArme = p_typearme.id\n" +
-                            "left join armure on soldat.idArmure = armure.id\n" +
-                            "left join p_typearmure on armure.idTypeArmure = p_typearmure.id\n" +
-                            "where soldat.idTerritoire = ?;"
+                    "soldat.id, \n" +
+                    "(p_typesoldat.vie + COALESCE(p_typearmure.vie,0)) as vieTotal, \n" +
+                    "(p_typesoldat.force + COALESCE(p_typearme.force,0)) as forceTotal \n" +
+                    "FROM soldat\n" +
+                    "join joueur on soldat.idJoueur = joueur.id\n" +
+                    "join p_typesoldat on soldat.idTypeSoldat = p_typesoldat.id\n" +
+                    "left join arme on soldat.id = arme.idSoldat \n" +
+                    "left join p_typearme on arme.idTypeArme = p_typearme.id\n" +
+                    "left join armure on soldat.id = armure.idSoldat\n" +
+                    "left join p_typearmure on armure.idTypeArmure = p_typearmure.id" +
+                    "where soldat.idTerritoire = ?;"
                     , 1005, 1008);
             
             statement.setInt(1, idTerritoire);
@@ -257,9 +257,9 @@ public class Territoire
                     "FROM game_management.soldat as soldat \n" +
                     "join joueur on soldat.idJoueur = joueur.id\n" +
                     "join p_typesoldat on soldat.idTypeSoldat = p_typesoldat.id\n" +
-                    "left join arme on soldat.idArme = arme.id \n" +
+                    "left join arme on soldat.id = arme.idSoldat \n" +
                     "left join p_typearme on arme.idTypeArme = p_typearme.id\n" +
-                    "left join armure on soldat.idArmure = armure.id\n" +
+                    "left join armure on soldat.id = armure.idSoldat\n" +
                     "left join p_typearmure on armure.idTypeArmure = p_typearmure.id\n" +
                     "where soldat.id = ?;"
                     , 1005, 1008);   

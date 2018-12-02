@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Dialog , DialogActions , DialogContent , DialogContentText , DialogTitle, Button, Typography} from '@material-ui/core';
 import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant} from '@material-ui/icons';
 
@@ -109,9 +108,5 @@ class AlertDialog extends Component {
     );
   }
 }
-
-AlertDialog.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default (AlertDialog);

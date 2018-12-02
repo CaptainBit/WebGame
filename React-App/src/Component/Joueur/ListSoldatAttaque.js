@@ -24,6 +24,8 @@ class ListSoldatAttaque extends Component {
   };
 
   componentDidMount() {
+    this.handleClickOpenAlert("Alerte","Chargement de la table des soldats");
+
     this.getAll();
   }
 
@@ -39,7 +41,13 @@ class ListSoldatAttaque extends Component {
   {
     var userName = this.props.UserName;
     fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayerSansTerritoire?userName=' + userName)
-    .then(result=> result.json()).then((result) => this.setState({rows : result}));
+    .then(result=> result.json()).then((result) => 
+      {
+        this.setState({rows : result});
+        if(this.state.openAlert === true){
+          this.handleCloseAlert();
+        }  
+      });
   }
 
   handleClose = () => {

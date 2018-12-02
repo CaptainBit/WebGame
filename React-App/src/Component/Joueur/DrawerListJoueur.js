@@ -10,12 +10,12 @@ class DrawerListJoueur extends Component {
   render() {
     return (
         <List>
-          <ListItem button component={Link} to="/Profil">
+          {/* <ListItem button component={Link} to="/Profil">
             <ListItemIcon>
               <AccountCircle />
             </ListItemIcon>
             <ListItemText primary="Profil" />
-          </ListItem>
+          </ListItem> */}
           <ListItem button component={Link} to="/ListSoldat">
             <ListItemIcon>
               <People />

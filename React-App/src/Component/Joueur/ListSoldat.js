@@ -35,7 +35,6 @@ class ListSoldat extends Component {
   };
 
   handleClickOpenAlert = (titre, description, item) => {
-    console.log(item);
     this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
   };
 
@@ -44,6 +43,8 @@ class ListSoldat extends Component {
   };
   
   componentDidMount() {
+    this.handleClickOpenAlert("Alerte","Chargement de la table des soldats");
+
     this.getTypeSoldat();
     this.getTypeArme();
     this.getTypeArmure();
@@ -102,11 +103,17 @@ class ListSoldat extends Component {
   {
     fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayer' + 
     '?userName=' + this.props.UserName)
-    .then(result=> result.json()).then((result) => this.setState({rows : result}));
+    .then(result=> result.json()).then((result) => 
+    {
+      this.setState({rows : result});
+      if(this.state.openAlert === true){
+        this.handleCloseAlert();
+      }
+    });
   }
 
   Add(typeSoldat){
-    console.log(typeSoldat);
+    
     var check = false;
     check = this.props.CheckCanBuy(typeSoldat.nourriture,typeSoldat.eau, typeSoldat.argent, typeSoldat.science);
     
@@ -155,7 +162,6 @@ class ListSoldat extends Component {
    }
   
    Delete(itemViewModel) {
-    console.log(itemViewModel);
     fetch('http://localhost:8080/WebServices/webresources/Soldat/DeleteSoldat?' +
     'idSoldat='+ itemViewModel.id +
     '&idType=' + itemViewModel.idTypeSoldat +
@@ -184,12 +190,6 @@ class ListSoldat extends Component {
         itemViewModel.nom = typeSoldat.nom;
         itemViewModel.force += typeSoldat.force;
         itemViewModel.vie += typeSoldat.vie;
-
-        itemViewModel.nourriture = typeSoldat.nourriture;
-        itemViewModel.argent = typeSoldat.argent;
-        itemViewModel.eau = typeSoldat.eau;
-        itemViewModel.science = typeSoldat.science;
-
       }
     })
     
@@ -236,6 +236,24 @@ class ListSoldat extends Component {
       }
     })
     return Retour;
+  }
+
+  AfficheStatistiqueVendre(itemViewModel){
+    this.state.lstTypeSoldat.forEach((typeSoldat, index) => {
+      if(itemViewModel.idTypeSoldat === typeSoldat.id){
+
+        itemViewModel.force = typeSoldat.force;
+        itemViewModel.vie = typeSoldat.vie;
+
+        itemViewModel.nourriture = typeSoldat.nourriture;
+        itemViewModel.argent = typeSoldat.argent;
+        itemViewModel.eau = typeSoldat.eau;
+        itemViewModel.science = typeSoldat.science;
+        
+      }
+    })
+
+    return itemViewModel;
   }
   
   render() {
@@ -304,7 +322,18 @@ class ListSoldat extends Component {
                           </MenuItem>
                           {this.state.lstArmePlayer.map(armePlayer => {
                               return (
-                                <MenuItem value={armePlayer.id}>{this.AfficheNomTypeArme(armePlayer.idType)}</MenuItem>
+                                <MenuItem 
+                                  value={armePlayer.id}>
+                                  {
+                                    this.AfficheNomTypeArme(armePlayer.idType)
+                                  } 
+                                  {
+                                    armePlayer.idSoldat > 0 && armePlayer.idSoldat !== row.id ? 
+                                    " : Arme déjà utilisée" 
+                                    : 
+                                    ""
+                                  }
+                                </MenuItem>
                                 )
                               }
                           )}
@@ -326,7 +355,17 @@ class ListSoldat extends Component {
                           </MenuItem>
                           {this.state.lstArmurePlayer.map(armurePlayer => {
                               return (
-                                <MenuItem value={armurePlayer.id}>{this.AfficheNomTypeArmure(armurePlayer.idType)}</MenuItem>
+                                <MenuItem 
+                                value={armurePlayer.id}>
+                                {
+                                  this.AfficheNomTypeArmure(armurePlayer.idType)
+                                } 
+                                {
+                                  armurePlayer.idSoldat > 0 && armurePlayer.idSoldat !== row.id ? 
+                                  " : Armure déjà utilisée" 
+                                  : 
+                                  ""
+                                }</MenuItem>
                                 )
                               }
                           )}
@@ -339,7 +378,7 @@ class ListSoldat extends Component {
                     <Button
                     variant="contained" 
                     color="secondary"
-                    onClick={() => this.handleClickOpenAlert("Vendre un soldat", "Vendre", itemViewModel)}
+                    onClick={() => this.handleClickOpenAlert("Vendre un soldat", "Vendre", this.AfficheStatistiqueVendre(itemViewModel))}
                     >
                       Vendre
                     </Button>

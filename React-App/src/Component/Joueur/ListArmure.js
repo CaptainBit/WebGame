@@ -39,6 +39,8 @@ class ListArmure extends Component {
   }
 
   componentDidMount() {
+    this.handleClickOpenAlert("Alerte","Chargement de la table des territoires");
+
     this.getType();
     this.Refresh();
   }
@@ -54,7 +56,13 @@ class ListArmure extends Component {
     fetch('http://localhost:8080/WebServices/webresources/Armure/getArmurePlayer?userName='+
     this.props.UserName)
     .then(result=> result.json()
-    .then((result) => this.setState({rows : result})));
+    .then((result) => 
+    {
+      this.setState({rows : result});
+      if(this.state.openAlert === true){
+        this.handleCloseAlert();
+      }  
+    }));
   }
 
   Add(type){

@@ -34,12 +34,24 @@ public class Guns
         con = new ConnectDb().GetConnection();        
         
         try{
-            PreparedStatement statement = con.prepareStatement(
+            PreparedStatement statement;
+            
+            if(idArme > 0){
+                
+                statement = con.prepareStatement(
                     "update arme set idSoldat = ? where id = ?;"
                     , 1005, 1008);   
             
-            statement.setInt(1, idSoldat);
-            statement.setInt(2, idArme);
+                statement.setInt(1, idSoldat);
+                statement.setInt(2, idArme);
+            }
+            else{
+                statement = con.prepareStatement(
+                    "update arme set idSoldat = NULL where idSoldat = ?;"
+                    , 1005, 1008);   
+            
+                statement.setInt(1, idSoldat);
+            }
 
             statement.executeUpdate();
             statement.clearParameters();

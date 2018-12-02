@@ -7,7 +7,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, Typography, CardContent, Card} from '@material-ui/core';
+
 import ListSoldatAttaque from './ListSoldatAttaque';
+import AlertDialog from '../Shared/AlertDialog';
+
 
 const styles = theme => ({
   table: {
@@ -21,6 +24,19 @@ class ListTerritoire extends Component {
     rows : [],
     open: false,
     territoireSelected: 0,
+
+    openAlert: false,
+    titreAlert: "Erreur",
+    descriptionAlert: "Erreur",
+    itemAlert: {}
+  };
+
+  handleClickOpenAlert = (titre, description, item) => {
+    this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ openAlert: false });
   };
 
   handleClickOpen(id) {
@@ -33,13 +49,21 @@ class ListTerritoire extends Component {
   };
 
   componentDidMount() {
+    this.handleClickOpenAlert("Alerte","Chargement de la table des territoires");
+
     this.getAll();
   }
 
   getAll()
   {
     fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
-    .then(result=> result.json()).then((result) => this.setState({rows : result}));
+    .then(result=> result.json()).then((result) => 
+    {
+      this.setState({rows : result});
+      if(this.state.openAlert === true){
+        this.handleCloseAlert();
+      }  
+    });
   }
   
   render() {
@@ -104,6 +128,13 @@ class ListTerritoire extends Component {
         onClose={this.handleClose}
         >
         </ListSoldatAttaque>
+        <AlertDialog
+        openAlert={this.state.openAlert}
+        titreAlert={this.state.titreAlert}
+        descriptionAlert={this.state.descriptionAlert}
+        handleCloseAlert={this.handleCloseAlert.bind(this)}
+      >
+      </AlertDialog>
       </div>
       
     );

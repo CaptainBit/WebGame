@@ -32,12 +32,23 @@ public class Soldat
         con = new ConnectDb().GetConnection();        
         
         try{
-            PreparedStatement statement = con.prepareStatement(
-                    "update soldat set idTerritoire = ? where id = ?;"
-                    , 1005, 1008);   
+            PreparedStatement statement;
             
-            statement.setInt(1, idTerritoire);
-            statement.setInt(2, idSoldat);
+            if(idTerritoire > 0){
+                statement = con.prepareStatement(
+                        "update soldat set idTerritoire = ? where id = ?;"
+                        , 1005, 1008);   
+
+                statement.setInt(1, idTerritoire);
+                statement.setInt(2, idSoldat);
+            }
+            else {
+                 statement = con.prepareStatement(
+                        "update soldat set idTerritoire = NULL where id = ?;"
+                        , 1005, 1008);   
+
+                statement.setInt(1, idSoldat);
+            }
 
             statement.executeUpdate();
             statement.clearParameters();
