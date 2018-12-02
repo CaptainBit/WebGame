@@ -21,6 +21,49 @@ import org.json.JSONObject;
  */
 public class Soldat 
 {    
+    public JSONArray getSoldatPlayer(String userName)
+    {
+        JSONArray jSoldats = new JSONArray();
+        
+         Connection con = null;
+        
+        try{
+            con = new ConnectDb().GetConnection();      
+            
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT * FROM game_management.soldat\n" +
+                    "join joueur on joueur.id = soldat.idJoueur\n" +
+                    "where joueur.userName = ?;"
+                    , 1005, 1008);   
+            
+            statement.setString(1, userName);
+            
+            ResultSet rs = statement.executeQuery();
+            
+            statement.clearParameters();
+            
+            while(rs.next())
+            {
+                JSONObject soldat = new JSONObject();
+                
+                soldat.put("id", rs.getInt("id"));
+                soldat.put("idJoueur", rs.getInt("idJoueur"));
+                soldat.put("idTerritoire", rs.getInt("idTerritoire"));
+                soldat.put("idTypeSoldat", rs.getInt("idTypeSoldat"));
+                soldat.put("idArme", rs.getInt("idArme"));
+                soldat.put("idArmure", rs.getInt("idArmure"));
+                               
+                jSoldats.put(soldat);
+            }
+            
+            con.close();
+           }catch(SQLException | JSONException e){
+             System.out.print(e.toString());
+           }
+       
+        return jSoldats;
+    }
+    
     public JSONArray getSoldatPlayerSansTerritoire(String userName)
     {
         JSONArray jtypes = new JSONArray();
@@ -74,6 +117,43 @@ public class Soldat
         return jtypes;
     }
     
+    public JSONArray getTypeSoldat()
+    {
+        JSONArray jtypes = new JSONArray();
+        
+         Connection con = null;
+        
+        try{
+            con = new ConnectDb().GetConnection();      
+            
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT * FROM game_management.p_typesoldat;"
+                    , 1005, 1008);   
+                        
+            ResultSet rs = statement.executeQuery();
+            
+            statement.clearParameters();
+            
+            while(rs.next())
+            {
+                JSONObject soldat = new JSONObject();
+                
+                soldat.put("id", rs.getInt("id"));
+                soldat.put("idRessource", rs.getInt("idRessource"));
+                soldat.put("force", rs.getInt("force"));
+                soldat.put("vie", rs.getInt("vie"));                
+                soldat.put("description", rs.getString("description"));
+                               
+                jtypes.put(soldat);
+            }
+            
+            con.close();
+           }catch(SQLException | JSONException e){
+             System.out.print(e.toString());
+           }
+       
+        return jtypes;
+    }
     
     
     

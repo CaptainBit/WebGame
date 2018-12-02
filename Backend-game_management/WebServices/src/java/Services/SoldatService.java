@@ -41,5 +41,29 @@ public class SoldatService {
         
         return json.toString();
     }
+    
+    @GET
+    @Path("getSoldatPlayer")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getSoldatPlayer(@QueryParam("userName") String userName) {
+    
+        Soldat soldat = new Soldat();
+        
+        JSONArray json = soldat.getSoldatPlayer(userName);
+        
+        return json.toString();
+    }
+    
+    @GET
+    @Path("Type")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String Type() {
+    
+        Soldat soldat = new Soldat();
+        
+        JSONArray json = soldat.getTypeSoldat();
+        
+        return json.toString();
+    }
 
 }

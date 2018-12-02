@@ -66,7 +66,7 @@ class ListSoldat extends Component {
 
   getTypeArme()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Arme/Type')
+    fetch('http://localhost:8080/WebServices/webresources/Guns/Type')
     .then(result=> result.json()).then((result) => this.setState({lstTypeArme : result}));
   }
 
@@ -78,29 +78,34 @@ class ListSoldat extends Component {
 
   getPlayerTerritoire()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Territoire/getPlayerTerritoire')
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/getTerritoirePlayer' + 
+    '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => this.setState({lstTerritoire : result}));
   }
 
   getPlayerArme()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Arme/getAllGuns')
+    fetch('http://localhost:8080/WebServices/webresources/Guns/GunPlayer' + 
+    '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => this.setState({lstArmePlayer : result}));
   }
 
   getPlayerArmure()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Armure/getArmurePlayer')
+    fetch('http://localhost:8080/WebServices/webresources/Armure/getArmurePlayer' + 
+    '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => this.setState({lstArmurePlayer : result}));
   }
 
   getPlayerSoldat()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayer')
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayer' + 
+    '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => this.setState({rows : result}));
   }
 
   Add(typeSoldat){
+    console.log(typeSoldat);
     var check = false;
     check = this.props.CheckCanBuy(typeSoldat.nourriture,typeSoldat.eau, typeSoldat.argent, typeSoldat.science);
     
@@ -119,6 +124,7 @@ class ListSoldat extends Component {
    }
 
    Edit(itemViewModel){
+     console.log(itemViewModel);
     fetch('http://localhost:8080/WebServices/webresources/Soldat/EditSoldat?' +
     'idArmure='+ itemViewModel.id +
     '&idType=' + itemViewModel.idType +
@@ -130,6 +136,7 @@ class ListSoldat extends Component {
    }
   
    Delete(itemViewModel) {
+    console.log(itemViewModel);
     fetch('http://localhost:8080/WebServices/webresources/Soldat/DeleteSoldat?' +
     'idArmure='+ itemViewModel.id +
     '&idType=' + itemViewModel.idType +
@@ -140,8 +147,42 @@ class ListSoldat extends Component {
     });
   }
 
-  AfficheRow(){
+  AfficheRow(row){
+    var itemViewModel = {};
+    Object.assign(itemViewModel, row);
+
+    itemViewModel.vie = 0;
+    itemViewModel.force = 0;
+
+    this.state.lstTypeSoldat.forEach((typeSoldat, index) => {
+      if(row.idTypeSoldat === typeSoldat.id){
+        itemViewModel.description = typeSoldat.description;
+        itemViewModel.vie += typeSoldat.force;
+        itemViewModel.force += typeSoldat.vie;
+      }
+    })
     
+    this.state.lstArmePlayer.forEach((armeSoldat, index) => {
+      if(row.idArme === armeSoldat.id){
+        this.state.lstTypeArme.forEach((typeArme, index) => {
+          if(armeSoldat.type === typeArme.id){
+            itemViewModel.force += typeArme.vie;
+          }
+        })
+      }
+    })
+
+    this.state.lstArmurePlayer.forEach((armureSoldat, index) => {
+      if(row.idArmure === armureSoldat.id){
+        this.state.lstTypeArmure.forEach((typeArmure, index) => {
+          if(armureSoldat.idType === typeArmure.id){
+            itemViewModel.vie += typeArmure.vie;
+          }
+        })
+      }
+    })
+
+    return itemViewModel;
   }
   
   render() {
@@ -173,14 +214,14 @@ class ListSoldat extends Component {
                 return (
                   <TableRow key={itemViewModel.id}>
                     <TableCell>{itemViewModel.id}</TableCell>
-                    <TableCell>{this.AfficherTpyeSoldat(itemViewModel.idTypeSoldat)}</TableCell>
+                    <TableCell>{itemViewModel.description}</TableCell>
                     <TableCell>
                     <FormControl>
                       <Select
-                      value={itemViewModel.territoire}
-                      onChange={(event) => this.Edit(event, itemViewModel.id)}
+                      value={itemViewModel.idTerritoire}
+                      onChange={(event) => this.Edit(event, itemViewModel)}
                       inputProps={{
-                        name: "territoire",
+                        name: "idTerritoire",
                         id: itemViewModel.id
                       }}
                       >
@@ -198,22 +239,19 @@ class ListSoldat extends Component {
                     <TableCell>
                       <FormControl>
                         <Select
-                          value={itemViewModel.arme}
-                          onChange={(event) => this.Edit(event, itemViewModel.id)}
+                          value={itemViewModel.idArme}
+                          onChange={(event) => this.Edit(event, itemViewModel)}
                           inputProps={{
-                            name: "arme",
+                            name: "idArme",
                             id: itemViewModel.id
                           }}
                         >
                           <MenuItem value={0}>
                             <em>Aucun</em>
                           </MenuItem>
-                          <MenuItem value={0}>
-                          <em>Aucun</em>
-                          </MenuItem>
                           {this.state.lstTypeArme.map(typeArme => {
                             return (
-                            <MenuItem value={typeArme.id}>{typeArme.description}</MenuItem>
+                            <MenuItem value={typeArme.id}>{typeArme.nom}</MenuItem>
                             )})
                           }
                         </Select>
@@ -222,26 +260,26 @@ class ListSoldat extends Component {
                     <TableCell>
                       <FormControl>
                         <Select
-                          value={itemViewModel.armure}
-                          onChange={(event) => this.Edit(event, itemViewModel.id)}
+                          value={itemViewModel.idArmure}
+                          onChange={(event) => this.Edit(event, itemViewModel)}
                           inputProps={{
-                            name: "armure",
+                            name: "idArmure",
                             id: itemViewModel.id
                           }}
                         >
                           <MenuItem value={0}>
                             <em>Aucun</em>
                           </MenuItem>
-                          {this.state.lstArmure.map(typeArmure => {
+                          {this.state.lstTypeArmure.map(typeArmure => {
                             return (
-                            <MenuItem value={typeArmure.id}>{typeArmure.description}</MenuItem>
+                            <MenuItem value={typeArmure.id}>{typeArmure.nom}</MenuItem>
                             )})
                           }
                         </Select>
                       </FormControl>
                     </TableCell>
-                    <TableCell numeric>{itemViewModel.Totalforce}</TableCell>
-                    <TableCell numeric>{itemViewModel.Totalvie}</TableCell>
+                    <TableCell numeric>{itemViewModel.force}</TableCell>
+                    <TableCell numeric>{itemViewModel.vie}</TableCell>
                     <TableCell numeric>
                     <Button
                     variant="contained" 

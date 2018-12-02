@@ -51,7 +51,7 @@ class ListArmure extends Component {
 
   getPlayerArmure()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Armure/ArmurePlayer?userName='+
+    fetch('http://localhost:8080/WebServices/webresources/Armure/getArmurePlayer?userName='+
     this.props.UserName)
     .then(result=> result.json()
     .then((result) => this.setState({rows : result})));

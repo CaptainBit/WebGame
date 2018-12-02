@@ -23,6 +23,47 @@ import org.json.JSONObject;
  */
 public class Territoire 
 {    
+    public JSONArray getTerritoirePlayer(String userName)
+    {
+        JSONArray jTerritoire = new JSONArray();
+        
+         Connection con = null;
+        
+        
+        try{
+            con = new ConnectDb().GetConnection();      
+            
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT territoire.id, territoire.description\n" +
+                    "FROM game_management.territoire\n" +
+                    "join joueur on joueur.id = territoire.idJoueur\n" +
+                    "where joueur.userName = ?;", 
+                    1005, 1008);   
+            
+            statement.setString(1, userName);
+            
+            ResultSet rs = statement.executeQuery();
+            statement.clearParameters();
+            
+            while(rs.next())
+            {
+                JSONObject territoire = new JSONObject();
+                
+                territoire.put("id", rs.getInt("id"));
+                territoire.put("description", rs.getString("description"));
+                
+                jTerritoire.put(territoire);
+            }
+            
+            con.close();
+           }catch(SQLException | JSONException e){
+             System.out.print(e.toString());
+           }
+       
+        return jTerritoire;
+    }
+    
+    
     public JSONArray getAllTerritoire()
     {
         JSONArray jtypes = new JSONArray();

@@ -45,6 +45,18 @@ public class TerritoireService {
     }
     
     @GET
+    @Path("getTerritoirePlayer")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getTerritoirePlayer(@QueryParam("userName") String userName) {
+    
+        Territoire territoire = new Territoire();
+        
+        JSONArray json = territoire.getTerritoirePlayer(userName);
+        
+        return json.toString();
+    }
+    
+    @GET
     @Path("Attaque")
     @Produces(MediaType.APPLICATION_JSON)
     public String Attaque(

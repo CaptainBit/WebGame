@@ -44,7 +44,7 @@ public class ArmureService {
     }
     
     @GET
-    @Path("ArmurePlayer")
+    @Path("getArmurePlayer")
     @Produces(MediaType.APPLICATION_JSON)
     public String getArmurePlayer(@QueryParam("userName") String userName) {
     

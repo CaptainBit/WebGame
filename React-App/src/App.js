@@ -202,6 +202,17 @@ class App extends Component {
         />
       );
     }
+
+    const ListSoldatComponent = (props) => {
+      return (
+        <ListSoldat
+        UserName ={this.state.UserName}
+        CheckCanBuy={this.CheckCanBuy.bind(this)}
+        UpdateRessource={this.UpdateRessource.bind(this)}
+        />
+      );
+    }
+
     const ProfilComponent = (props) =>{
       return(
       <Profil
@@ -313,7 +324,7 @@ class App extends Component {
                 <Route path="/ListArme" component={ListArmeComponent} />
                 <Route path="/ListArmure" component={ListArmureComponent} />
                 <Route path="/ListRessource" component={ListRessourceComponent} />
-                <Route path="/ListSoldat" component={ListSoldat} />
+                <Route path="/ListSoldat" component={ListSoldatComponent} />
                 <Route path="/Profil" component={ProfilComponent} /> 
               </div>               
               :
