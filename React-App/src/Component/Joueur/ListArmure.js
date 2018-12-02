@@ -35,11 +35,11 @@ class ListArmure extends Component {
   };
 
   Refresh(){
-    this.getType();
     this.getPlayerArmure();
   }
 
   componentDidMount() {
+    this.getType();
     this.Refresh();
   }
 
@@ -57,15 +57,15 @@ class ListArmure extends Component {
     .then((result) => this.setState({rows : result})));
   }
 
-  Add(item){
+  Add(type){
     var check = false;
-    check = this.props.CheckCanBuy(item.nourriture,item.eau, item.argent, item.science);
+    check = this.props.CheckCanBuy(type.nourriture,type.eau, type.argent, type.science);
     
      if(check === true)
      {
       fetch('http://localhost:8080/WebServices/webresources/Armure/AddArmure' + 
       '?userName='+ this.props.UserName + 
-      '&idType=' + item.id)
+      '&idType=' + type.id)
       .then(() => {
         this.Refresh();
         this.props.UpdateRessource();
