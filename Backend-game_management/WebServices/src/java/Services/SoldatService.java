@@ -65,5 +65,29 @@ public class SoldatService {
         
         return json.toString();
     }
+    
+    @GET
+    @Path("AddSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddSoldat(@QueryParam("userName") String userName, @QueryParam("idType") int idType) {
+    
+        Soldat soldat = new Soldat();
+        
+        boolean json = soldat.AddSoldat(userName, idType);
+        
+        return String.valueOf(json);
+    }
+    
+    @GET
+    @Path("DeleteSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String DeleteSoldat(@QueryParam("idSoldat") int idSoldat, @QueryParam("idType") int idType, @QueryParam("userName") String userName) {
+    
+        Soldat soldat = new Soldat();
+        
+        boolean json = soldat.DeleteSoldat(idSoldat, idType, userName);
+        
+        return String.valueOf(json);
+    }
 
 }

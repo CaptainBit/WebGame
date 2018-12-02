@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import SQLRessource.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,6 +25,108 @@ import SQLRessource.*;
  */
 public class Soldat 
 {    
+    public boolean AddSoldat(String userName, int idTypeSoldat){
+        
+        Connection con = null;
+        
+        con = new ConnectDb().GetConnection();        
+        
+        try{
+            PreparedStatement statement = con.prepareStatement(
+                    "select idRessource, id from joueur where userName = ?"
+                    , 1005, 1008);   
+            statement.setString(1, userName);
+            ResultSet rs = statement.executeQuery();
+            statement.clearParameters();
+            
+            rs.next();
+            
+            int idJoueur = rs.getInt("id");
+            int idRessource = rs.getInt("idRessource");
+            
+            statement = con.prepareStatement(
+                    "INSERT INTO soldat\n" +
+                    "(idJoueur, idTypeSoldat)\n" +
+                    "VALUES(?, ?);"
+                    , 1005, 1008);   
+            
+            statement.setInt(1, idJoueur);
+            statement.setInt(2, idTypeSoldat);
+            
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+            JSONObject ressourceType = getRessource(con, idTypeSoldat);
+            
+            con.close();
+            
+            Ressource ressource = new Ressource();
+            int nourriture = ressourceType.getInt("nourriture");
+            int eau = ressourceType.getInt("eau");
+            int argent = ressourceType.getInt("argent");
+            int science = ressourceType.getInt("science");
+
+            ressource.EditRessourceById(idRessource,-nourriture, -eau, -argent, -science);
+            
+           }catch(SQLException e){
+           
+             System.out.print(e.toString());
+           } catch (JSONException ex) { 
+             Logger.getLogger(Soldat.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         
+         return true;    
+    }
+    
+    public boolean DeleteSoldat(int idSoldat, int idType, String userName){
+         
+         Connection con = null;
+         
+         try {
+            con = new ConnectDb().GetConnection();     
+             
+            PreparedStatement statement = con.prepareStatement(
+                    "Delete from soldat where id = ?;"
+                    , 1005, 1008);
+
+            statement.setInt(1, idSoldat);
+            statement.executeUpdate();
+            statement.clearParameters();  
+
+            statement = con.prepareStatement(
+                       "SELECT idRessource FROM joueur where userName = ?;"
+                    , 1005, 1008);
+
+            statement.setString(1, userName);
+            ResultSet rs = statement.executeQuery();
+            statement.clearParameters();
+
+            rs.next();
+             
+            int idRessource = rs.getInt("idRessource");
+            
+            JSONObject ressourceType = getRessource(con, idType);
+            
+            con.close();
+            
+            Ressource ressource = new Ressource();
+            int nourriture = ressourceType.getInt("nourriture");
+            int eau = ressourceType.getInt("eau");
+            int argent = ressourceType.getInt("argent");
+            int science = ressourceType.getInt("science");
+
+            ressource.EditRessourceById(idRessource,nourriture / 2, eau / 2, argent / 2, science / 2);
+             
+             return true;
+         }
+        catch (SQLException ex) {
+             Logger.getLogger(Soldat.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (JSONException ex) {
+             Logger.getLogger(Soldat.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        return false;
+     }
+    
     public JSONArray getSoldatPlayer(String userName)
     {
         JSONArray jSoldats = new JSONArray();
@@ -171,6 +275,40 @@ public class Soldat
        
         return jtypes;
     }
+    
+    private JSONObject getRessource(Connection con, int idType){
+         JSONObject ressource = new JSONObject();
+
+         try {
+             PreparedStatement statement = con.prepareStatement(
+                     "SELECT \n" +
+                             "ressource.nourriture, ressource.argent, \n" +
+                             "ressource.eau, ressource.science \n" +
+                             "FROM p_typesoldat\n" +
+                             "join ressource on idRessource = ressource.id\n" +
+                             "where p_typesoldat.id = ?;"
+                     , 1005, 1008);
+             
+             statement.setInt(1, idType);
+             ResultSet rs = statement.executeQuery();
+             statement.clearParameters();
+             
+             rs.next();
+            
+            ressource.put("argent", rs.getInt("argent"));
+            ressource.put("eau", rs.getInt("eau"));
+            ressource.put("science", rs.getInt("science"));
+            ressource.put("nourriture", rs.getInt("nourriture"));
+            
+             
+         } catch (SQLException ex) {
+             Logger.getLogger(Soldat.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (JSONException ex) {
+             Logger.getLogger(Soldat.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         
+         return ressource;
+     }
     
     
     

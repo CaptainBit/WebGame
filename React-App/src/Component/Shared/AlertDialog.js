@@ -23,7 +23,10 @@ class AlertDialog extends Component {
 
       var Retour = 
         <div>
-          {texte}
+          <Typography variant="h6" color="inherit" noWrap>
+            {texte}
+          </Typography>
+
           <Typography style={{ marginTop: 10, flex: 1, display: 'flex', flexWrap: 'wrap'}} variant="h6" color="inherit" noWrap>
             <div style={{ marginLeft: 10}}>
               <Restaurant /> {itemViewModel.nourriture}    
@@ -39,6 +42,27 @@ class AlertDialog extends Component {
             </div>
           </Typography>
 
+          <Typography style={{ marginTop: 10}} variant="h7" color="inherit" noWrap>
+            Statistique de {itemViewModel.nom} : 
+          </Typography>
+
+            {
+              typeof itemViewModel.force !== "undefined" ? 
+              <Typography variant="h7" color="inherit" noWrap>
+                Force : {itemViewModel.force} 
+              </Typography>
+              : 
+              ""
+            }
+
+            {
+              typeof itemViewModel.vie !== "undefined" ? 
+              <Typography variant="h7" color="inherit" noWrap>
+                Vie : {itemViewModel.vie} 
+              </Typography>
+              : 
+              ""
+            }
         </div>;
 
         return Retour;

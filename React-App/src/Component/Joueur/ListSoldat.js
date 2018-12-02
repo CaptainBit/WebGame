@@ -140,8 +140,8 @@ class ListSoldat extends Component {
    Delete(itemViewModel) {
     console.log(itemViewModel);
     fetch('http://localhost:8080/WebServices/webresources/Soldat/DeleteSoldat?' +
-    'idArmure='+ itemViewModel.id +
-    '&idType=' + itemViewModel.idType +
+    'idSoldat='+ itemViewModel.id +
+    '&idType=' + itemViewModel.idTypeSoldat +
     '&userName=' + this.props.UserName)
     .then(() => {
       this.Refresh();

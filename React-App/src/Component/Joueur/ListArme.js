@@ -65,7 +65,7 @@ class ListArme extends Component {
    var check = false;
    var i = this.GetIndexTypeArme(idType);
    var myTypeArme = this.state.typeArmes[i];
-   check = this.props.SubsRessource(0,myTypeArme.eau, myTypeArme.argent, myTypeArme.science);
+   check = this.props.CheckCanBuy(myTypeArme.nourriture,myTypeArme.eau, myTypeArme.argent, myTypeArme.science);
    
     if(check === true)
     {

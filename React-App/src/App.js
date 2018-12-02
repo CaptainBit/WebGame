@@ -187,8 +187,8 @@ class App extends Component {
       return (
         <ListArme
         UserName ={this.state.UserName}
-        SubsRessource={this.SubsRessource.bind(this)}
-        AddRessource={this.AddRessource.bind(this)}
+        CheckCanBuy={this.CheckCanBuy.bind(this)}
+        UpdateRessource={this.UpdateRessource.bind(this)}
         />
       );
     }
