@@ -244,6 +244,7 @@ class App extends Component {
 
       MenuOptions =
       <div>
+        <Button color="inherit" onClick={this.UpdateRessource.bind(this)}>Rafraichie les ressources</Button>
         <Button component={Link} color="inherit" to="/About">À propos du jeu</Button>
         <Button color="inherit" onClick={this.LogoutMethod.bind(this)}>Se déconnecter</Button>
       </div>

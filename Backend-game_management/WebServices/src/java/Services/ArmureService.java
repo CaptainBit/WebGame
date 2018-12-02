@@ -78,5 +78,17 @@ public class ArmureService {
         
         return String.valueOf(result);
     }
+    
+    @GET
+    @Path("EditArmureSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String EditArmureSoldat(@QueryParam("idArmure") int idArmure, @QueryParam("idSoldat") int idSoldat) {
+    
+        Armure armure = new Armure();
+        
+        boolean result = armure.EditArmureSoldat(idArmure, idSoldat);
+        
+        return String.valueOf(result);
+    }
 
 }

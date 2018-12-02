@@ -28,6 +28,31 @@ import SQLRessource.Ressource;
  */
 public class Armure 
 {
+    
+    public boolean EditArmureSoldat(int idArmure, int idSoldat){
+        
+        Connection con = null;
+        
+        con = new ConnectDb().GetConnection();        
+        
+        try{
+            PreparedStatement statement = con.prepareStatement(
+                    "update armure set idSoldat = ? where id = ?;"
+                    , 1005, 1008);   
+            
+            statement.setInt(1, idSoldat);
+            statement.setInt(2, idArmure);
+
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+           }catch(SQLException e){
+             System.out.print(e.toString());
+           } 
+         
+         return true;    
+    }
+    
      public JSONArray getArmurePlayer(String userName) 
     {
         JSONArray jArmure = new JSONArray();
@@ -38,7 +63,7 @@ public class Armure
         
         try{
             PreparedStatement statement = con.prepareStatement(
-                    "SELECT armure.id, idTypeArmure FROM game_management.armure\n" +
+                    "SELECT armure.id, armure.idTypeArmure, armure.idSoldat FROM game_management.armure\n" +
                     "join joueur on armure.idJoueur = joueur.id\n" +
                     "where joueur.userName = ?;"
                     , 1005, 1008);   
@@ -52,6 +77,7 @@ public class Armure
                 JSONObject armure = new JSONObject();
                 armure.put("id", rs.getInt("id"));
                 armure.put("idType", rs.getInt("idTypeArmure"));
+                armure.put("idSoldat", rs.getInt("idSoldat"));
                 jArmure.put(armure);
             }
              
@@ -147,14 +173,6 @@ public class Armure
             rs.next();
              
             int idRessource = rs.getInt("idRessource");
-             
-            statement = con.prepareStatement(
-                       "update soldat set idArmure = NULL where idArmure = ?;"
-                    , 1005, 1008);
-
-            statement.setInt(1, idArmure);
-            statement.executeUpdate();
-            statement.clearParameters();
             
             JSONObject ressourceType = getRessource(con, idType);
             

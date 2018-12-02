@@ -27,6 +27,30 @@ import org.json.JSONObject;
  */
 public class Guns 
 {
+    public boolean EditArmeSoldat(int idArme, int idSoldat){
+        
+        Connection con = null;
+        
+        con = new ConnectDb().GetConnection();        
+        
+        try{
+            PreparedStatement statement = con.prepareStatement(
+                    "update arme set idSoldat = ? where id = ?;"
+                    , 1005, 1008);   
+            
+            statement.setInt(1, idSoldat);
+            statement.setInt(2, idArme);
+
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+           }catch(SQLException e){
+             System.out.print(e.toString());
+           } 
+         
+         return true;    
+    }
+    
      public JSONArray getAllGuns(String userName) 
     {
         
@@ -38,7 +62,7 @@ public class Guns
         
         try{
             PreparedStatement statement = con.prepareStatement(
-                    "SELECT arme.id, arme.idTypeArme FROM game_management.arme\n" +
+                    "select arme.id, arme.idTypeArme, arme.idSoldat from arme\n" +
                     "join joueur on arme.idJoueur = joueur.id\n" +
                     "where joueur.userName = ?;"
                     , 1005, 1008);   
@@ -52,6 +76,7 @@ public class Guns
                 JSONObject arme = new JSONObject();
                 arme.put("id", rs.getInt("id"));
                 arme.put("idType", rs.getInt("idTypeArme"));
+                arme.put("idSoldat", rs.getInt("idSoldat"));
                 jArme.put(arme);
             }
              

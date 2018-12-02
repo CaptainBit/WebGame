@@ -24,7 +24,32 @@ import java.util.logging.Logger;
  * @author admin
  */
 public class Soldat 
-{    
+{   
+    public boolean EditTerritoireSoldat(int idSoldat, int idTerritoire){
+        
+        Connection con = null;
+        
+        con = new ConnectDb().GetConnection();        
+        
+        try{
+            PreparedStatement statement = con.prepareStatement(
+                    "update soldat set idTerritoire = ? where id = ?;"
+                    , 1005, 1008);   
+            
+            statement.setInt(1, idTerritoire);
+            statement.setInt(2, idSoldat);
+
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+           }catch(SQLException e){
+             System.out.print(e.toString());
+           } 
+         
+         return true;    
+    }
+    
+    
     public boolean AddSoldat(String userName, int idTypeSoldat){
         
         Connection con = null;
@@ -105,6 +130,22 @@ public class Soldat
              
             int idRessource = rs.getInt("idRessource");
             
+            statement = con.prepareStatement(
+                    "update arme set idSoldat = NULL where idSoldat = ?;"
+                    , 1005, 1008);
+
+            statement.setInt(1, idSoldat);
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+            statement = con.prepareStatement(
+                    "update armure set idSoldat = NULL where idSoldat = ?;"
+                    , 1005, 1008);
+
+            statement.setInt(1, idSoldat);
+            statement.executeUpdate();
+            statement.clearParameters();
+            
             JSONObject ressourceType = getRessource(con, idType);
             
             con.close();
@@ -156,8 +197,6 @@ public class Soldat
                 soldat.put("idJoueur", rs.getInt("idJoueur"));
                 soldat.put("idTerritoire", rs.getInt("idTerritoire"));
                 soldat.put("idTypeSoldat", rs.getInt("idTypeSoldat"));
-                soldat.put("idArme", rs.getInt("idArme"));
-                soldat.put("idArmure", rs.getInt("idArmure"));
                                
                 jSoldats.put(soldat);
             }
@@ -180,18 +219,18 @@ public class Soldat
             con = new ConnectDb().GetConnection();      
             
             PreparedStatement statement = con.prepareStatement(
-                    "SELECT soldat.id, p_typesoldat.nom as soldat, " +
-                    "p_typearme.nom as arme, p_typearmure.nom as armure, \n" +
-                    "(p_typesoldat.vie + COALESCE(p_typearmure.vie,0)) as vieTotal, " +
-                    "(p_typesoldat.force + COALESCE(p_typearme.force,0)) as forceTotal " +
-                    "FROM game_management.soldat as soldat \n" +
-                    "join joueur on soldat.idJoueur = joueur.id \n" + 
-                    "join p_typesoldat on soldat.idTypeSoldat = p_typesoldat.id\n" +
-                    "left join arme on soldat.idArme = arme.id \n" +
-                    "left join p_typearme on arme.idTypeArme = p_typearme.id\n" +
-                    "left join armure on soldat.idArmure = armure.id\n" +
-                    "left join p_typearmure on armure.idTypeArmure = p_typearmure.id\n" +
-                    "where soldat.idTerritoire is null AND joueur.userName = ?;"
+                    "SELECT soldat.id, p_typesoldat.nom as soldat,  \n" +
+"                    p_typearme.nom as arme, p_typearmure.nom as armure, \n" +
+"                    (p_typesoldat.vie + COALESCE(p_typearmure.vie,0)) as vieTotal,  \n" +
+"                    (p_typesoldat.force + COALESCE(p_typearme.force,0)) as forceTotal  \n" +
+"                    FROM game_management.soldat as soldat \n" +
+"                    join joueur on soldat.idJoueur = joueur.id  \n" +
+"                    join p_typesoldat on soldat.idTypeSoldat = p_typesoldat.id\n" +
+"                    left join arme on soldat.id = arme.idSoldat\n" +
+"                    left join p_typearme on arme.idTypeArme = p_typearme.id\n" +
+"                    left join armure on soldat.id = armure.idSoldat\n" +
+"                    left join p_typearmure on armure.idTypeArmure = p_typearmure.id\n" +
+"                    where soldat.idTerritoire is null AND joueur.userName = ?;"
                     , 1005, 1008);   
             
             statement.setString(1, userName);

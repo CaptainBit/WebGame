@@ -116,7 +116,7 @@ class ListSoldat extends Component {
       '?userName='+ this.props.UserName + 
       '&idType=' + typeSoldat.id)
       .then(() => {
-        this.Refresh();
+        this.getPlayerSoldat();
         this.props.UpdateRessource();
       });
      }else{
@@ -125,16 +125,33 @@ class ListSoldat extends Component {
    }
 
    Edit(event, itemViewModel){
-     console.log(itemViewModel);
-     console.log(event.target.value);
-    // fetch('http://localhost:8080/WebServices/webresources/Soldat/EditSoldat?' +
-    // 'idArmure='+ itemViewModel.id +
-    // '&idType=' + itemViewModel.idType +
-    // '&userName=' + this.props.UserName)
-    // .then(() => {
-    //   this.Refresh();
-    //   this.props.UpdateRessource();
-    // });
+     if(event.target.name === "idTerritoire"){
+       //UpdateTerritoire
+       fetch('http://localhost:8080/WebServices/webresources/Soldat/EditTerritoireSoldat?' +
+       'idSoldat='+ itemViewModel.id +
+       '&idTerritoire=' + event.target.value)
+       .then(() => {
+         this.getPlayerSoldat();
+       });
+     }
+     else if(event.target.name === "idArme") {
+      //UpdateArme
+      fetch('http://localhost:8080/WebServices/webresources/Guns/EditArmeSoldat?' +
+       'idSoldat='+ itemViewModel.id +
+       '&idArme=' + event.target.value)
+       .then(() => {
+         this.getPlayerArme();
+       });
+     }
+     else if(event.target.name === "idArmure") {
+      //UpdateArmure
+      fetch('http://localhost:8080/WebServices/webresources/Armure/EditArmureSoldat?' +
+       'idSoldat='+ itemViewModel.id +
+       '&idArmure=' + event.target.value)
+       .then(() => {
+         this.getPlayerArmure();
+       });
+     }
    }
   
    Delete(itemViewModel) {
@@ -144,17 +161,23 @@ class ListSoldat extends Component {
     '&idType=' + itemViewModel.idTypeSoldat +
     '&userName=' + this.props.UserName)
     .then(() => {
-      this.Refresh();
+      this.getPlayerSoldat();
       this.props.UpdateRessource();
     });
   }
 
   AfficheRow(row){
+    
     var itemViewModel = {};
-    Object.assign(itemViewModel, row);
 
     itemViewModel.vie = 0;
     itemViewModel.force = 0;
+    
+    itemViewModel.idTerritoire = 0;
+    itemViewModel.idArme = 0;
+    itemViewModel.idArmure = 0;
+    
+    Object.assign(itemViewModel, row);
 
     this.state.lstTypeSoldat.forEach((typeSoldat, index) => {
       if(row.idTypeSoldat === typeSoldat.id){
@@ -171,7 +194,8 @@ class ListSoldat extends Component {
     })
     
     this.state.lstArmePlayer.forEach((armeSoldat, index) => {
-      if(row.idArme === armeSoldat.id){
+      if(row.id === armeSoldat.idSoldat){
+        itemViewModel.idArme = armeSoldat.id;
         this.state.lstTypeArme.forEach((typeArme, index) => {
           if(armeSoldat.idType === typeArme.id){
             itemViewModel.force += typeArme.force;
@@ -181,7 +205,8 @@ class ListSoldat extends Component {
     })
 
     this.state.lstArmurePlayer.forEach((armureSoldat, index) => {
-      if(row.idArmure === armureSoldat.id){
+      if(row.id === armureSoldat.idSoldat){
+        itemViewModel.idArmure = armureSoldat.id;
         this.state.lstTypeArmure.forEach((typeArmure, index) => {
           if(armureSoldat.idType === typeArmure.id){
             itemViewModel.vie += typeArmure.vie;

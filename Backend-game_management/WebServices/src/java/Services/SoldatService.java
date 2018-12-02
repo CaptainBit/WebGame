@@ -89,5 +89,19 @@ public class SoldatService {
         
         return String.valueOf(json);
     }
+    
+    @GET
+    @Path("EditTerritoireSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String EditTerritoireSoldat(
+            @QueryParam("idSoldat") int idSoldat, 
+            @QueryParam("idTerritoire") int idTerritoire) {
+    
+        Soldat soldat = new Soldat();
+        
+        boolean json = soldat.EditTerritoireSoldat(idSoldat, idTerritoire);
+        
+        return String.valueOf(json);
+    }
 
 }

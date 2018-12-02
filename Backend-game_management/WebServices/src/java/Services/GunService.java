@@ -54,5 +54,17 @@ public class GunService {
         
         return json.toString();
     }
+    
+    @GET
+    @Path("EditArmeSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String EditArmeSoldat(@QueryParam("idArme") int idArme, @QueryParam("idSoldat") int idSoldat) {
+    
+        Guns arme = new Guns();
+        
+        boolean result = arme.EditArmeSoldat(idArme, idSoldat);
+        
+        return String.valueOf(result);
+    }
 
 }
