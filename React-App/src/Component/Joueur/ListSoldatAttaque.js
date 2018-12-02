@@ -24,8 +24,6 @@ class ListSoldatAttaque extends Component {
   };
 
   componentDidMount() {
-    this.handleClickOpenAlert("Alerte","Chargement de la table des soldats");
-
     this.getAll();
   }
 
@@ -44,9 +42,6 @@ class ListSoldatAttaque extends Component {
     .then(result=> result.json()).then((result) => 
       {
         this.setState({rows : result});
-        if(this.state.openAlert === true){
-          this.handleCloseAlert();
-        }  
       });
   }
 
@@ -70,7 +65,7 @@ class ListSoldatAttaque extends Component {
       .then((result) =>
         {
           var victoire = "Défaite"
-          var description = "Vous avec perdu la bataille et tous vos soldats sont morts..."
+          var description = "Vous avez perdu la bataille et tous vos attaquants sont morts..."
           if(result){
             victoire = "Victoire"
             description = "Aucun soldat a été tué et vous avez gagné le territoire. Félicitation !"

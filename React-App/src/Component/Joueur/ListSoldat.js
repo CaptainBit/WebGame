@@ -249,7 +249,7 @@ class ListSoldat extends Component {
         itemViewModel.argent = typeSoldat.argent;
         itemViewModel.eau = typeSoldat.eau;
         itemViewModel.science = typeSoldat.science;
-        
+
       }
     })
 
@@ -356,16 +356,17 @@ class ListSoldat extends Component {
                           {this.state.lstArmurePlayer.map(armurePlayer => {
                               return (
                                 <MenuItem 
-                                value={armurePlayer.id}>
-                                {
-                                  this.AfficheNomTypeArmure(armurePlayer.idType)
-                                } 
-                                {
-                                  armurePlayer.idSoldat > 0 && armurePlayer.idSoldat !== row.id ? 
-                                  " : Armure déjà utilisée" 
-                                  : 
-                                  ""
-                                }</MenuItem>
+                                  value={armurePlayer.id}>
+                                  {
+                                    this.AfficheNomTypeArmure(armurePlayer.idType)
+                                  } 
+                                  {
+                                    armurePlayer.idSoldat > 0 && armurePlayer.idSoldat !== row.id ? 
+                                    " : Armure déjà utilisée" 
+                                    : 
+                                    ""
+                                  }
+                                </MenuItem>
                                 )
                               }
                           )}

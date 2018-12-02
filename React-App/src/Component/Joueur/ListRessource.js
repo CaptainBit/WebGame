@@ -49,8 +49,6 @@ class ListTerritoire extends Component {
   };
 
   componentDidMount() {
-    this.handleClickOpenAlert("Alerte","Chargement de la table des territoires");
-
     this.getAll();
   }
 
@@ -60,9 +58,6 @@ class ListTerritoire extends Component {
     .then(result=> result.json()).then((result) => 
     {
       this.setState({rows : result});
-      if(this.state.openAlert === true){
-        this.handleCloseAlert();
-      }  
     });
   }
   
