@@ -15,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 
 import SQLPlayer.AccountPlayer;
 import org.json.JSONObject;
+
+import SQLRessource.RessourceGiver;
 /**
  * REST Web Service
  *
@@ -29,8 +31,6 @@ public class GenericResource {
     /**
      * Creates a new instance of GenericResource
      */
-    public GenericResource() {
-    }
 
     /**
      * Retrieves representation of an instance of Player.GenericResource

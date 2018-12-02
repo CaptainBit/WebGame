@@ -5,6 +5,7 @@
  */
 package Services;
 
+import SQLRessource.RessourceGiver;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
@@ -19,6 +20,9 @@ public class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
+        
+        AddRessourceAllPlayer();
+        
         return resources;
     }
 
@@ -35,6 +39,11 @@ public class ApplicationConfig extends Application {
         resources.add(Services.GunService.class);
         resources.add(Services.SoldatService.class);
         resources.add(Services.TerritoireService.class);
+    }
+    
+    private void AddRessourceAllPlayer(){
+        RessourceGiver thread = new RessourceGiver();
+        thread.start();
     }
     
 }
