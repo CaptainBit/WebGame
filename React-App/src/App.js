@@ -101,7 +101,7 @@ const styles = theme => ({
 
 class App extends Component {
   state = {
-    open: false,
+    open: true,
     UserName: "",
     Role: "",
     NourritureJoueur: 500,
@@ -235,7 +235,7 @@ class App extends Component {
     if(this.state.UserName !== ""){
 
       RessourceJoueur = 
-      <Typography style={{ flex: 1, display: 'flex', flexWrap: 'wrap'}} variant="h6" color="inherit" noWrap>
+      <Typography style={{ display: 'flex', marginRight: 60}} variant="h6" color="inherit">
         <div style={{ marginLeft: 10}}>
           <Restaurant /> {this.state.NourritureJoueur}    
         </div>
