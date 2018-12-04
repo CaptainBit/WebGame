@@ -43,8 +43,6 @@ class ListSoldat extends Component {
   };
   
   componentDidMount() {
-    this.handleClickOpenAlert("Alerte","Chargement de la table des soldats");
-
     this.getTypeSoldat();
     this.getTypeArme();
     this.getTypeArmure();
@@ -106,9 +104,6 @@ class ListSoldat extends Component {
     .then(result=> result.json()).then((result) => 
     {
       this.setState({rows : result});
-      if(this.state.openAlert === true){
-        this.handleCloseAlert();
-      }
     });
   }
 

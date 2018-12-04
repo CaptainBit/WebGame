@@ -15,26 +15,16 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-
-function createData(idTypeArme, force) {
-  id += 1;
-  return { id, idTypeArme, force};
-}
-
 class ListArme extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      rows : [],
-      typeArmes : [],
-      openAlert: false,
-      titreAlert: "Erreur",
-      descriptionAlert: "Erreur",
-      itemAlert: {}
-    };
-  }
+  state = {
+    rows : [],
+    types : [],
+    openAlert: false,
+    titreAlert: "Erreur",
+    descriptionAlert: "Erreur",
+    itemAlert: {}
+  };
 
   handleClickOpenAlert = (titre, description, item) => {
     this.setState({ openAlert: true, titreAlert : titre, descriptionAlert : description, itemAlert: item });
@@ -43,99 +33,79 @@ class ListArme extends Component {
   handleCloseAlert = () => {
     this.setState({ openAlert: false });
   };
-  
+
+  Refresh(){
+    this.getPlayerArme();
+  }
+
   componentDidMount() {
-    this.getTypeArme();
-    this.getPlayerGuns();
+    this.getType();
+    this.Refresh();
   }
 
-  GetIndexTypeArme(idType)
+  getType()
   {
-    var i = 0;
-    this.state.typeArmes.forEach((arme, index) => {
-      if(arme.id === idType){
-        i = index;
-      }
-    });
-    return i;
+    fetch('http://localhost:8080/WebServices/webresources/Guns/Type')
+    .then(result=> result.json()).then((result) => this.setState({types : result}));
   }
 
-
-  Add(idType){
-   var check = false;
-   var i = this.GetIndexTypeArme(idType);
-   var myTypeArme = this.state.typeArmes[i];
-   check = this.props.CheckCanBuy(myTypeArme.nourriture,myTypeArme.eau, myTypeArme.argent, myTypeArme.science);
-   
-    if(check === true)
-    {
-      this.state.rows.push(createData(idType, myTypeArme.force));
-    }else{
-      this.handleClickOpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette arme !");
-    }
-  }
-  
-  Delete(id) {
-    this.state.rows.forEach((arme, index) => {
-      if(arme.id === id){
-        var i = this.GetIndexTypeArme(arme.idTypeArme);
-        var myTypeArme = this.state.typeArmes[i];
-        this.props.AddRessource(0,myTypeArme.eau * 0.5,
-          myTypeArme.argent * 0.5,
-          myTypeArme.science * 0.5);
-        this.state.rows.splice(index,1);
-      }
-    })
-    ;
-    
-  }
-
-  Edit = (event, id) => {
-    var lstArmes = this.state.rows;
-    lstArmes.forEach((arme, index) => {
-      if(arme.id === id){
-        arme[event.target.name] = event.target.value;
-        lstArmes[index] = arme;
-      }
-    })
-    this.setState({rows: lstArmes});
-  };
-
-  AfficheTypeArme(id) {
-    var type = "";
-    this.state.typeArmes.forEach((item, index) => {
-      if(item.id === id){
-        type = item.nom;
-      }
-    })
-    return type;
-  }
-
-  FillGunsPlayer(result){
-    var myList = [];
-    for(var i = 0; i < result.length; i++){
-      for(var j = 0; j < result[i].nombre; j++ )
-      {
-        myList.push(createData(result[i].type, this.state.typeArmes[result[i].type].force));
-      }
-    }
-    this.setState({row : myList})  
-  }
-
-  getPlayerGuns(){
+  getPlayerArme()
+  {
     fetch('http://localhost:8080/WebServices/webresources/Guns/GunPlayer?userName='+
     this.props.UserName)
-    .then(result=> result.json()).then(result=> this.FillGunsPlayer(result));
+    .then(result=> result.json()
+    .then((result) => 
+    {
+      this.setState({rows : result});
+    }));
   }
 
-  getTypeArme()
-  {
-    fetch('http://localhost:8080/WebServices/webresources/Guns/Type?')
-    .then(result=> result.json()).then((result) => this.setState({typeArmes:result}));
+  Add(type){
+    var check = false;
+    check = this.props.CheckCanBuy(type.nourriture,type.eau, type.argent, type.science);
+    
+     if(check === true)
+     {
+      fetch('http://localhost:8080/WebServices/webresources/Guns/AddArme' + 
+      '?userName='+ this.props.UserName + 
+      '&idType=' + type.id)
+      .then(() => {
+        this.Refresh();
+        this.props.UpdateRessource();
+      });
+     }else{
+       this.handleClickOpenAlert("Alerte","Vous n'avez pas les fonds disponible pour obtenir cette arme !");
+     }
+   }
+  
+   Delete(itemViewModel) {
+    fetch('http://localhost:8080/WebServices/webresources/Guns/DeleteArme?' +
+    'idArme='+ itemViewModel.id +
+    '&idType=' + itemViewModel.idType +
+    '&userName=' + this.props.UserName)
+    .then(() => {
+      this.Refresh();
+      this.props.UpdateRessource();
+    });
   }
 
+  AfficheType(row) {
+    var armeViewModel = {};
+    this.state.types.forEach((item, index) => {
+      if(row.idType === item.id){
+         Object.assign(armeViewModel, item);
+      }
+    })
+
+    armeViewModel.id = row.id;
+    armeViewModel.idType = row.idType;
+
+    return armeViewModel;
+  }
+  
   render() {
     const { classes } = this.props;
+
     return (
       <div>
         <Card className={classes.card}>
@@ -143,7 +113,7 @@ class ListArme extends Component {
           <Typography variant="h6" color="inherit">
               Gérer vos armes
           </Typography>
-          <Table classarme={classes.table}>
+          <Table classsoldat={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>id</TableCell>
@@ -153,17 +123,18 @@ class ListArme extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.rows.map(row => {
+              {this.state.rows.map((row) => {
+                var itemViewModel = this.AfficheType(row);
                 return (
-                  <TableRow key={row.id}>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{this.AfficheTypeArme(row.idTypeArme)}</TableCell>
-                    <TableCell numeric>{row.force}</TableCell>
+                  <TableRow key={itemViewModel.id}>
+                    <TableCell>{itemViewModel.id}</TableCell>
+                    <TableCell>{itemViewModel.nom}</TableCell>
+                    <TableCell numeric>{itemViewModel.force}</TableCell>
                     <TableCell numeric>
                     <Button
                     variant="contained" 
                     color="secondary"
-                    onClick={() => this.Delete(row.id)}
+                    onClick={() => this.handleClickOpenAlert("Vendre une arme", "Vendre", itemViewModel)}
                     >
                       Vendre
                     </Button>
@@ -174,31 +145,33 @@ class ListArme extends Component {
             </TableBody>
           </Table>
         </ CardContent>
-          <CardActions>
-          {this.state.typeArmes.map(typeArme => {
-          return(
-            <Button
-            variant="contained" 
-            color="primary"
-            onClick={() => this.Add(typeArme.id)}
-            >
-            Acheter {typeArme.nom}
-          </Button>
-          );
-          })}
+        <CardActions>
+          {
+            this.state.types.map(type => {
+            return(
+              <Button
+              variant="contained" 
+              color="primary"
+              onClick={() => this.handleClickOpenAlert("Acheter une arme", "Acheter", type)}
+              >
+              Acheter {type.nom}
+            </Button>
+            );
+            })
+          }
         </CardActions>
-    </Card>
-    <AlertDialog
-      openAlert={this.state.openAlert}
-      titreAlert={this.state.titreAlert}
-      descriptionAlert={this.state.descriptionAlert}
-      itemAlert={this.state.itemAlert}
-      handleCloseAlert={this.handleCloseAlert.bind(this)}
-      Add={this.Add.bind(this)}
-      Delete={this.Delete.bind(this)}
-    >
-    </AlertDialog>
-  </div>
+      </Card>
+      <AlertDialog
+        openAlert={this.state.openAlert}
+        titreAlert={this.state.titreAlert}
+        descriptionAlert={this.state.descriptionAlert}
+        itemAlert={this.state.itemAlert}
+        handleCloseAlert={this.handleCloseAlert.bind(this)}
+        Add={this.Add.bind(this)}
+        Delete={this.Delete.bind(this)}
+      >
+      </AlertDialog>
+      </div>
     );
   }
 }

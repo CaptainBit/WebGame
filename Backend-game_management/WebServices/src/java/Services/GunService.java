@@ -66,5 +66,29 @@ public class GunService {
         
         return String.valueOf(result);
     }
+    
+    @GET
+    @Path("DeleteArme")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String DeleteArmure(@QueryParam("idArme") int idArmure, @QueryParam("idType") int idType, @QueryParam("userName") String userName) {
+    
+        Guns armure = new Guns();
+        
+        boolean result = armure.DeleteArme(idArmure, idType,userName);
+        
+        return String.valueOf(result);
+    }
+    
+    @GET
+    @Path("AddArme")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddArmure(@QueryParam("userName") String userName, @QueryParam("idType") int idType) {
+    
+        Guns armure = new Guns();
+        
+        boolean result = armure.AddArme(userName, idType);
+        
+        return String.valueOf(result);
+    }
 
 }

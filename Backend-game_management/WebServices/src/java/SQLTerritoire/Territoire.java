@@ -365,6 +365,26 @@ public class Territoire
                         
             statement.executeUpdate();
             statement.clearParameters();
+            
+            statement = con.prepareStatement(
+                "DELETE from armure where idSoldat = ?;"
+                , 1005, 1008);   
+        
+            statement.setInt(1, idSoldat);
+            
+
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+            statement = con.prepareStatement(
+                "DELETE from arme where idSoldat = ?;"
+                , 1005, 1008);   
+        
+            statement.setInt(1, idSoldat);
+            
+
+            statement.executeUpdate();
+            statement.clearParameters();
         } catch (SQLException ex) {
             Logger.getLogger(Territoire.class.getName()).log(Level.SEVERE, null, ex);
         }
