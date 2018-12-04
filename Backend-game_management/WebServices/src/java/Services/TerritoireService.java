@@ -7,7 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import SQLTerritoire.Territoire;
+import SQLTerritoire.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Context;
@@ -76,5 +76,59 @@ public class TerritoireService {
         
         return String.valueOf(win);
     }
+    
+    @GET
+    @Path("EditTerritoire")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String EditTerritoire(
+            @QueryParam("id") int id, 
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science)
+
+    {
+    
+        TerritoireAdmin territoire = new TerritoireAdmin();
+        
+        boolean win = territoire.EditTerritoire(id, nom, nourriture, eau, argent, science);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("DeleteTerritoire")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String DeleteTerritoire(
+            @QueryParam("id") int id) 
+
+    {
+    
+        TerritoireAdmin territoire = new TerritoireAdmin();
+        
+        boolean win = territoire.DeleteTerritoire(id);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("AddTerritoire")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddTerritoire(
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science)
+    {
+    
+        TerritoireAdmin territoire = new TerritoireAdmin();
+        
+        boolean win = territoire.AddNewTerritoire(nom, nourriture, eau, argent, science);
+        
+        return String.valueOf(win);
+    }
+    
 
 }

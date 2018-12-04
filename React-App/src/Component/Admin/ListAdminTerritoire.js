@@ -49,6 +49,7 @@ class ListAdminTerritoire extends Component {
         lst[index] = row;
       }
     })
+
     this.setState({rows : lst});
   }
 
@@ -57,12 +58,13 @@ class ListAdminTerritoire extends Component {
     fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
     .then(result=> result.json()).then((result) => 
     {
+      result.push({id:0,nom:"",nourriture:"",eau:"",argent:"",science:"", joueur:"Non-occupé"})
       this.setState({rows : result});
     });
   }
 
   Edit(item){
-    fetch('http://localhost:8080/WebServices/webresources/TerritoireAdmin/EditTerritoire?' + 
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/EditTerritoire?' + 
     'id=' + item.id +
     '&nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
@@ -72,7 +74,7 @@ class ListAdminTerritoire extends Component {
     .then(result=> result.json()).then((result) => 
     {
       var message = "Échec";
-      if(result === "true"){
+      if(result === true){
         message = "Modification avec succès";
         this.getAll();
       } 
@@ -81,18 +83,37 @@ class ListAdminTerritoire extends Component {
   }
 
   Delete(id){
-    fetch('http://localhost:8080/WebServices/webresources/TerritoireAdmin/DeleteTerritoire?' + 
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/DeleteTerritoire?' + 
     'id=' + id)
     .then(result=> result.json()).then((result) => 
     {
       var message = "Échec";
-      if(result === "true"){
+      if(result === true){
         message = "Suppression avec succès";
         this.getAll();
       } 
       this.handleClickOpenAlert("Alerte",message);
     });
   }
+
+  Add(item){
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/AddTerritoire?' + 
+    'nom=' + item.nom + 
+    '&nourriture=' + item.nourriture +
+    '&eau=' + item.eau + 
+    '&argent=' + item.argent + 
+    '&science=' + item.science)
+    .then(result=> result.json()).then((result) => 
+    {
+      var message = "Échec";
+      if(result === true){
+        message = "Ajout avec succès";
+        this.getAll();
+      } 
+      this.handleClickOpenAlert("Alerte",message);
+    });
+  }
+
   
   render() {
     const { classes } = this.props;
@@ -173,20 +194,35 @@ class ListAdminTerritoire extends Component {
                         {row.joueur}
                       </TableCell>
                       <TableCell numeric>
-                        <Button
-                        variant="contained" 
-                        color="primary"
-                        onClick={() => this.Edit(row)}
-                        >
-                          Modifier
-                        </Button>
-                        <Button
-                        variant="contained" 
-                        color="primary"
-                        onClick={() => this.Delete(row.id)}
-                        >
-                          Supprimer
-                        </Button>
+                      {
+                        row.id !== 0 ? 
+                        <Typography style={{ display: 'flex'}}>
+                          <Button
+                          variant="contained" 
+                          color="primary"
+                          onClick={() => this.Edit(row)}
+                          >
+                            Modifier
+                          </Button>
+                          <Button 
+                          style={{ marginLeft: 10}}
+                          variant="contained" 
+                          color="primary"
+                          onClick={() => this.Delete(row.id)}
+                          >
+                            Supprimer
+                          </Button>
+                        </Typography>
+                        :
+                          <Button
+                          variant="contained" 
+                          color="primary"
+                          onClick={() => this.Add(row)}
+                          >
+                            Ajouter
+                          </Button>
+                      }
+                        
                       </TableCell>
                     </TableRow>
                   );
