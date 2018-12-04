@@ -8,45 +8,36 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, Typography, CardContent, Card, CardActionArea} from '@material-ui/core';
 
+
 const styles = theme => ({
   table: {
     minWidth: 700,
   },
 });
 
-let id = 0;
-function createData(idTerritoire, joueur) {
-  id += 1;
-  return { id, idTerritoire, joueur };
-}
-
-const lstJoueur = [
-  createData(1, "Moi", 1),
-  createData(2, "Ennemie", 2),
-];
-
-const lstTerritoire = [
-  {id : 1, description :"Château", idJoueur : 1},
-  {id : 2, description : "Maison", idJoueur : 2}
-]
 
 class ListAdminTerritoire extends Component {
 
   state = {
-    rows : lstTerritoire,
+    rows : []
 
   };
 
-  AfficheTerritoire(id) {
-    var type = "";
-    this.state.rows.forEach((item, index) => {
-      if(item.id === id){
-        type = item.description;
-      }
-    })
-    return type;
+  getAll()
+  {
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
+    .then(result=> result.json()).then((result) => 
+    {
+      this.setState({rows : result});
+    });
   }
   
+  AddNewTerritory()
+  {
+    //Send last row
+
+  }
+
   render() {
     const { classes } = this.props;
 

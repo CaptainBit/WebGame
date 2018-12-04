@@ -76,5 +76,21 @@ public class TerritoireService {
         
         return String.valueOf(win);
     }
+    
+    @GET
+    @Path("AddTerritoire")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean AddTeritoire(
+            @QueryParam("userName") String userName, 
+            @QueryParam("nomTerritoire") int idTerritoire, 
+            @QueryParam("eau") int eau ,
+            @QueryParam("argent") int argent,
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("science") int science)
+    {
+    
+        
+    }
+    
 
 }
