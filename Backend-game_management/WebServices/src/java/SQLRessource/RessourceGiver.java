@@ -79,7 +79,7 @@ public class RessourceGiver extends Thread {
             }
             
             
-            Thread.sleep(20000);
+            Thread.sleep(300000);
         } catch (InterruptedException ex) {
             Logger.getLogger(RessourceGiver.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
