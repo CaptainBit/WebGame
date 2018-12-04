@@ -27,7 +27,7 @@ import Profil from  './Component/Joueur/Profil';
 import ListAdminJoueur from  './Component/Admin/ListAdminJoueur';
 import ListAdminTerritoire from  './Component/Admin/ListAdminTerritoire';
 import ListAdminTypeArme from  './Component/Admin/ListAdminTypeArme';
-import ListAdminTypeArmure from  './Component/Admin/ListAdminTypeArme';
+import ListAdminTypeArmure from  './Component/Admin/ListAdminTypeArmure';
 import ListAdminTypeSoldat from  './Component/Admin/ListAdminTypeSoldat';
 
 import DrawerListJoueur from './Component/Joueur/DrawerListJoueur';

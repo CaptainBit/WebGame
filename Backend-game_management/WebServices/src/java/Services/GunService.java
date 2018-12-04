@@ -8,7 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import SQLGun.Type;
+import SQLGun.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
@@ -70,7 +70,7 @@ public class GunService {
     @GET
     @Path("DeleteArme")
     @Produces(MediaType.APPLICATION_JSON)
-    public String DeleteArmure(@QueryParam("idArme") int idArmure, @QueryParam("idType") int idType, @QueryParam("userName") String userName) {
+    public String DeleteArme(@QueryParam("idArme") int idArmure, @QueryParam("idType") int idType, @QueryParam("userName") String userName) {
     
         Guns armure = new Guns();
         
@@ -82,13 +82,68 @@ public class GunService {
     @GET
     @Path("AddArme")
     @Produces(MediaType.APPLICATION_JSON)
-    public String AddArmure(@QueryParam("userName") String userName, @QueryParam("idType") int idType) {
+    public String AddArme(@QueryParam("userName") String userName, @QueryParam("idType") int idType) {
     
         Guns armure = new Guns();
         
         boolean result = armure.AddArme(userName, idType);
         
         return String.valueOf(result);
+    }
+    
+    @GET
+    @Path("EditTypeArme")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String EditTypeArme(
+            @QueryParam("id") int id, 
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science,
+            @QueryParam("force") int force)
+
+    {
+    
+        TypeAdmin typeArme = new TypeAdmin();
+        
+        boolean win = typeArme.EditTypeArme(id, nom, nourriture, eau, argent, science, force);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("DeleteTypeArme")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String DeleteTypeArme(
+            @QueryParam("id") int id) 
+
+    {
+    
+        TypeAdmin typeArme = new TypeAdmin();
+        
+        boolean win = typeArme.DeleteTypeArme(id);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("AddTypeArme")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddTypeArme(
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science,
+            @QueryParam("force") int force)
+    {
+    
+        TypeAdmin typeArme = new TypeAdmin();
+        
+        boolean win = typeArme.AddTypeArme(nom, nourriture, eau, argent, science, force);
+        
+        return String.valueOf(win);
     }
 
 }

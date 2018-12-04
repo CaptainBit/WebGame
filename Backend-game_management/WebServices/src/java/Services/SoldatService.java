@@ -7,7 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import SQLSoldat.Soldat;
+import SQLSoldat.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
@@ -102,6 +102,63 @@ public class SoldatService {
         boolean json = soldat.EditTerritoireSoldat(idSoldat, idTerritoire);
         
         return String.valueOf(json);
+    }
+    
+    @GET
+    @Path("EditTypeSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String EditTypeSoldat(
+            @QueryParam("id") int id, 
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science,
+            @QueryParam("force") int force,
+            @QueryParam("vie") int vie)
+
+    {
+    
+        TypeAdmin typeSoldat = new TypeAdmin();
+        
+        boolean win = typeSoldat.EditTypeSoldat(id, nom, nourriture, eau, argent, science, force, vie);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("DeleteTypeSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String DeleteTypeSoldat(
+            @QueryParam("id") int id) 
+
+    {
+    
+        TypeAdmin typeSoldat = new TypeAdmin();
+        
+        boolean win = typeSoldat.DeleteTypeSoldat(id);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("AddTypeSoldat")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddTypeSoldat(
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science,
+            @QueryParam("force") int force,
+            @QueryParam("vie") int vie)
+    {
+    
+        TypeAdmin typeSoldat = new TypeAdmin();
+        
+        boolean win = typeSoldat.AddTypeSoldat(nom, nourriture, eau, argent, science, force, vie);
+        
+        return String.valueOf(win);
     }
 
 }

@@ -8,7 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import SQLArmure.Type;
+import SQLArmure.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
@@ -90,5 +90,61 @@ public class ArmureService {
         
         return String.valueOf(result);
     }
+    
+    @GET
+    @Path("EditTypeArmure")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String EditTypeArmure(
+            @QueryParam("id") int id, 
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science,
+            @QueryParam("vie") int vie)
+
+    {
+    
+        TypeAdmin typeArmure = new TypeAdmin();
+        
+        boolean win = typeArmure.EditTypeArmure(id, nom, nourriture, eau, argent, science, vie);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("DeleteTypeArmure")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String DeleteTypeArmure(
+            @QueryParam("id") int id) 
+
+    {
+    
+        TypeAdmin typeArmure = new TypeAdmin();
+        
+        boolean win = typeArmure.DeleteTypeArmure(id);
+        
+        return String.valueOf(win);
+    }
+    
+    @GET
+    @Path("AddTypeArmure")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String AddTypeArmure(
+            @QueryParam("nom") String nom, 
+            @QueryParam("nourriture") int nourriture,
+            @QueryParam("eau") int eau,
+            @QueryParam("argent") int argent,
+            @QueryParam("science") int science,
+            @QueryParam("vie") int vie)
+    {
+    
+        TypeAdmin typeArmure = new TypeAdmin();
+        
+        boolean win = typeArmure.AddTypeArmure(nom, nourriture, eau, argent, science, vie);
+        
+        return String.valueOf(win);
+    }
+
 
 }
