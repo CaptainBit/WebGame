@@ -110,14 +110,6 @@ class App extends Component {
     ScienceJoueur:500
   };
 
-  componentDidMount() {
-    this.timer = setInterval(this.tick, 20000);
-  };
-
-  tick = () => {
-    this.UpdateRessource();
-  };
-
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
