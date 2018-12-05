@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
-import {List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
+import {MuiThemeProvider, createMuiTheme, List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
 
 import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, Menu, ChevronLeft} from '@material-ui/icons';
+
+import themeColor from './Component/Shared/Theme';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -259,94 +261,102 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.root}>
-        <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: this.state.open,
-          })}
+      <MuiThemeProvider theme={themeColor}>
+        <div
+        className={classes.root}
         >
-          <Toolbar disableGutters={!this.state.open}>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, {
-                [classes.hide]: this.state.open,
-              })}
+          <div 
+            className={classes.root} 
+          >
+          <CssBaseline />
+          <AppBar
+            position="fixed"
+            className={classNames(classes.appBar, {
+              [classes.appBarShift]: this.state.open,
+            })}
+          >
+            <Toolbar 
+            disableGutters={!this.state.open}
             >
-              <Menu />
-            </IconButton>
-            <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
-              Clash Territoire
-            </Typography>
-            {RessourceJoueur}
-            {/* login ou logout selon le rôle */}
-            {MenuOptions}
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-          }}
-          open={this.state.open}
-        >
-          <div className={classes.toolbar}>
-            <Typography variant="h6" color="inherit">
-              Choisir un onglet
-            </Typography>
-            <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronLeft /> : <ChevronLeft />}
-            </IconButton>
-          </div>
-          <Divider />
-          {/* Menu selon le rôle */}
-          {this.state.Role === "Joueur" ?
-            <DrawerListJoueur/>
-            :
-            this.state.Role === "Admin" ?
-            <DrawerListAdmin/>
-            :
-            <List/>
-          }
-          </Drawer>
-        </div>
-
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Switch>
-              <Route path="/About" component={About} />
-              {/*Page accessible selon le rôle */}
-              {this.state.Role === "Joueur" ?
-              <div>
-                <Route path="/ListArme" component={ListArmeComponent} />
-                <Route path="/ListArmure" component={ListArmureComponent} />
-                <Route path="/ListRessource" component={ListRessourceComponent} />
-                <Route path="/ListSoldat" component={ListSoldatComponent} />
-                <Route path="/Profil" component={ProfilComponent} /> 
-              </div>               
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(classes.menuButton, {
+                  [classes.hide]: this.state.open,
+                })}
+              >
+                <Menu />
+              </IconButton>
+              <Typography style={{ flex: 1 }} variant="h6" color="inherit" noWrap>
+                Clash Territoire
+              </Typography>
+              {RessourceJoueur}
+              {/* login ou logout selon le rôle */}
+              {MenuOptions}
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+            }}
+            open={this.state.open}
+          >
+            <div className={classes.toolbar}>
+              <Typography variant="h6" color="inherit">
+                Choisir un onglet
+              </Typography>
+              <IconButton onClick={this.handleDrawerClose}>
+                {theme.direction === 'rtl' ? <ChevronLeft /> : <ChevronLeft />}
+              </IconButton>
+            </div>
+            <Divider />
+            {/* Menu selon le rôle */}
+            {this.state.Role === "Joueur" ?
+              <DrawerListJoueur/>
               :
               this.state.Role === "Admin" ?
-              <div>
-                <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
-                <Route path="/ListAdminTerritoire" component={ListAdminTerritoire} />
-                <Route path="/ListAdminTypeArme" component={ListAdminTypeArme} />
-                <Route path="/ListAdminTypeArmure" component={ListAdminTypeArmure} />
-                <Route path="/ListAdminTypeSoldat" component={ListAdminTypeSoldat} />
-              </div>
+              <DrawerListAdmin/>
               :
-              <div>
-                <Route exact path="/"  component={LoginComponent} />
-                <Route path="/SignUp" component={SignUpComponent} />            
-              </div>  
-              }
-              <Redirect to="/" />
-          </Switch>
-        </main>
-      </div>
+              <List/>
+            }
+            </Drawer>
+          </div>
+
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Switch>
+                <Route path="/About" component={About} />
+                {/*Page accessible selon le rôle */}
+                {this.state.Role === "Joueur" ?
+                <div>
+                  <Route path="/ListArme" component={ListArmeComponent} />
+                  <Route path="/ListArmure" component={ListArmureComponent} />
+                  <Route path="/ListRessource" component={ListRessourceComponent} />
+                  <Route path="/ListSoldat" component={ListSoldatComponent} />
+                  <Route path="/Profil" component={ProfilComponent} /> 
+                </div>               
+                :
+                this.state.Role === "Admin" ?
+                <div>
+                  <Route path="/ListAdminJoueur" component={ListAdminJoueur} />
+                  <Route path="/ListAdminTerritoire" component={ListAdminTerritoire} />
+                  <Route path="/ListAdminTypeArme" component={ListAdminTypeArme} />
+                  <Route path="/ListAdminTypeArmure" component={ListAdminTypeArmure} />
+                  <Route path="/ListAdminTypeSoldat" component={ListAdminTypeSoldat} />
+                </div>
+                :
+                <div>
+                  <Route exact path="/"  component={LoginComponent} />
+                  <Route path="/SignUp" component={SignUpComponent} />            
+                </div>  
+                }
+                <Redirect to="/" />
+            </Switch>
+          </main>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
