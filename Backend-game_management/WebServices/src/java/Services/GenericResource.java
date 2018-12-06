@@ -16,7 +16,8 @@ import javax.ws.rs.core.MediaType;
 import SQLPlayer.AccountPlayer;
 import org.json.JSONObject;
 
-import SQLRessource.RessourceGiver;
+import SQLPlayer.AccountAdministration;
+import org.json.JSONArray;
 /**
  * REST Web Service
  *
@@ -67,6 +68,18 @@ public class GenericResource {
         json = cp.getRessourcePlayer(userName);
         
         return json.toString();
+    }
+    
+    @GET
+    @Path("GetAllPlayers")
+    @Produces (MediaType.APPLICATION_JSON)
+    public String getAllPlayers()
+    {
+        JSONArray json;
+        AccountAdministration admin = new AccountAdministration();
+        json = admin.GetAllPlayer();
+        return json.toString(); 
+        
     }
 
 }

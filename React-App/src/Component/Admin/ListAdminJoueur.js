@@ -14,26 +14,53 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(nom) {
-  id += 1;
-  return { id, nom };
-}
-
-const lstJoueur = [
-  createData(1, "Paul"),
-  createData(2, "Jean"),
-  createData(2, "Robin"),
-  createData(2, "Thomas"),
-  createData(1, "Louis"),
-];
-
 class ListJoueur extends Component {
 
   state = {
-    rows : lstJoueur,
+    rows : [],
   };
+
+  componentDidMount() {
+    this.getAll();
+  }
+
+  getAll()
+  {
+    fetch('http://localhost:8080/WebServices/webresources/Player/GetAllPlayers?')
+    .then(result=> result.json()).then((result) => 
+    {
+      var tempRow = this.state.rows;
+      for(var i =0; i < result.length; i++){
+        tempRow.push(result[i]);
+      }
+      this.setState({rows : tempRow});
+    });
+  }
+
+
   
+
+  Edit(item){
+    fetch('http://localhost:8080/WebServices/webresources/Player/GetAllPlayers?' + 
+    'id=' + item.id +
+    '&nom=' + item.nom + 
+    '&nourriture=' + item.nourriture +
+    '&eau=' + item.eau + 
+    '&argent=' + item.argent + 
+    '&science=' + item.science + 
+    "&force=" + item.force)
+    .then(result=> result.json()).then((result) => 
+    {
+      var message = "Échec";
+      if(result === true){
+        message = "Modification avec succès";
+        this.getAll();
+      } 
+      this.handleClickOpenAlert("Alerte",message);
+    });
+  }
+
+
   Delete(id) {
     var lstJoueur = this.state.rows;
     lstJoueur.forEach((Joueur, index) => {
@@ -57,21 +84,24 @@ class ListJoueur extends Component {
           <TableHead>
             <TableRow>
               <TableCell>id</TableCell>
-              <TableCell>Joueur</TableCell>
-              <TableCell></TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>UserName</TableCell>
+              <TableCell>password</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {this.state.rows.map(row => {
               return (
-                <TableRow key={row.id}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.nom}</TableCell>
+                <TableRow>
+                  <TableCell>{row.idJoueur}</TableCell>
+                  <TableCell>{row.role}</TableCell>
+                  <TableCell>{row.userName}</TableCell>
+                  <TableCell>{row.password}</TableCell>
                   <TableCell numeric>
                     <Button
                     variant="contained" 
                     color="secondary"
-                    onClick={() => this.Delete(row.id)}
+                    onClick={() => this.Delete(row.idJoueur)}
                     >
                       Supprimer
                     </Button>

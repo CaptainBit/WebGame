@@ -10,6 +10,12 @@ class DrawerListAdmin extends Component {
   render() {
     return (
         <List>
+          <ListItem button component={Link} to="/ListAdminJoueur">
+            <ListItemIcon>
+              <People />
+            </ListItemIcon>
+            <ListItemText primary="Gérer les joueurs" />
+          </ListItem>
           <ListItem button component={Link} to="/ListAdminTypeSoldat">
             <ListItemIcon>
               <People />
