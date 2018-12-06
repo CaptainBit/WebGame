@@ -45,7 +45,13 @@ class SignUp extends Component {
   {
       event.preventDefault();
       fetch('http://localhost:8080/WebServices/webresources/Player/CreateAccount?userName='+ this.state.userName+'&password='+ this.state.password).then(result=> result.json())
-      .then(data => this.handleClickOpenAlert("Alerte", data.status)); 
+      .then(data => {
+        var message = "Le joueur n'a pas pu être créé, car le nom d'utilisateur existe déjà";
+        if(data === true){
+          message = "Le joueur a été créé avec succès";
+        }
+        this.handleClickOpenAlert("Alerte", message);
+      }); 
   }
   render() {
     const { classes } = this.props;

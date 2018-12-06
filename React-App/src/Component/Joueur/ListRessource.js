@@ -74,7 +74,6 @@ class ListTerritoire extends Component {
             <Table classsoldat={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>id</TableCell>
                   <TableCell>Territoire</TableCell>
                   <TableCell>Nourriture</TableCell>
                   <TableCell>Eau</TableCell>
@@ -88,7 +87,6 @@ class ListTerritoire extends Component {
                 {this.state.rows.map(row => {
                   return (
                     <TableRow key={row.id}>
-                      <TableCell>{row.id}</TableCell>
                       <TableCell>{row.nom}</TableCell>
                       <TableCell>{row.nourriture}</TableCell>
                       <TableCell>{row.eau}</TableCell>

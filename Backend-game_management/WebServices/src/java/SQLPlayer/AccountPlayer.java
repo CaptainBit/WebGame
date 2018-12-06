@@ -71,13 +71,12 @@ public class AccountPlayer
    }
     
     
-    public JSONObject CreateAccount(String userName, String password)
+    public boolean CreateAccount(String userName, String password)
     {
         Connection con = null;
         
         con = new ConnectDb().GetConnection();
          
-        JSONObject jplayer = new JSONObject();
         try{
             PreparedStatement statement = con.prepareStatement("INSERT INTO JOUEUR (userName, passwordHash, idTypeCompte)VALUES(?,?,2)", 1005, 1008);     
             statement.setString(1, userName);
@@ -100,20 +99,10 @@ public class AccountPlayer
             con.close();
             
            }catch(SQLException e){
-            try {
-                jplayer.put("status","Le joueur n'a pas pu être créé, car le nom d'utilisateur existe déjà");
-            } catch (JSONException ex) {
-                System.out.print(ex);
-            }
-            return jplayer;
+               return false;
            }
         
-        try {
-                jplayer.put("status","Le joueur a été créé avec succès" );
-            } catch (JSONException ex) {
-                System.out.print(ex);
-            }
-        return jplayer;
+        return true;
    }
     
     public JSONObject getRessourcePlayer(String userName){

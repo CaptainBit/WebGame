@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {MuiThemeProvider, createMuiTheme, List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
+import {MuiThemeProvider, List, AppBar, Toolbar, Typography, Drawer, Divider, IconButton, Button, withStyles, CssBaseline } from '@material-ui/core';
 
 import {SettingsInputAntenna, AttachMoney, LocalDrink, Restaurant, Menu, ChevronLeft} from '@material-ui/icons';
 

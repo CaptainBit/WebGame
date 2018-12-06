@@ -125,7 +125,6 @@ class ListSoldatAttaque extends Component {
                       <TableHead>
                           <TableRow>
                               <TableCell></TableCell>
-                              <TableCell>id</TableCell>
                               <TableCell>Soldat</TableCell>
                               <TableCell>Arme</TableCell>
                               <TableCell>Armure</TableCell>
@@ -149,7 +148,6 @@ class ListSoldatAttaque extends Component {
                                   <TableCell padding="checkbox">
                                       <Checkbox checked={isSelected} />
                                   </TableCell>
-                                  <TableCell>{row.id}</TableCell>
                                   <TableCell>{row.soldat}</TableCell>
                                   <TableCell>{row.arme}</TableCell>
                                   <TableCell>{row.armure}</TableCell>

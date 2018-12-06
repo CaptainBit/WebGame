@@ -264,7 +264,6 @@ class ListSoldat extends Component {
           <Table classsoldat={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>id</TableCell>
                 <TableCell>Soldat</TableCell>
                 <TableCell>Territoire</TableCell>
                 <TableCell>Arme</TableCell>
@@ -279,7 +278,6 @@ class ListSoldat extends Component {
                 var itemViewModel = this.AfficheRow(row);
                 return (
                   <TableRow key={itemViewModel.id}>
-                    <TableCell>{itemViewModel.id}</TableCell>
                     <TableCell>{itemViewModel.nom}</TableCell>
                     <TableCell>
                     <FormControl>

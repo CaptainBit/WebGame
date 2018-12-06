@@ -125,7 +125,7 @@ class ListAdminTypeArmure extends Component {
           <Card className={classes.card}>
             <CardContent>
             <Typography variant="h6" color="inherit">
-                Liste des types d'Armures
+                Liste des types d'armures
             </Typography>
             <Table classsoldat={classes.table}>
               <TableHead>

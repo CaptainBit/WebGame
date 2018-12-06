@@ -116,7 +116,6 @@ class ListArme extends Component {
           <Table classsoldat={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>id</TableCell>
                 <TableCell>Arme</TableCell>
                 <TableCell numeric>Force</TableCell>
                 <TableCell></TableCell>
@@ -127,7 +126,6 @@ class ListArme extends Component {
                 var itemViewModel = this.AfficheType(row);
                 return (
                   <TableRow key={itemViewModel.id}>
-                    <TableCell>{itemViewModel.id}</TableCell>
                     <TableCell>{itemViewModel.nom}</TableCell>
                     <TableCell numeric>{itemViewModel.force}</TableCell>
                     <TableCell numeric>
