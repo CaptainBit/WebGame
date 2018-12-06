@@ -6,7 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Typography, CardContent, Card, TextField} from '@material-ui/core';
+import { FormControl, MenuItem, Select, Button, Typography, CardContent, Card, TextField} from '@material-ui/core';
 
 import AlertDialog from '../Shared/AlertDialog';
 
@@ -21,6 +21,7 @@ class ListAdminTerritoire extends Component {
 
   state = {
     rows : [],
+    lstJoueur : [],
 
     openAlert: false,
     titreAlert: "Erreur",
@@ -38,6 +39,7 @@ class ListAdminTerritoire extends Component {
 
   componentDidMount() {
     this.getAll();
+    this.getJoueur();
   }
 
   handleChange(event, parameter) {
@@ -63,6 +65,14 @@ class ListAdminTerritoire extends Component {
     });
   }
 
+  getJoueur(){
+    fetch('http://localhost:8080/WebServices/webresources/Player/All?')
+    .then(result=> result.json()).then((result) => 
+    {
+      this.setState({lstJoueur : result});
+    });
+  }
+
   Edit(item){
     fetch('http://localhost:8080/WebServices/webresources/Territoire/EditTerritoire?' + 
     'id=' + item.id +
@@ -70,7 +80,8 @@ class ListAdminTerritoire extends Component {
     '&nourriture=' + item.nourriture +
     '&eau=' + item.eau + 
     '&argent=' + item.argent + 
-    '&science=' + item.science)
+    '&science=' + item.science + 
+    '&idJoueur=' + item.idJoueur)
     .then(result=> result.json()).then((result) => 
     {
       var message = "Échec";
@@ -102,7 +113,8 @@ class ListAdminTerritoire extends Component {
     '&nourriture=' + item.nourriture +
     '&eau=' + item.eau + 
     '&argent=' + item.argent + 
-    '&science=' + item.science)
+    '&science=' + item.science + 
+    '&idJoueur=' + item.idJoueur)
     .then(result=> result.json()).then((result) => 
     {
       var message = "Échec";
@@ -112,6 +124,16 @@ class ListAdminTerritoire extends Component {
       } 
       this.handleClickOpenAlert("Alerte",message);
     });
+  }
+
+  AfficheNomJoueur(idJoueur){
+    var Retour = "Introuvable";
+    this.state.lstJoueur.forEach((joueur, index) => {
+      if(joueur.id === idJoueur){
+        Retour = joueur.nom;
+      }
+    })
+    return Retour;
   }
 
   
@@ -191,7 +213,28 @@ class ListAdminTerritoire extends Component {
                         />
                       </TableCell>
                       <TableCell numeric>
-                        {row.joueur}
+                        <FormControl>
+                        <Select
+                          value={row.idJoueur}
+                          onChange={(event) => this.handleChange(event, "idJoueur")}
+                          inputProps={{
+                            name: "idJoueur",
+                            id: row.id
+                          }}
+                        >
+                          {this.state.lstJoueur.map(joueur => {
+                              return (
+                                <MenuItem 
+                                  value={joueur.id}>
+                                  {
+                                    this.AfficheNomJoueur(row.idJoueur)
+                                  } 
+                                </MenuItem>
+                                )
+                              }
+                          )}
+                        </Select>
+                      </FormControl>
                       </TableCell>
                       <TableCell numeric>
                       {
