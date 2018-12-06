@@ -19,7 +19,7 @@ import java.sql.SQLException;
  */
 public class TerritoireAdmin {
     
-    public static boolean AddNewTerritoire(String nomTerritoire, int nourriture, int eau, int argent, int science)
+    public static boolean AddNewTerritoire(String nomTerritoire, int nourriture, int eau, int argent, int science, int idJoueur)
     {
         
         Connection con = null;
@@ -52,7 +52,7 @@ public class TerritoireAdmin {
             statement = con.prepareStatement("INSERT INTO `TERRITOIRE`(`nom`, `idRessource`, `idJoueur`) VALUES (?,?,?)", 1005, 1008);  
             statement.setString(1, nomTerritoire);
             statement.setInt(2, idR);
-            statement.setInt(3, 1);
+            statement.setInt(3, idJoueur);
             statement.executeUpdate();
             statement.clearParameters();
         }catch(SQLException e){
@@ -62,7 +62,7 @@ public class TerritoireAdmin {
         
         return true;
     }
-    public static boolean EditTerritoire(int id, String nom, int nourriture, int eau, int argent, int science)
+    public static boolean EditTerritoire(int id, String nom, int nourriture, int eau, int argent, int science, int idJoueur)
     {
         
         Connection con = null;
@@ -91,9 +91,10 @@ public class TerritoireAdmin {
             statement.clearParameters();
              
             //update territoire
-            statement = con.prepareStatement("update territoire set nom = ? where id = ?", 1005, 1008);  
+            statement = con.prepareStatement("update territoire set nom = ?, idJoueur = ? where id = ?", 1005, 1008);  
             statement.setString(1, nom);
-            statement.setInt(2, id);
+            statement.setInt(2, idJoueur);
+            statement.setInt(3, id);
             statement.executeUpdate();
             statement.clearParameters();
         }catch(SQLException e){

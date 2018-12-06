@@ -86,13 +86,14 @@ public class TerritoireService {
             @QueryParam("nourriture") int nourriture,
             @QueryParam("eau") int eau,
             @QueryParam("argent") int argent,
-            @QueryParam("science") int science)
+            @QueryParam("science") int science,
+            @QueryParam("idJoueur") int idJoueur)
 
     {
     
         TerritoireAdmin territoire = new TerritoireAdmin();
         
-        boolean win = territoire.EditTerritoire(id, nom, nourriture, eau, argent, science);
+        boolean win = territoire.EditTerritoire(id, nom, nourriture, eau, argent, science, idJoueur);
         
         return String.valueOf(win);
     }
@@ -120,12 +121,13 @@ public class TerritoireService {
             @QueryParam("nourriture") int nourriture,
             @QueryParam("eau") int eau,
             @QueryParam("argent") int argent,
-            @QueryParam("science") int science)
+            @QueryParam("science") int science,
+            @QueryParam("idJoueur") int idJoueur)
     {
     
         TerritoireAdmin territoire = new TerritoireAdmin();
         
-        boolean win = territoire.AddNewTerritoire(nom, nourriture, eau, argent, science);
+        boolean win = territoire.AddNewTerritoire(nom, nourriture, eau, argent, science,idJoueur);
         
         return String.valueOf(win);
     }
