@@ -42,11 +42,15 @@ class ListAdminTerritoire extends Component {
     this.getJoueur();
   }
 
-  handleChange(event, parameter) {
+  handleChange(event, parameter, id) {
     event.persist();
+    if (typeof event.target.id !== 'undefined'){
+      id = event.target.id
+    }
+
     var lst = this.state.rows;
     lst.forEach((row, index) => {
-      if(row.id === parseInt(event.target.id)){
+      if(row.id === parseInt(id)){
         row[parameter] = event.target.value;
         lst[index] = row;
       }
@@ -60,13 +64,13 @@ class ListAdminTerritoire extends Component {
     fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
     .then(result=> result.json()).then((result) => 
     {
-      result.push({id:0,nom:"",nourriture:"",eau:"",argent:"",science:"", joueur:"Non-occupé"})
+      result.push({id:0,nom:"",nourriture:"",eau:"",argent:"",science:"", idJoueur: 1})
       this.setState({rows : result});
     });
   }
 
   getJoueur(){
-    fetch('http://localhost:8080/WebServices/webresources/Player/All?')
+    fetch('http://localhost:8080/WebServices/webresources/Player/GetAllPlayers?')
     .then(result=> result.json()).then((result) => 
     {
       this.setState({lstJoueur : result});
@@ -129,8 +133,8 @@ class ListAdminTerritoire extends Component {
   AfficheNomJoueur(idJoueur){
     var Retour = "Introuvable";
     this.state.lstJoueur.forEach((joueur, index) => {
-      if(joueur.id === idJoueur){
-        Retour = joueur.nom;
+      if(joueur.idJoueur === idJoueur){
+        Retour = joueur.userName;
       }
     })
     return Retour;
@@ -216,18 +220,15 @@ class ListAdminTerritoire extends Component {
                         <FormControl>
                         <Select
                           value={row.idJoueur}
-                          onChange={(event) => this.handleChange(event, "idJoueur")}
-                          inputProps={{
-                            name: "idJoueur",
-                            id: row.id
-                          }}
+                          id={row.id}
+                          onChange={(event) => this.handleChange(event, "idJoueur", row.id)}
                         >
                           {this.state.lstJoueur.map(joueur => {
                               return (
                                 <MenuItem 
-                                  value={joueur.id}>
+                                  value={joueur.idJoueur}>
                                   {
-                                    this.AfficheNomJoueur(row.idJoueur)
+                                    this.AfficheNomJoueur(joueur.idJoueur)
                                   } 
                                 </MenuItem>
                                 )
