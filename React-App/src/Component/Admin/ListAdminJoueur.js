@@ -6,7 +6,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Typography, CardContent, Card } from '@material-ui/core';
+import { Button, Typography, CardContent, Card, TextField} from '@material-ui/core';
+
+import AlertDialog from '../Shared/AlertDialog';
 
 const styles = theme => ({
   table: {
@@ -37,7 +39,18 @@ class ListJoueur extends Component {
     });
   }
 
+  handleChange(event, parameter) {
+    event.persist();
+    var lst = this.state.rows;
+    lst.forEach((row, index) => {
+      if(row.id === parseInt(event.target.id)){
+        row[parameter] = event.target.value;
+        lst[index] = row;
+      }
+    })
 
+    this.setState({rows : lst});
+  }
   
 
   Edit(item){
@@ -69,6 +82,7 @@ class ListJoueur extends Component {
       }
     })
     this.setState({rows: lstJoueur})
+    fetch('http://localhost:8080/WebServices/webresources/Player/DeleteAPlayer?id=' + id);
   }
   
   render() {
@@ -94,18 +108,52 @@ class ListJoueur extends Component {
               return (
                 <TableRow>
                   <TableCell>{row.idJoueur}</TableCell>
-                  <TableCell>{row.role}</TableCell>
-                  <TableCell>{row.userName}</TableCell>
-                  <TableCell>{row.password}</TableCell>
-                  <TableCell numeric>
-                    <Button
-                    variant="contained" 
-                    color="secondary"
-                    onClick={() => this.Delete(row.idJoueur)}
-                    >
-                      Supprimer
-                    </Button>
+                  <TableCell > 
+                       <TextField 
+                       type="text"
+                       value={row.role}
+                       id={row.idJoueur}
+                       onChange={(event) => this.handleChange(event, "type")}
+                       margin="normal"/>
                   </TableCell>
+                  <TableCell>
+                     <TextField
+                      type="text"
+                      value={row.userName}
+                      id={row.idJoueur}
+                      onChange={(event) => this.handleChange(event, "UserName")}
+                      margin="normal"
+                     />
+                  </TableCell>
+                  <TableCell>
+                   <TextField
+                         type="text"
+                         value={row.password}
+                         id={row.idJoueur}
+                         onChange={(event) => this.handleChange(event, "password")}
+                         margin="normal"/>
+
+                  </TableCell>
+                  <TableCell numeric>
+                  <Typography style={{ display: 'flex'}}>
+                          <Button
+                          variant="contained" 
+                          color="primary"
+                          onClick={() => this.Edit(row)}
+                          >
+                            Modifier
+                          </Button>
+                          <Button 
+                          style={{ marginLeft: 10}}
+                          variant="contained" 
+                          color="primary"
+                          onClick={() => this.Delete(row.id)}
+                          >
+                            Supprimer
+                          </Button>
+                        </Typography>
+                  </TableCell>
+                  
                 </TableRow>
               );
             })}

@@ -81,5 +81,17 @@ public class GenericResource {
         return json.toString(); 
         
     }
+    
+    @GET
+    @Path("DeleteAPlayer")
+    @Produces (MediaType.APPLICATION_JSON)
+    public String deletAPlayer(@QueryParam("id") int id)
+    {
+        JSONArray json;
+        AccountAdministration admin = new AccountAdministration();
+        boolean deleted = admin.DeleteAPlayer(id);
+        return String.valueOf(deleted); 
+        
+    }
 
 }
