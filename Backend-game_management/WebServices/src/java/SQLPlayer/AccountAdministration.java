@@ -84,21 +84,6 @@ public class AccountAdministration
    public boolean EditAPlayer(String typeJoueur, String userName, String passWord ){
        Connection con = null;
        con = new ConnectDb().GetConnection();
-       
-       try{
-            PreparedStatement statement = con.prepareStatement("DELETE Joueur, ressource FROM Joueur JOIN ressource  ON ressource.id = Joueur.idRessource WHERE  Joueur.id = ?", 1005, 1008);     
-            statement.setInt(1, idJoueur);
-            statement.executeUpdate();
-            statement.clearParameters();
-            
-            
-            con.close();
-          
-           }catch(SQLException  e){
-               System.out.print(e.toString());
-               return false;
-           }
-                  
        return true;
    } 
    
