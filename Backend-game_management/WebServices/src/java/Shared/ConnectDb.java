@@ -18,42 +18,34 @@ import java.util.Properties;
  * @author wil90
  */
  public class ConnectDb {
+     
     public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
-    public final static String SERVERNAME= "localhost";
+    public final static String SERVERNAME= "10.2.0.116";
     public final static String PORT = "3306";
     public final static String SCHEMA = "game_management";
     public final static String PARAMETER = "?serverTimezone=UTC";
     public final static String USERNAME = "root";
-    public final static String PASSWORD_WILLIAM = "root123";
-    public final static String PASSWORD_ISAAC = "";
-    public final static String PC_WILLIAM = "DESKTOP-59MK9GG";
+    public final static String PASSWORD = "%18adm_mysql";
     
     public Connection GetConnection()
     {
         Connection con = null;
         String url = "jdbc:mysql://" + SERVERNAME + ":" + PORT + "/" + SCHEMA + PARAMETER;
         
+        
          //propreties for server
         Properties properties = new Properties();
         properties.setProperty("user", USERNAME);
+        properties.setProperty("password", PASSWORD);
         properties.setProperty("useSSL", "false");
         properties.setProperty("verifyServerCertificate", "true");
         properties.setProperty("requireSSL", "false");
+        
         try {
-            InetAddress addr;
-            addr = InetAddress.getLocalHost();
-            String hostname = addr.getHostName();
-            
-            if(hostname.equals(PC_WILLIAM)){
-                properties.setProperty("password", PASSWORD_WILLIAM);
-            }
-            else{
-                properties.setProperty("password", PASSWORD_ISAAC);
-            }
             
             Class.forName(DRIVER).newInstance();
             con = DriverManager.getConnection(url, properties);
-        } catch (UnknownHostException | IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) 
+        } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException e) 
         {
             System.out.print(e.toString());
         }

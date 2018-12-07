@@ -126,7 +126,7 @@ public class Guns
             int idRessource = rs.getInt("idRessource");
             
             statement = con.prepareStatement(
-                    "INSERT INTO Arme\n" +
+                    "INSERT INTO arme\n" +
                     "(idJoueur, idTypeArme)\n" +
                     "VALUES(?, ?);"
                     , 1005, 1008);   
@@ -169,7 +169,7 @@ public class Guns
             con = new ConnectDb().GetConnection();     
              
             PreparedStatement statement = con.prepareStatement(
-                    "Delete from Arme where id = ?;"
+                    "Delete from arme where id = ?;"
                     , 1005, 1008);
 
             statement.setInt(1, idArme);

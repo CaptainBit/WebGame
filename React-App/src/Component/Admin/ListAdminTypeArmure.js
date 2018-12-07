@@ -55,7 +55,7 @@ class ListAdminTypeArmure extends Component {
 
   getAll()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Armure/Type?')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Armure/Type?')
     .then(result=> result.json()).then((result) => 
     {
       result.push({id:0,nom:"",nourriture:"",eau:"",argent:"",science:"", vie:""})
@@ -64,7 +64,7 @@ class ListAdminTypeArmure extends Component {
   }
 
   Edit(item){
-    fetch('http://localhost:8080/WebServices/webresources/Armure/EditTypeArmure?' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Armure/EditTypeArmure?' + 
     'id=' + item.id +
     '&nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
@@ -84,7 +84,7 @@ class ListAdminTypeArmure extends Component {
   }
 
   Delete(id){
-    fetch('http://localhost:8080/WebServices/webresources/Armure/DeleteTypeArmure?' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Armure/DeleteTypeArmure?' + 
     'id=' + id)
     .then(result=> result.json()).then((result) => 
     {
@@ -98,7 +98,7 @@ class ListAdminTypeArmure extends Component {
   }
 
   Add(item){
-    fetch('http://localhost:8080/WebServices/webresources/Armure/AddTypeArmure?' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Armure/AddTypeArmure?' + 
     'nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
     '&eau=' + item.eau + 

@@ -61,7 +61,7 @@ class ListAdminTerritoire extends Component {
 
   getAll()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Territoire/All?')
     .then(result=> result.json()).then((result) => 
     {
       result.push({id:0,nom:"",nourriture:"",eau:"",argent:"",science:"", idJoueur: 1})
@@ -70,7 +70,7 @@ class ListAdminTerritoire extends Component {
   }
 
   getJoueur(){
-    fetch('http://localhost:8080/WebServices/webresources/Player/GetAllPlayers?')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Player/GetAllPlayers?')
     .then(result=> result.json()).then((result) => 
     {
       this.setState({lstJoueur : result});
@@ -78,7 +78,7 @@ class ListAdminTerritoire extends Component {
   }
 
   Edit(item){
-    fetch('http://localhost:8080/WebServices/webresources/Territoire/EditTerritoire?' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Territoire/EditTerritoire?' + 
     'id=' + item.id +
     '&nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
@@ -98,7 +98,7 @@ class ListAdminTerritoire extends Component {
   }
 
   Delete(id){
-    fetch('http://localhost:8080/WebServices/webresources/Territoire/DeleteTerritoire?' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Territoire/DeleteTerritoire?' + 
     'id=' + id)
     .then(result=> result.json()).then((result) => 
     {
@@ -112,7 +112,7 @@ class ListAdminTerritoire extends Component {
   }
 
   Add(item){
-    fetch('http://localhost:8080/WebServices/webresources/Territoire/AddTerritoire?' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Territoire/AddTerritoire?' + 
     'nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
     '&eau=' + item.eau + 

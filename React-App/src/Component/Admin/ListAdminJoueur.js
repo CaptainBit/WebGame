@@ -28,7 +28,7 @@ class ListJoueur extends Component {
 
   getAll()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Player/GetAllPlayers?')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Player/GetAllPlayers?')
     .then(result=> result.json()).then((result) => 
     {
       var tempRow = this.state.rows;
@@ -54,7 +54,7 @@ class ListJoueur extends Component {
   
 
   Edit(item){
-    fetch('http://localhost:8080/WebServices/webresources/Player/GetAllPlayers?' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Player/GetAllPlayers?' + 
     'id=' + item.id +
     '&nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
@@ -82,7 +82,7 @@ class ListJoueur extends Component {
       }
     })
     this.setState({rows: lstJoueur})
-    fetch('http://localhost:8080/WebServices/webresources/Player/DeleteAPlayer?id=' + id);
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Player/DeleteAPlayer?id=' + id);
   }
   
   render() {

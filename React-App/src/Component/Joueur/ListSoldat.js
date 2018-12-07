@@ -60,46 +60,46 @@ class ListSoldat extends Component {
 
   getTypeSoldat()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Soldat/Type')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/Type')
     .then(result=> result.json()).then((result) => this.setState({lstTypeSoldat : result}));
   }
 
   getTypeArme()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Guns/Type')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Guns/Type')
     .then(result=> result.json()).then((result) => this.setState({lstTypeArme : result}));
   }
 
   getTypeArmure()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Armure/Type')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Armure/Type')
     .then(result=> result.json()).then((result) => this.setState({lstTypeArmure : result}));
   }
 
   getPlayerTerritoire()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Territoire/getTerritoirePlayer' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Territoire/getTerritoirePlayer' + 
     '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => this.setState({lstTerritoire : result}));
   }
 
   getPlayerArme()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Guns/GunPlayer' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Guns/GunPlayer' + 
     '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => this.setState({lstArmePlayer : result}));
   }
 
   getPlayerArmure()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Armure/getArmurePlayer' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Armure/getArmurePlayer' + 
     '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => this.setState({lstArmurePlayer : result}));
   }
 
   getPlayerSoldat()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayer' + 
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/getSoldatPlayer' + 
     '?userName=' + this.props.UserName)
     .then(result=> result.json()).then((result) => 
     {
@@ -114,7 +114,7 @@ class ListSoldat extends Component {
     
      if(check === true)
      {
-      fetch('http://localhost:8080/WebServices/webresources/Soldat/AddSoldat' + 
+      fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/AddSoldat' + 
       '?userName='+ this.props.UserName + 
       '&idType=' + typeSoldat.id)
       .then(() => {
@@ -129,7 +129,7 @@ class ListSoldat extends Component {
    Edit(event, itemViewModel){
      if(event.target.name === "idTerritoire"){
        //UpdateTerritoire
-       fetch('http://localhost:8080/WebServices/webresources/Soldat/EditTerritoireSoldat?' +
+       fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/EditTerritoireSoldat?' +
        'idSoldat='+ itemViewModel.id +
        '&idTerritoire=' + event.target.value)
        .then(() => {
@@ -138,7 +138,7 @@ class ListSoldat extends Component {
      }
      else if(event.target.name === "idArme") {
       //UpdateArme
-      fetch('http://localhost:8080/WebServices/webresources/Guns/EditArmeSoldat?' +
+      fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Guns/EditArmeSoldat?' +
        'idSoldat='+ itemViewModel.id +
        '&idArme=' + event.target.value)
        .then(() => {
@@ -147,7 +147,7 @@ class ListSoldat extends Component {
      }
      else if(event.target.name === "idArmure") {
       //UpdateArmure
-      fetch('http://localhost:8080/WebServices/webresources/Armure/EditArmureSoldat?' +
+      fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Armure/EditArmureSoldat?' +
        'idSoldat='+ itemViewModel.id +
        '&idArmure=' + event.target.value)
        .then(() => {
@@ -157,7 +157,7 @@ class ListSoldat extends Component {
    }
   
    Delete(itemViewModel) {
-    fetch('http://localhost:8080/WebServices/webresources/Soldat/DeleteSoldat?' +
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/DeleteSoldat?' +
     'idSoldat='+ itemViewModel.id +
     '&idType=' + itemViewModel.idTypeSoldat +
     '&userName=' + this.props.UserName)

@@ -30,7 +30,7 @@ public class TerritoireAdmin {
             
             
             //Create idRessource
-            PreparedStatement statement = con.prepareStatement("INSERT INTO RESSOURCE (`nourriture`, `eau`, `argent`, `science`) VALUES (?,?,?,?)", 1005, 1008);  
+            PreparedStatement statement = con.prepareStatement("INSERT INTO ressource (`nourriture`, `eau`, `argent`, `science`) VALUES (?,?,?,?)", 1005, 1008);  
             statement.setInt(1, nourriture);
             statement.setInt(2, eau);
             statement.setInt(3, argent);
@@ -49,7 +49,7 @@ public class TerritoireAdmin {
              
              
             //Create territoire
-            statement = con.prepareStatement("INSERT INTO `TERRITOIRE`(`nom`, `idRessource`, `idJoueur`) VALUES (?,?,?)", 1005, 1008);  
+            statement = con.prepareStatement("INSERT INTO `territoire`(`nom`, `idRessource`, `idJoueur`) VALUES (?,?,?)", 1005, 1008);  
             statement.setString(1, nomTerritoire);
             statement.setInt(2, idR);
             statement.setInt(3, idJoueur);

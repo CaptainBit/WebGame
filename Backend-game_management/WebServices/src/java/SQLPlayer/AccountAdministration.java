@@ -27,7 +27,7 @@ public class AccountAdministration
         JSONArray jAllplayers = new JSONArray();
         JSONObject jplayer = null;
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM JOUEUR ;", 1005, 1008);     
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM joueur ;", 1005, 1008);     
        
             ResultSet rs = statement.executeQuery();
             statement.clearParameters();
@@ -66,7 +66,7 @@ public class AccountAdministration
        con = new ConnectDb().GetConnection();
        
        try{
-            PreparedStatement statement = con.prepareStatement("DELETE Joueur, ressource FROM Joueur JOIN ressource  ON ressource.id = Joueur.idRessource WHERE  Joueur.id = ?", 1005, 1008);     
+            PreparedStatement statement = con.prepareStatement("DELETE joueur, ressource FROM joueur JOIN ressource  ON ressource.id = joueur.idRessource WHERE  joueur.id = ?", 1005, 1008);     
             statement.setInt(1, idJoueur);
             statement.executeUpdate();
             statement.clearParameters();

@@ -31,7 +31,7 @@ public class AccountPlayer
                 
         JSONObject jplayer = new JSONObject();
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM JOUEUR WHERE userName like ? and passwordHash like ? ;", 1005, 1008);     
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM joueur WHERE userName like ? and passwordHash like ? ;", 1005, 1008);     
             statement.setString(1, userName);
             statement.setString(2, password);
             
@@ -78,7 +78,7 @@ public class AccountPlayer
         con = new ConnectDb().GetConnection();
          
         try{
-            PreparedStatement statement = con.prepareStatement("INSERT INTO JOUEUR (userName, passwordHash, idTypeCompte)VALUES(?,?,2)", 1005, 1008);     
+            PreparedStatement statement = con.prepareStatement("INSERT INTO joueur (userName, passwordHash, idTypeCompte)VALUES(?,?,2)", 1005, 1008);     
             statement.setString(1, userName);
             statement.setString(2, password);
             statement.executeUpdate();
@@ -113,7 +113,7 @@ public class AccountPlayer
         con = new ConnectDb().GetConnection();
                 
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT idRessource FROM JOUEUR WHERE userName = ? ;", 1005, 1008);     
+            PreparedStatement statement = con.prepareStatement("SELECT idRessource FROM joueur WHERE userName = ? ;", 1005, 1008);     
             statement.setString(1, userName);            
             
             ResultSet rs = statement.executeQuery();

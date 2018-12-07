@@ -132,7 +132,7 @@ class App extends Component {
   }
 
   UpdateRessource(){
-    fetch('http://localhost:8080/WebServices/webresources/Player/GetRessource?userName=' + this.state.UserName)
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Player/GetRessource?userName=' + this.state.UserName)
     .then(result=> result.json()).then((result) => 
       {
         this.setState(

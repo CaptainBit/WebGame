@@ -44,7 +44,7 @@ class SignUp extends Component {
   handleSubmit = event =>
   {
       event.preventDefault();
-      fetch('http://localhost:8080/WebServices/webresources/Player/CreateAccount?userName='+ this.state.userName+'&password='+ this.state.password).then(result=> result.json())
+      fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Player/CreateAccount?userName='+ this.state.userName+'&password='+ this.state.password).then(result=> result.json())
       .then(data => {
         var message = "Le joueur n'a pas pu être créé, car le nom d'utilisateur existe déjà";
         if(data === true){

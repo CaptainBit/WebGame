@@ -25,7 +25,7 @@ public class TypeAdmin {
             
             
             //Create idRessource
-            PreparedStatement statement = con.prepareStatement("INSERT INTO RESSOURCE (`nourriture`, `eau`, `argent`, `science`) VALUES (?,?,?,?)", 1005, 1008);  
+            PreparedStatement statement = con.prepareStatement("INSERT INTO ressource (`nourriture`, `eau`, `argent`, `science`) VALUES (?,?,?,?)", 1005, 1008);  
             statement.setInt(1, nourriture);
             statement.setInt(2, eau);
             statement.setInt(3, argent);

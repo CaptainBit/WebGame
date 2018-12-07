@@ -45,13 +45,13 @@ class ListArme extends Component {
 
   getType()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Guns/Type')
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Guns/Type')
     .then(result=> result.json()).then((result) => this.setState({types : result}));
   }
 
   getPlayerArme()
   {
-    fetch('http://localhost:8080/WebServices/webresources/Guns/GunPlayer?userName='+
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Guns/GunPlayer?userName='+
     this.props.UserName)
     .then(result=> result.json()
     .then((result) => 
@@ -66,7 +66,7 @@ class ListArme extends Component {
     
      if(check === true)
      {
-      fetch('http://localhost:8080/WebServices/webresources/Guns/AddArme' + 
+      fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Guns/AddArme' + 
       '?userName='+ this.props.UserName + 
       '&idType=' + type.id)
       .then(() => {
@@ -79,7 +79,7 @@ class ListArme extends Component {
    }
   
    Delete(itemViewModel) {
-    fetch('http://localhost:8080/WebServices/webresources/Guns/DeleteArme?' +
+    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Guns/DeleteArme?' +
     'idArme='+ itemViewModel.id +
     '&idType=' + itemViewModel.idType +
     '&userName=' + this.props.UserName)
