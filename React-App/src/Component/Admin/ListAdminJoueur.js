@@ -77,7 +77,7 @@ class ListJoueur extends Component {
   Delete(id) {
     var lstJoueur = this.state.rows;
     lstJoueur.forEach((Joueur, index) => {
-      if(Joueur.id === id){
+      if(Joueur.idJoueur === id){
         lstJoueur.splice(index,1);
       }
     })
@@ -147,7 +147,7 @@ class ListJoueur extends Component {
                           style={{ marginLeft: 10}}
                           variant="contained" 
                           color="primary"
-                          onClick={() => this.Delete(row.id)}
+                          onClick={() => this.Delete(row.idJoueur)}
                           >
                             Supprimer
                           </Button>
