@@ -25,7 +25,7 @@ import java.util.Properties;
     public final static String SCHEMA = "game_management";
     public final static String PARAMETER = "?serverTimezone=UTC";
     public final static String USERNAME = "root";
-    public final static String PASSWORD = "root123";
+    public final static String PASSWORD = "";
     
     public Connection GetConnection()
     {

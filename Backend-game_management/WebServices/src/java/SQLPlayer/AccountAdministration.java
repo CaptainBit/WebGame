@@ -66,14 +66,22 @@ public class AccountAdministration
        con = new ConnectDb().GetConnection();
        
        try{
-            PreparedStatement statement = con.prepareStatement("DELETE joueur, ressource FROM joueur JOIN ressource  ON ressource.id = joueur.idRessource WHERE  joueur.id = ?", 1005, 1008);     
+           
+            PreparedStatement statement = con.prepareStatement("UPDATE territoire SET idJoueur = 1 where idJoueur = ?", 1005, 1008);
             statement.setInt(1, idJoueur);
             statement.executeUpdate();
             statement.clearParameters();
             
+            statement = con.prepareStatement("DELETE ressource, soldat, arme, armure FROM joueur JOIN ressource  ON ressource.id = joueur.idRessource JOIN soldat on soldat.idJoueur = joueur.id JOIN arme on arme.idJoueur = joueur.id JOIN armure on armure.idJoueur = joueur.id WHERE  joueur.id = ?", 1005, 1008);     
+            statement.setInt(1, idJoueur);
+            statement.executeUpdate();
+            statement.clearParameters();
+            
+            statement = con.prepareStatement("DELETE joueur from joueur WHERE id = ?", 1005, 1008);     
+            statement.setInt(1, idJoueur);
+            statement.executeUpdate();
             
             con.close();
-          
            }catch(SQLException  e){
                System.out.print(e.toString());
                return false;
