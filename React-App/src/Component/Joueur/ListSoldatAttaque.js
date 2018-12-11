@@ -38,7 +38,7 @@ class ListSoldatAttaque extends Component {
   getAll()
   {
     var userName = this.props.UserName;
-    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/getSoldatPlayerSansTerritoire?userName=' + userName)
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/getSoldatPlayerSansTerritoire?userName=' + userName)
     .then(result=> result.json()).then((result) => 
       {
         this.setState({rows : result});
@@ -57,7 +57,7 @@ class ListSoldatAttaque extends Component {
   Confirmation(){
     if(this.state.selected.length  > 0){
       var userName = this.props.UserName;
-      fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Territoire/Attaque?' +
+      fetch('http://localhost:8080/WebServices/webresources/Territoire/Attaque?' +
       'idSoldats=' + this.state.selected + 
       '&idTerritoire=' + this.props.territoireSelected +
       '&userName=' + userName)

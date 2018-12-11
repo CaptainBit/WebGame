@@ -55,7 +55,7 @@ class ListAdminTypeSoldat extends Component {
 
   getAll()
   {
-    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/Type?')
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/Type?')
     .then(result=> result.json()).then((result) => 
     {
       result.push({id:0,nom:"",nourriture:"",eau:"",argent:"",science:"", force: "", vie:""})
@@ -64,7 +64,7 @@ class ListAdminTypeSoldat extends Component {
   }
 
   Edit(item){
-    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/EditTypeSoldat?' + 
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/EditTypeSoldat?' + 
     'id=' + item.id +
     '&nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
@@ -85,7 +85,7 @@ class ListAdminTypeSoldat extends Component {
   }
 
   Delete(id){
-    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/DeleteTypeSoldat?' + 
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/DeleteTypeSoldat?' + 
     'id=' + id)
     .then(result=> result.json()).then((result) => 
     {
@@ -99,7 +99,7 @@ class ListAdminTypeSoldat extends Component {
   }
 
   Add(item){
-    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Soldat/AddTypeSoldat?' + 
+    fetch('http://localhost:8080/WebServices/webresources/Soldat/AddTypeSoldat?' + 
     'nom=' + item.nom + 
     '&nourriture=' + item.nourriture +
     '&eau=' + item.eau + 

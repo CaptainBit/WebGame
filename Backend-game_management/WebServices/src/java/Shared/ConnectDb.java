@@ -20,12 +20,12 @@ import java.util.Properties;
  public class ConnectDb {
      
     public final static String DRIVER = "com.mysql.cj.jdbc.Driver";
-    public final static String SERVERNAME= "10.2.0.116";
+    public final static String SERVERNAME= "localhost";
     public final static String PORT = "3306";
     public final static String SCHEMA = "game_management";
     public final static String PARAMETER = "?serverTimezone=UTC";
     public final static String USERNAME = "root";
-    public final static String PASSWORD = "%18adm_mysql";
+    public final static String PASSWORD = "root123";
     
     public Connection GetConnection()
     {

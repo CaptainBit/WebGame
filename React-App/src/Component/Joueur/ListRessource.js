@@ -54,7 +54,7 @@ class ListTerritoire extends Component {
 
   getAll()
   {
-    fetch('http://10.2.0.116:8080/ClashTerritoireWS/webresources/Territoire/All?')
+    fetch('http://localhost:8080/WebServices/webresources/Territoire/All?')
     .then(result=> result.json()).then((result) => 
     {
       this.setState({rows : result});
